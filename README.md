@@ -1,4 +1,0 @@
-blog
-====
-
-blog for fun
