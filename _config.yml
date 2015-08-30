@@ -6,7 +6,7 @@
 title: Fantasy and Fiction
 subtitle:
 description:
-author: Lynn Chow
+author: Pansila
 language:
 timezone:
 
@@ -65,7 +65,6 @@ pagination_dir: page
 ## Themes: http://hexo.io/themes/
 theme: landscape
 duoshuo_shortname: pansila
-lynncloned: 123
 
 # Deployment
 ## Docs: http://hexo.io/docs/deployment.html
