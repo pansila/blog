@@ -3,48 +3,18 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Blog架设总结 | Fantasy and Fiction</title>
+  <title>Install clover on USB stick | Fantasy and Fiction</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="虽然有各种教程，折腾了一天才算能用起来，总结下:
-
-repository必须是以如下的形式命名:
-[用户名].github.io
-
-
-
-比如abc就是abc.github.iobranch名字必须是master，对于子目录下的站点，必须是gh-pages  
-
-hexo generate生成的文件默认在public里面，需要复制到外面与_config.yaml同目录下。
-开始不知道在哪写文章，后来">
+  <meta name="description" content="clover支持UEFI和legacy两种BIOS启动，并且可以随意搭配GPT分区和MBR分区安装的系统，但是需要调教参数。首先有一些概念要区别。We can boot from a UEFI system and install Windows in UEFI\GPT mode, or boot in BIOS\CSM mode and install Windows in MBR mode.">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Blog架设总结">
-<meta property="og:url" content="http://pansila.github.io/2015/08/22/hello-new-home/index.html">
+<meta property="og:title" content="Install clover on USB stick">
+<meta property="og:url" content="http://pansila.github.io/2015/08/29/Install-clover-on-USB-stick/index.html">
 <meta property="og:site_name" content="Fantasy and Fiction">
-<meta property="og:description" content="虽然有各种教程，折腾了一天才算能用起来，总结下:
-
-repository必须是以如下的形式命名:
-[用户名].github.io
-
-
-
-比如abc就是abc.github.iobranch名字必须是master，对于子目录下的站点，必须是gh-pages  
-
-hexo generate生成的文件默认在public里面，需要复制到外面与_config.yaml同目录下。
-开始不知道在哪写文章，后来">
-<meta property="og:updated_time" content="2015-08-30T04:07:12.234Z">
+<meta property="og:description" content="clover支持UEFI和legacy两种BIOS启动，并且可以随意搭配GPT分区和MBR分区安装的系统，但是需要调教参数。首先有一些概念要区别。We can boot from a UEFI system and install Windows in UEFI\GPT mode, or boot in BIOS\CSM mode and install Windows in MBR mode.">
+<meta property="og:updated_time" content="2015-08-30T03:42:26.076Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Blog架设总结">
-<meta name="twitter:description" content="虽然有各种教程，折腾了一天才算能用起来，总结下:
-
-repository必须是以如下的形式命名:
-[用户名].github.io
-
-
-
-比如abc就是abc.github.iobranch名字必须是master，对于子目录下的站点，必须是gh-pages  
-
-hexo generate生成的文件默认在public里面，需要复制到外面与_config.yaml同目录下。
-开始不知道在哪写文章，后来">
+<meta name="twitter:title" content="Install clover on USB stick">
+<meta name="twitter:description" content="clover支持UEFI和legacy两种BIOS启动，并且可以随意搭配GPT分区和MBR分区安装的系统，但是需要调教参数。首先有一些概念要区别。We can boot from a UEFI system and install Windows in UEFI\GPT mode, or boot in BIOS\CSM mode and install Windows in MBR mode.">
   
     <link rel="alternative" href="/atom.xml" title="Fantasy and Fiction" type="application/atom+xml">
   
@@ -90,10 +60,10 @@ hexo generate生成的文件默认在public里面，需要复制到外面与_con
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-hello-new-home" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-Install-clover-on-USB-stick" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2015/08/22/hello-new-home/" class="article-date">
-  <time datetime="2015-08-22T13:23:19.000Z" itemprop="datePublished">2015-08-22</time>
+    <a href="/2015/08/29/Install-clover-on-USB-stick/" class="article-date">
+  <time datetime="2015-08-29T09:46:56.000Z" itemprop="datePublished">2015-08-29</time>
 </a>
     
   </div>
@@ -104,7 +74,7 @@ hexo generate生成的文件默认在public里面，需要复制到外面与_con
         
   
     <h1 class="article-title" itemprop="name">
-      Blog架设总结
+      Install clover on USB stick
     </h1>
   
 
@@ -112,25 +82,12 @@ hexo generate生成的文件默认在public里面，需要复制到外面与_con
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>虽然有各种教程，折腾了一天才算能用起来，总结下:</p>
-<ul>
-<li>repository必须是以如下的形式命名:<blockquote>
-<p>[<strong>用户名</strong>].github.io</p>
-</blockquote>
-</li>
-</ul>
-<p>比如abc就是abc.github.io<br>branch名字必须是master，对于子目录下的站点，必须是gh-pages  </p>
-<ul>
-<li>hexo generate生成的文件默认在public里面，需要复制到外面与_config.yaml同目录下。</li>
-<li>开始不知道在哪写文章，后来发现其实接着生成的md文件内容往下写就行了。。。</li>
-<li>采用markdown写作，所见即所得 </li>
-</ul>
-<p>相关引用：<br><a href="https://www.zybuluo.com/mdeditor" target="_blank" rel="external">Cmd Markdown</a><br><a href="http://wowubuntu.com/markdown" target="_blank" rel="external">Markdown简明介绍</a><br><a href="https://github.com/coapp/coapp.org/blob/master/src/dynamic/reference/garrett-flavored-markdown.html.md#precode" target="_blank" rel="external">Markdown代码块支持的语言</a></p>
+        <p>clover支持UEFI和legacy两种BIOS启动，并且可以随意搭配GPT分区和MBR分区安装的系统，但是需要调教参数。<br>首先有一些概念要区别。<br>We can boot from a UEFI system and install Windows in UEFI\GPT mode, or boot in BIOS\CSM mode and install Windows in MBR mode.</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://pansila.github.io/2015/08/22/hello-new-home/" data-id="cidxyahzw0004bcp3b4vzhjw3" class="article-share-link">Share</a>
+      <a data-url="http://pansila.github.io/2015/08/29/Install-clover-on-USB-stick/" data-id="cidxyahzu0003bcp3nop6m063" class="article-share-link">Share</a>
       
       
     </footer>
@@ -139,19 +96,19 @@ hexo generate生成的文件默认在public里面，需要复制到外面与_con
     
 <nav id="article-nav">
   
-    <a href="/2015/08/29/Install-clover-on-USB-stick/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2015/08/30/fbinst-fbinstTool-no-menu问题/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Newer</strong>
       <div class="article-nav-title">
         
-          Install clover on USB stick
+          fbinst/fbinstTool no menu问题
         
       </div>
     </a>
   
   
-    <a href="/2015/08/22/hello-world/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2015/08/22/hello-new-home/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">Hello World</div>
+      <div class="article-nav-title">Blog架设总结</div>
     </a>
   
 </nav>
@@ -162,7 +119,7 @@ hexo generate生成的文件默认在public里面，需要复制到外面与_con
 
 <section id="comments">
 <!-- ��˵���ۿ� start -->
-	<div class="ds-thread" data-thread-key="post-hello-new-home" data-title="Blog架设总结" data-url="http://pansila.github.io/2015/08/22/hello-new-home/"></div>
+	<div class="ds-thread" data-thread-key="post-Install-clover-on-USB-stick" data-title="Install clover on USB stick" data-url="http://pansila.github.io/2015/08/29/Install-clover-on-USB-stick/"></div>
 <!-- ��˵���ۿ� end -->
 <!-- ��˵����JS���� start (һ����ҳֻ������һ��) -->
 <script type="text/javascript">
