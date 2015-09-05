@@ -70,3 +70,4 @@ duoshuo_shortname: pansila
 ## Docs: http://hexo.io/docs/deployment.html
 deploy:
   type: git
+  repo: git@github.com:pansila/pansila.github.io.git
