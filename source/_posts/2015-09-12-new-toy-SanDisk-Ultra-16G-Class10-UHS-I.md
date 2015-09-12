@@ -14,4 +14,10 @@ category:
 写入Raspberry Pi image
 ![Win32 Disk Imager](/img/2015-09-12_040514.png)
 写入速度差不多在15~16MB/s。
+
+附上对比测试，金士顿未知Class卡
+![Kinston unknown TF](/img/20150912062844.jpg)
+速度测试
+![ATTO Disk BenchMark](/img/2015-09-12_050307.png)
+看起来应该也是Class 10级别的卡。
 Raspberry Pi板载速度测试敬请期待。。。
