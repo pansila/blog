@@ -11,7 +11,7 @@
 <meta property="og:url" content="http://pansila.github.io/2015/09/12/Set-up-the-Hexo-on-Raspberry-Pi/index.html">
 <meta property="og:site_name" content="Fantasy and Fiction">
 <meta property="og:description" content="之前烧录的Raspberry image已经自带了很多工具，其中包括git，但是hexo还不在里面。用apt-get install nodejs装了一个，版本非常老0.6.xx。想要更新到最新？没问题，官网直接为树莓派的老旧CPU编译好了。12345wget http://nodejs.org/dist/latest/node-v4.0.0-linux-armv6l.tar.gztar xf n">
-<meta property="og:updated_time" content="2015-09-12T02:11:43.582Z">
+<meta property="og:updated_time" content="2015-09-12T02:30:13.587Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Set up the Hexo on Raspberry Pi">
 <meta name="twitter:description" content="之前烧录的Raspberry image已经自带了很多工具，其中包括git，但是hexo还不在里面。用apt-get install nodejs装了一个，版本非常老0.6.xx。想要更新到最新？没问题，官网直接为树莓派的老旧CPU编译好了。12345wget http://nodejs.org/dist/latest/node-v4.0.0-linux-armv6l.tar.gztar xf n">
@@ -87,12 +87,13 @@
 <p>安装hexo<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">npm install -g hexo</span><br><span class="line">mkdir -p /home/hexo</span><br><span class="line"><span class="built_in">cd</span> /home/hexo</span><br><span class="line">hexo init <span class="comment">#添加一个博客站点</span></span><br><span class="line">npm install</span><br></pre></td></tr></table></figure></p>
 <p>clone blog hexo源文件到本地<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> -b blog_code https://github.com/pansila/pansila.github.io.git</span><br></pre></td></tr></table></figure></p>
 <p>执行后会将git上blog_code分支的文件放到pansila.github.io目录，这个目录放置了hexo源代码（网页静态文件放在了master branch），因为之前在hexo目录建立hexo环境，所以要让hexo在git的文件上跑起来，需要将pansila.github.io目录下的所有东西复制到hexo目录<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cp pansila<span class="class">.github</span><span class="class">.io</span> .. -R</span><br><span class="line">rm pansila<span class="class">.github</span><span class="class">.io</span> -R</span><br></pre></td></tr></table></figure></p>
+<p>试了下速度，rapberry pi上跑hexo性能不如乐观。。。<br>同样的文件raspberry pi上，load files要24s，generate files要23s<br>PC上load files只要1s，generate files 580ms</p>
 <p>参考文章：<a href="http://rpi.linux48.com/Hexo.html" target="_blank" rel="external">树莓派安装node.js来跑Hexo静态博客</a></p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://pansila.github.io/2015/09/12/Set-up-the-Hexo-on-Raspberry-Pi/" data-id="ciegdit8u00039gp3262eke7o" class="article-share-link">Share</a>
+      <a data-url="http://pansila.github.io/2015/09/12/Set-up-the-Hexo-on-Raspberry-Pi/" data-id="ciegghri80002zsp3dns4uhq9" class="article-share-link">Share</a>
       
       
     </footer>
