@@ -61,6 +61,48 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-Set-up-the-Hexo-on-Raspberry-Pi" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2015/09/12/Set-up-the-Hexo-on-Raspberry-Pi/" class="article-date">
+  <time datetime="2015-09-12T01:01:19.000Z" itemprop="datePublished">2015-09-12</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/09/12/Set-up-the-Hexo-on-Raspberry-Pi/">Set up the Hexo on Raspberry Pi</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>之前烧录的Raspberry image已经自带了很多工具，其中包括git，但是hexo还不在里面。用<code>apt-get install nodejs</code>装了一个，版本非常老0.6.xx。想要更新到最新？没问题，官网直接为树莓派的老旧CPU编译好了。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">wget http://nodejs.org/dist/latest/node-v4.<span class="number">0.0</span>-linux-armv6l.tar.gz</span><br><span class="line">tar xf node-v4.<span class="number">0.0</span>-linux-armv6l.tar.gz</span><br><span class="line">mv node-v4.<span class="number">0.0</span>-linux-armv6l/ node</span><br><span class="line">mv node /usr/<span class="built_in">local</span>/</span><br><span class="line">chown -R pi.pi /usr/<span class="built_in">local</span>/node</span><br></pre></td></tr></table></figure></p>
+<p>如果后面有更新版本，上面的版本号注意替换掉。<br>设置环境变量<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> <span class="string">"PATH=<span class="variable">$PATH</span>:/usr/local/node/bin"</span> &gt;&gt; /etc/profile</span><br><span class="line"><span class="built_in">echo</span> <span class="string">"export PATH"</span> &gt;&gt; /etc/profile</span><br><span class="line"><span class="built_in">source</span> /etc/profile</span><br><span class="line">node -v  <span class="comment">#检查路径是否设置正确</span></span><br></pre></td></tr></table></figure></p>
+<p>安装hexo<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">npm install -g hexo</span><br><span class="line">mkdir -p /home/hexo</span><br><span class="line"><span class="built_in">cd</span> /home/hexo</span><br><span class="line">hexo init <span class="comment">#添加一个博客站点</span></span><br><span class="line">npm install</span><br></pre></td></tr></table></figure></p>
+<p>clone blog hexo源文件到本地<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> -b blog_code https://github.com/pansila/pansila.github.io.git</span><br></pre></td></tr></table></figure></p>
+<p>执行后会将git上blog_code分支的文件放到pansila.github.io目录，这个目录放置了hexo源代码（网页静态文件放在了master branch），因为之前在hexo目录建立hexo环境，所以要让hexo在git的文件上跑起来，需要将pansila.github.io目录下的所有东西复制到hexo目录<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cp pansila<span class="class">.github</span><span class="class">.io</span> .. -R</span><br><span class="line">rm pansila<span class="class">.github</span><span class="class">.io</span> -R</span><br></pre></td></tr></table></figure></p>
+<p>参考文章：<a href="http://rpi.linux48.com/Hexo.html" target="_blank" rel="external">树莓派安装node.js来跑Hexo静态博客</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://pansila.github.io/2015/09/12/Set-up-the-Hexo-on-Raspberry-Pi/" data-id="ciegdit8u00039gp3262eke7o" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-new-toy-SanDisk-Ultra-16G-Class10-UHS-I" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2015/09/12/new-toy-SanDisk-Ultra-16G-Class10-UHS-I/" class="article-date">
@@ -89,7 +131,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://pansila.github.io/2015/09/12/new-toy-SanDisk-Ultra-16G-Class10-UHS-I/" data-id="cieg83c8y0002r0p390o0j5pi" class="article-share-link">Share</a>
+      <a data-url="http://pansila.github.io/2015/09/12/new-toy-SanDisk-Ultra-16G-Class10-UHS-I/" data-id="ciegdit8q00029gp3nedo6ao0" class="article-share-link">Share</a>
       
       
     </footer>
@@ -130,7 +172,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://pansila.github.io/2015/09/10/cache-exercises-memory-read-optimization/" data-id="cieg83c910003r0p3lxpop7c5" class="article-share-link">Share</a>
+      <a data-url="http://pansila.github.io/2015/09/10/cache-exercises-memory-read-optimization/" data-id="ciegdit8w00049gp3wrbktgn7" class="article-share-link">Share</a>
       
       
     </footer>
@@ -169,7 +211,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://pansila.github.io/2015/09/05/Resize-MAC-OS-X-Yosemite-Disk/" data-id="cieg83c950005r0p3ht79qqx9" class="article-share-link">Share</a>
+      <a data-url="http://pansila.github.io/2015/09/05/Resize-MAC-OS-X-Yosemite-Disk/" data-id="ciegdit9000069gp3f9ghv18b" class="article-share-link">Share</a>
       
       
     </footer>
@@ -215,7 +257,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://pansila.github.io/2015/09/05/restore-Yosemite-after-corrupted-by-grub2/" data-id="cieg83c930004r0p35z0nkgaz" class="article-share-link">Share</a>
+      <a data-url="http://pansila.github.io/2015/09/05/restore-Yosemite-after-corrupted-by-grub2/" data-id="ciegdit8y00059gp3ox492ln2" class="article-share-link">Share</a>
       
       
     </footer>
@@ -257,7 +299,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://pansila.github.io/2015/08/30/fbinst-fbinstTool-no-menu问题/" data-id="cieg83c980006r0p3woig9vwy" class="article-share-link">Share</a>
+      <a data-url="http://pansila.github.io/2015/08/30/fbinst-fbinstTool-no-menu问题/" data-id="ciegdit9300079gp3jtjhrgc2" class="article-share-link">Share</a>
       
       
     </footer>
@@ -294,7 +336,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://pansila.github.io/2015/08/29/Install-clover-on-USB-stick/" data-id="cieg83c9a0007r0p38ut2zuol" class="article-share-link">Share</a>
+      <a data-url="http://pansila.github.io/2015/08/29/Install-clover-on-USB-stick/" data-id="ciegdit9600089gp37mrm6vus" class="article-share-link">Share</a>
       
       
     </footer>
@@ -344,52 +386,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://pansila.github.io/2015/08/22/hello-new-home/" data-id="cieg83c9d0008r0p32c6w8b5b" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-hello-world" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2015/08/22/hello-world/" class="article-date">
-  <time datetime="2015-08-22T13:07:46.381Z" itemprop="datePublished">2015-08-22</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/08/22/hello-world/">Hello World</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>Welcome to <a href="http://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="http://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="http://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
-<h2 id="Quick_Start">Quick Start</h2><h3 id="Create_a_new_post">Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="http://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
-<h3 id="Run_server">Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="http://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
-<h3 id="Generate_static_files">Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="http://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
-<h3 id="Deploy_to_remote_sites">Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="http://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://pansila.github.io/2015/08/22/hello-world/" data-id="cieg83c8r0001r0p309b0aghj" class="article-share-link">Share</a>
+      <a data-url="http://pansila.github.io/2015/08/22/hello-new-home/" data-id="ciegdit9900099gp3k3rxq6ug" class="article-share-link">Share</a>
       
       
     </footer>
@@ -414,7 +411,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">August 2015</a><span class="archive-list-count">4</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">August 2015</a><span class="archive-list-count">3</span></li></ul>
     </div>
   </div>
 
@@ -424,6 +421,10 @@
     <h3 class="widget-title">Recents</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2015/09/12/Set-up-the-Hexo-on-Raspberry-Pi/">Set up the Hexo on Raspberry Pi</a>
+          </li>
         
           <li>
             <a href="/2015/09/12/new-toy-SanDisk-Ultra-16G-Class10-UHS-I/">New Toy - SanDisk Ultra 16G Class10 UHS-I</a>
@@ -439,10 +440,6 @@
         
           <li>
             <a href="/2015/09/05/restore-Yosemite-after-corrupted-by-grub2/">Restore Yosemite after corrupted by grub2</a>
-          </li>
-        
-          <li>
-            <a href="/2015/08/30/fbinst-fbinstTool-no-menu问题/">fbinst/fbinstTool no menu问题</a>
           </li>
         
       </ul>
