@@ -36,5 +36,8 @@ git clone -b blog_code https://github.com/pansila/pansila.github.io.git
 cp pansila.github.io .. -R
 rm pansila.github.io -R
 ```
+试了下速度，rapberry pi上跑hexo性能不如乐观。。。
+同样的文件raspberry pi上，load files要24s，generate files要23s
+PC上load files只要1s，generate files 580ms
 
 参考文章：[树莓派安装node.js来跑Hexo静态博客](http://rpi.linux48.com/Hexo.html)
