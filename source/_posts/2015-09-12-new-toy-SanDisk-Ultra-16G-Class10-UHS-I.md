@@ -20,4 +20,18 @@ category:
 速度测试
 ![ATTO Disk BenchMark](/img/2015-09-12_050307.png)
 看起来应该也是Class 10级别的卡。
-Raspberry Pi板载速度测试敬请期待。。。
+~~Raspberry Pi板载速度测试敬请期待。。。~~
+接上文接着测试Raspberry Pi上，方法简单粗暴，就是dd拷贝测试：
+写
+```
+dd if=/dev/zero of=~/test.tmp bs=500K count=1024
+524288000 bytes (524 MB) copied, 36.7958 s, 14.2 MB/s
+```
+读
+```
+dd if=~/test.tmp of=/dev/null bs=500K count=1024
+524288000 bytes (524 MB) copied, 28.128 s, 18.6 MB/s
+```
+这个数据与官方同款测试基本一致（详见下方链接），猜测受限于raspberry pi的SDIO总线速度，读写速度均有一定程度下降。
+
+[树莓派SD卡参考速度](http://elinux.org/RPi_SD_cards#SD_card_performance)

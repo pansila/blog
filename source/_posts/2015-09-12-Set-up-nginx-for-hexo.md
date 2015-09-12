@@ -7,6 +7,7 @@ hexo基于nodejs实现，本质上都是V8引擎解释js语句执行，效率必
 ```
 sudo apt-get install nginx
 sudo /etc/init.d/nginx start
+sudo /usr/sbin/update-rc.d -f nginx defaults
 sudo vi /etc/nginx/sites-enabled/default
 ```
 找到server的配置，修改root目录
