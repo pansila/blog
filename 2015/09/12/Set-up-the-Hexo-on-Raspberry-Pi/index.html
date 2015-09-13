@@ -11,7 +11,7 @@
 <meta property="og:url" content="http://pansila.github.io/2015/09/12/Set-up-the-Hexo-on-Raspberry-Pi/index.html">
 <meta property="og:site_name" content="Fantasy and Fiction">
 <meta property="og:description" content="之前烧录的Raspberry image已经自带了很多工具，其中包括git，但是hexo还不在里面。用apt-get install nodejs装了一个，版本非常老0.6.xx。想要更新到最新？没问题，官网直接为树莓派的老旧CPU编译好了。12345wget http://nodejs.org/dist/latest/node-v4.0.0-linux-armv6l.tar.gztar xf n">
-<meta property="og:updated_time" content="2015-09-12T02:30:13.587Z">
+<meta property="og:updated_time" content="2015-09-12T04:33:53.817Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Set up the Hexo on Raspberry Pi">
 <meta name="twitter:description" content="之前烧录的Raspberry image已经自带了很多工具，其中包括git，但是hexo还不在里面。用apt-get install nodejs装了一个，版本非常老0.6.xx。想要更新到最新？没问题，官网直接为树莓派的老旧CPU编译好了。12345wget http://nodejs.org/dist/latest/node-v4.0.0-linux-armv6l.tar.gztar xf n">
@@ -83,7 +83,7 @@
     <div class="article-entry" itemprop="articleBody">
       
         <p>之前烧录的Raspberry image已经自带了很多工具，其中包括git，但是hexo还不在里面。用<code>apt-get install nodejs</code>装了一个，版本非常老0.6.xx。想要更新到最新？没问题，官网直接为树莓派的老旧CPU编译好了。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">wget http://nodejs.org/dist/latest/node-v4.<span class="number">0.0</span>-linux-armv6l.tar.gz</span><br><span class="line">tar xf node-v4.<span class="number">0.0</span>-linux-armv6l.tar.gz</span><br><span class="line">mv node-v4.<span class="number">0.0</span>-linux-armv6l/ node</span><br><span class="line">mv node /usr/<span class="built_in">local</span>/</span><br><span class="line">chown -R pi.pi /usr/<span class="built_in">local</span>/node</span><br></pre></td></tr></table></figure></p>
-<p>如果后面有更新版本，上面的版本号注意替换掉。<br>设置环境变量<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> <span class="string">"PATH=<span class="variable">$PATH</span>:/usr/local/node/bin"</span> &gt;&gt; /etc/profile</span><br><span class="line"><span class="built_in">echo</span> <span class="string">"export PATH"</span> &gt;&gt; /etc/profile</span><br><span class="line"><span class="built_in">source</span> /etc/profile</span><br><span class="line">node -v  <span class="comment">#检查路径是否设置正确</span></span><br></pre></td></tr></table></figure></p>
+<p>如果后面有更新版本，上面的版本号注意替换掉。<br>设置环境变量<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> <span class="string">"PATH=<span class="variable">$PATH</span>:/usr/local/node/bin"</span> &gt;&gt; ~/.profile</span><br><span class="line"><span class="built_in">echo</span> <span class="string">"export PATH"</span> &gt;&gt; ~/.profile</span><br><span class="line"><span class="built_in">source</span> ~/.profile</span><br><span class="line">node -v  <span class="comment">#检查路径是否设置正确</span></span><br></pre></td></tr></table></figure></p>
 <p>安装hexo<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">npm install -g hexo</span><br><span class="line">mkdir -p /home/hexo</span><br><span class="line"><span class="built_in">cd</span> /home/hexo</span><br><span class="line">hexo init <span class="comment">#添加一个博客站点</span></span><br><span class="line">npm install</span><br></pre></td></tr></table></figure></p>
 <p>clone blog hexo源文件到本地<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> -b blog_code https://github.com/pansila/pansila.github.io.git</span><br></pre></td></tr></table></figure></p>
 <p>执行后会将git上blog_code分支的文件放到pansila.github.io目录，这个目录放置了hexo源代码（网页静态文件放在了master branch），因为之前在hexo目录建立hexo环境，所以要让hexo在git的文件上跑起来，需要将pansila.github.io目录下的所有东西复制到hexo目录<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cp pansila<span class="class">.github</span><span class="class">.io</span> .. -R</span><br><span class="line">rm pansila<span class="class">.github</span><span class="class">.io</span> -R</span><br></pre></td></tr></table></figure></p>
@@ -93,7 +93,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://pansila.github.io/2015/09/12/Set-up-the-Hexo-on-Raspberry-Pi/" data-id="ciegghri80002zsp3dns4uhq9" class="article-share-link">Share</a>
+      <a data-url="http://pansila.github.io/2015/09/12/Set-up-the-Hexo-on-Raspberry-Pi/" data-id="ciehxar870002asp3fqjw2cq3" class="article-share-link">Share</a>
       
       
     </footer>
@@ -101,6 +101,15 @@
   
     
 <nav id="article-nav">
+  
+    <a href="/2015/09/12/Set-up-nginx-for-hexo/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Set up nginx for Hexo
+        
+      </div>
+    </a>
   
   
     <a href="/2015/09/12/new-toy-SanDisk-Ultra-16G-Class10-UHS-I/" id="article-nav-older" class="article-nav-link-wrap">
@@ -146,7 +155,7 @@ var duoshuoQuery = {short_name:"pansila"};
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">August 2015</a><span class="archive-list-count">3</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">August 2015</a><span class="archive-list-count">3</span></li></ul>
     </div>
   </div>
 
@@ -158,6 +167,14 @@ var duoshuoQuery = {short_name:"pansila"};
       <ul>
         
           <li>
+            <a href="/2015/09/12/Set-up-Peanut-Hull-for-Raspberry-Pi/">Set up Oray DDNS for Raspberry Pi</a>
+          </li>
+        
+          <li>
+            <a href="/2015/09/12/Set-up-nginx-for-hexo/">Set up nginx for Hexo</a>
+          </li>
+        
+          <li>
             <a href="/2015/09/12/Set-up-the-Hexo-on-Raspberry-Pi/">Set up the Hexo on Raspberry Pi</a>
           </li>
         
@@ -167,14 +184,6 @@ var duoshuoQuery = {short_name:"pansila"};
         
           <li>
             <a href="/2015/09/10/cache-exercises-memory-read-optimization/">cache exercises - Ex. 1 memory read optimization</a>
-          </li>
-        
-          <li>
-            <a href="/2015/09/05/Resize-MAC-OS-X-Yosemite-Disk/">Resize MAC OS X (Yosemite) Disk</a>
-          </li>
-        
-          <li>
-            <a href="/2015/09/05/restore-Yosemite-after-corrupted-by-grub2/">Restore Yosemite after corrupted by grub2</a>
           </li>
         
       </ul>

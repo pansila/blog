@@ -61,6 +61,83 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-Set-up-Peanut-Hull-for-Raspberry-Pi" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2015/09/12/Set-up-Peanut-Hull-for-Raspberry-Pi/" class="article-date">
+  <time datetime="2015-09-12T13:45:53.000Z" itemprop="datePublished">2015-09-12</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/09/12/Set-up-Peanut-Hull-for-Raspberry-Pi/">Set up Oray DDNS for Raspberry Pi</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>raspbeery pi玩到后来不可避免会玩上DDNS，即<a href="https://en.wikipedia.org/wiki/Dynamic_DNS" target="_blank" rel="external">动态域名解析</a>，众所周知拨号上网拿到的公网IP每次可能不一样，为了从公网访问拨号猫后面的内网PC，需要外部提供一个查询机制，即DDNS，在这个外部查询系统注册一个域名之后，内部再装一个客户端，里应外合，把拨号拿到的公网IP通知给公网上的查询系统。这样公网用户每次要访问内网的PC，首先到这个确定地址的公网查询注册的域名，然后转换成对应的IP，从而达到访问内网PC的目的。<br>关于如何在Raspberry Pi设置花生壳，官网已经有<a href="http://service.oray.com/question/2680.html" target="_blank" rel="external">介绍</a>。<br>需要注意的是运行oraynewph需要root权限。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://pansila.github.io/2015/09/12/Set-up-Peanut-Hull-for-Raspberry-Pi/" data-id="ciehxar8d0004asp3e1t5n76h" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Set-up-nginx-for-hexo" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2015/09/12/Set-up-nginx-for-hexo/" class="article-date">
+  <time datetime="2015-09-12T03:00:36.000Z" itemprop="datePublished">2015-09-12</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/09/12/Set-up-nginx-for-hexo/">Set up nginx for Hexo</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>hexo基于nodejs实现，本质上都是V8引擎解释js语句执行，效率必然比不上本地代码。在raspberry pi资源这么有限的环境下，hexo server不是个好主意，那么以速度著称的nginx就是个必然选择。<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get <span class="operator"><span class="keyword">install</span> nginx</span><br><span class="line">sudo /etc/init.<span class="keyword">d</span>/nginx <span class="keyword">start</span></span><br><span class="line">sudo /usr/sbin/<span class="keyword">update</span>-rc.<span class="keyword">d</span> -<span class="keyword">f</span> nginx <span class="keyword">defaults</span></span><br><span class="line">sudo vi /etc/nginx/sites-enabled/<span class="keyword">default</span></span></span><br></pre></td></tr></table></figure></p>
+<p>找到server的配置，修改root目录<br><figure class="highlight axapta"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">server</span> &#123;</span><br><span class="line">    ...</span><br><span class="line">    server_name localhost;</span><br><span class="line">    <span class="keyword">index</span> <span class="keyword">index</span>.html <span class="keyword">index</span>.htm;</span><br><span class="line">    root  /home/pi/hexo/<span class="keyword">public</span>;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>修改完后别忘了让nginx重新读取配置<br><figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo <span class="regexp">/etc/i</span>nit.d<span class="regexp">/nginx reload</span></span><br></pre></td></tr></table></figure></p>
+<p>为了能根据blog源代码的改变及时更新public，可以让hexo在后台进行监视<br><figure class="highlight vhdl"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo <span class="keyword">generate</span> <span class="comment">--watch</span></span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://pansila.github.io/2015/09/12/Set-up-nginx-for-hexo/" data-id="ciehxar8a0003asp3lpuslj2s" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-Set-up-the-Hexo-on-Raspberry-Pi" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2015/09/12/Set-up-the-Hexo-on-Raspberry-Pi/" class="article-date">
@@ -84,7 +161,7 @@
     <div class="article-entry" itemprop="articleBody">
       
         <p>之前烧录的Raspberry image已经自带了很多工具，其中包括git，但是hexo还不在里面。用<code>apt-get install nodejs</code>装了一个，版本非常老0.6.xx。想要更新到最新？没问题，官网直接为树莓派的老旧CPU编译好了。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">wget http://nodejs.org/dist/latest/node-v4.<span class="number">0.0</span>-linux-armv6l.tar.gz</span><br><span class="line">tar xf node-v4.<span class="number">0.0</span>-linux-armv6l.tar.gz</span><br><span class="line">mv node-v4.<span class="number">0.0</span>-linux-armv6l/ node</span><br><span class="line">mv node /usr/<span class="built_in">local</span>/</span><br><span class="line">chown -R pi.pi /usr/<span class="built_in">local</span>/node</span><br></pre></td></tr></table></figure></p>
-<p>如果后面有更新版本，上面的版本号注意替换掉。<br>设置环境变量<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> <span class="string">"PATH=<span class="variable">$PATH</span>:/usr/local/node/bin"</span> &gt;&gt; /etc/profile</span><br><span class="line"><span class="built_in">echo</span> <span class="string">"export PATH"</span> &gt;&gt; /etc/profile</span><br><span class="line"><span class="built_in">source</span> /etc/profile</span><br><span class="line">node -v  <span class="comment">#检查路径是否设置正确</span></span><br></pre></td></tr></table></figure></p>
+<p>如果后面有更新版本，上面的版本号注意替换掉。<br>设置环境变量<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> <span class="string">"PATH=<span class="variable">$PATH</span>:/usr/local/node/bin"</span> &gt;&gt; ~/.profile</span><br><span class="line"><span class="built_in">echo</span> <span class="string">"export PATH"</span> &gt;&gt; ~/.profile</span><br><span class="line"><span class="built_in">source</span> ~/.profile</span><br><span class="line">node -v  <span class="comment">#检查路径是否设置正确</span></span><br></pre></td></tr></table></figure></p>
 <p>安装hexo<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">npm install -g hexo</span><br><span class="line">mkdir -p /home/hexo</span><br><span class="line"><span class="built_in">cd</span> /home/hexo</span><br><span class="line">hexo init <span class="comment">#添加一个博客站点</span></span><br><span class="line">npm install</span><br></pre></td></tr></table></figure></p>
 <p>clone blog hexo源文件到本地<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> -b blog_code https://github.com/pansila/pansila.github.io.git</span><br></pre></td></tr></table></figure></p>
 <p>执行后会将git上blog_code分支的文件放到pansila.github.io目录，这个目录放置了hexo源代码（网页静态文件放在了master branch），因为之前在hexo目录建立hexo环境，所以要让hexo在git的文件上跑起来，需要将pansila.github.io目录下的所有东西复制到hexo目录<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cp pansila<span class="class">.github</span><span class="class">.io</span> .. -R</span><br><span class="line">rm pansila<span class="class">.github</span><span class="class">.io</span> -R</span><br></pre></td></tr></table></figure></p>
@@ -94,7 +171,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://pansila.github.io/2015/09/12/Set-up-the-Hexo-on-Raspberry-Pi/" data-id="ciegghri80002zsp3dns4uhq9" class="article-share-link">Share</a>
+      <a data-url="http://pansila.github.io/2015/09/12/Set-up-the-Hexo-on-Raspberry-Pi/" data-id="ciehxar870002asp3fqjw2cq3" class="article-share-link">Share</a>
       
       
     </footer>
@@ -127,12 +204,15 @@
     <div class="article-entry" itemprop="articleBody">
       
         <p>自从iPhone开启自带Flash Rom风潮以来，外置TF卡在手机上越来越不受待见，这次为了把吃灰多年的Raspberry Pi拿出来晒晒太阳，决心新入手一块TF卡。<br>吐槽下京东可能除了物流价格上真心没啥优势。。。<br>先来一张大头照<br><img src="/img/20150912041903.jpg" alt="美照"><br>然后照例验证正品，没问题。<br>测试读写速度<br><img src="/img/2015-09-12_035642.png" alt="ATTO Disk BenchMark"><br>最大速度，读45MB/s，写17MB/s左右。比官网号称48MB/s稍显乏力。。。<br>写入Raspberry Pi image<br><img src="/img/2015-09-12_040514.png" alt="Win32 Disk Imager"><br>写入速度差不多在15~16MB/s。</p>
-<p>附上对比测试，金士顿未知Class卡<br><img src="/img/20150912062844.jpg" alt="Kinston unknown TF"><br>速度测试<br><img src="/img/2015-09-12_050307.png" alt="ATTO Disk BenchMark"><br>看起来应该也是Class 10级别的卡。<br>Raspberry Pi板载速度测试敬请期待。。。</p>
+<p>附上对比测试，金士顿未知Class卡<br><img src="/img/20150912062844.jpg" alt="Kinston unknown TF"><br>速度测试<br><img src="/img/2015-09-12_050307.png" alt="ATTO Disk BenchMark"><br>看起来应该也是Class 10级别的卡。<br><del>Raspberry Pi板载速度测试敬请期待。。。</del><br>接上文接着测试Raspberry Pi上，方法简单粗暴，就是dd拷贝测试：<br>写<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">dd <span class="keyword">if</span>=/dev/zero of=~/test.tmp bs=<span class="number">500</span>K count=<span class="number">1024</span></span><br><span class="line"><span class="number">524288000</span> bytes (<span class="number">524</span> MB) copied, <span class="number">36.7958</span> s, <span class="number">14.2</span> MB/s</span><br></pre></td></tr></table></figure></p>
+<p>读<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">dd <span class="keyword">if</span>=~/test.tmp of=/dev/null bs=<span class="number">500</span>K count=<span class="number">1024</span></span><br><span class="line"><span class="number">524288000</span> bytes (<span class="number">524</span> MB) copied, <span class="number">28.128</span> s, <span class="number">18.6</span> MB/s</span><br></pre></td></tr></table></figure></p>
+<p>这个数据与官方同款测试基本一致（详见下方链接），猜测受限于raspberry pi的SDIO总线速度，读写速度均有一定程度下降。</p>
+<p><a href="http://elinux.org/RPi_SD_cards#SD_card_performance" target="_blank" rel="external">树莓派SD卡参考速度</a></p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://pansila.github.io/2015/09/12/new-toy-SanDisk-Ultra-16G-Class10-UHS-I/" data-id="ciegghri20001zsp33c2u75oz" class="article-share-link">Share</a>
+      <a data-url="http://pansila.github.io/2015/09/12/new-toy-SanDisk-Ultra-16G-Class10-UHS-I/" data-id="ciehxar7x0001asp3fse659r7" class="article-share-link">Share</a>
       
       
     </footer>
@@ -173,7 +253,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://pansila.github.io/2015/09/10/cache-exercises-memory-read-optimization/" data-id="ciegghrib0003zsp3c7dz57aj" class="article-share-link">Share</a>
+      <a data-url="http://pansila.github.io/2015/09/10/cache-exercises-memory-read-optimization/" data-id="ciehxar8h0005asp3ocuj8963" class="article-share-link">Share</a>
       
       
     </footer>
@@ -212,7 +292,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://pansila.github.io/2015/09/05/Resize-MAC-OS-X-Yosemite-Disk/" data-id="ciegghrig0005zsp31kyw3gzy" class="article-share-link">Share</a>
+      <a data-url="http://pansila.github.io/2015/09/05/Resize-MAC-OS-X-Yosemite-Disk/" data-id="ciehxar8o0007asp32bv4dz43" class="article-share-link">Share</a>
       
       
     </footer>
@@ -258,7 +338,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://pansila.github.io/2015/09/05/restore-Yosemite-after-corrupted-by-grub2/" data-id="ciegghrid0004zsp3u2gxat8f" class="article-share-link">Share</a>
+      <a data-url="http://pansila.github.io/2015/09/05/restore-Yosemite-after-corrupted-by-grub2/" data-id="ciehxar8k0006asp32osemlq0" class="article-share-link">Share</a>
       
       
     </footer>
@@ -300,7 +380,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://pansila.github.io/2015/08/30/fbinst-fbinstTool-no-menu问题/" data-id="ciegghrii0006zsp36fzkwqpp" class="article-share-link">Share</a>
+      <a data-url="http://pansila.github.io/2015/08/30/fbinst-fbinstTool-no-menu问题/" data-id="ciehxar8t0008asp3kq2kan92" class="article-share-link">Share</a>
       
       
     </footer>
@@ -337,7 +417,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://pansila.github.io/2015/08/29/Install-clover-on-USB-stick/" data-id="ciegghrik0007zsp3cfy1w4wk" class="article-share-link">Share</a>
+      <a data-url="http://pansila.github.io/2015/08/29/Install-clover-on-USB-stick/" data-id="ciehxar8x0009asp3rlqk9cs3" class="article-share-link">Share</a>
       
       
     </footer>
@@ -387,7 +467,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://pansila.github.io/2015/08/22/hello-new-home/" data-id="ciegghrin0008zsp3uktdz8bl" class="article-share-link">Share</a>
+      <a data-url="http://pansila.github.io/2015/08/22/hello-new-home/" data-id="ciehxar97000aasp3l0vbhx3m" class="article-share-link">Share</a>
       
       
     </footer>
@@ -412,7 +492,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">August 2015</a><span class="archive-list-count">3</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">August 2015</a><span class="archive-list-count">3</span></li></ul>
     </div>
   </div>
 
@@ -424,6 +504,14 @@
       <ul>
         
           <li>
+            <a href="/2015/09/12/Set-up-Peanut-Hull-for-Raspberry-Pi/">Set up Oray DDNS for Raspberry Pi</a>
+          </li>
+        
+          <li>
+            <a href="/2015/09/12/Set-up-nginx-for-hexo/">Set up nginx for Hexo</a>
+          </li>
+        
+          <li>
             <a href="/2015/09/12/Set-up-the-Hexo-on-Raspberry-Pi/">Set up the Hexo on Raspberry Pi</a>
           </li>
         
@@ -433,14 +521,6 @@
         
           <li>
             <a href="/2015/09/10/cache-exercises-memory-read-optimization/">cache exercises - Ex. 1 memory read optimization</a>
-          </li>
-        
-          <li>
-            <a href="/2015/09/05/Resize-MAC-OS-X-Yosemite-Disk/">Resize MAC OS X (Yosemite) Disk</a>
-          </li>
-        
-          <li>
-            <a href="/2015/09/05/restore-Yosemite-after-corrupted-by-grub2/">Restore Yosemite after corrupted by grub2</a>
           </li>
         
       </ul>
