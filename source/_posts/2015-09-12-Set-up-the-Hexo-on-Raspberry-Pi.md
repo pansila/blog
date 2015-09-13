@@ -14,9 +14,9 @@ chown -R pi.pi /usr/local/node
 如果后面有更新版本，上面的版本号注意替换掉。
 设置环境变量
 ```bash
-echo "PATH=$PATH:/usr/local/node/bin" >> /etc/profile
-echo "export PATH" >> /etc/profile
-source /etc/profile
+echo "PATH=$PATH:/usr/local/node/bin" >> ~/.profile
+echo "export PATH" >> ~/.profile
+source ~/.profile
 node -v  #检查路径是否设置正确
 ```
 安装hexo

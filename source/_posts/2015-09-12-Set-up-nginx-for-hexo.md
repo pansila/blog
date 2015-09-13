@@ -17,7 +17,7 @@ server {
     server_name localhost;
     index index.html index.htm;
     root  /home/pi/hexo/public;
-	...
+    ...
 }
 ```
 修改完后别忘了让nginx重新读取配置
