@@ -5,17 +5,17 @@
   
   <title>Set up Oray DDNS for Raspberry Pi | Fantasy and Fiction</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="raspbeery pi玩到后来不可避免会玩上DDNS，即动态域名解析，众所周知拨号上网拿到的公网IP每次可能不一样，为了从公网访问拨号猫后面的内网PC，需要外部提供一个查询机制，即DDNS，在这个外部查询系统注册一个域名之后，内部再装一个客户端，里应外合，把拨号拿到的公网IP通知给公网上的查询系统。这样公网用户每次要访问内网的PC，首先到这个确定地址的公网查询注册的域名，然后转换成对应的IP，从">
+  <meta name="description" content="raspberry pi玩到后来不可避免会玩上DDNS，即动态域名解析，众所周知拨号上网拿到的公网IP每次可能不一样，为了从公网访问拨号猫后面的内网PC，需要外部提供一个查询机制，即DDNS，在这个外部查询系统注册一个域名之后，内部再装一个客户端，里应外合，把拨号拿到的公网IP通知给公网上的查询系统。这样公网用户每次要访问内网的PC，首先到这个确定地址的公网查询注册的域名，然后转换成对应的IP，从">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Set up Oray DDNS for Raspberry Pi">
 <meta property="og:url" content="http://pansila.github.io/2015/09/12/Set-up-Peanut-Hull-for-Raspberry-Pi/index.html">
 <meta property="og:site_name" content="Fantasy and Fiction">
-<meta property="og:description" content="raspbeery pi玩到后来不可避免会玩上DDNS，即动态域名解析，众所周知拨号上网拿到的公网IP每次可能不一样，为了从公网访问拨号猫后面的内网PC，需要外部提供一个查询机制，即DDNS，在这个外部查询系统注册一个域名之后，内部再装一个客户端，里应外合，把拨号拿到的公网IP通知给公网上的查询系统。这样公网用户每次要访问内网的PC，首先到这个确定地址的公网查询注册的域名，然后转换成对应的IP，从">
+<meta property="og:description" content="raspberry pi玩到后来不可避免会玩上DDNS，即动态域名解析，众所周知拨号上网拿到的公网IP每次可能不一样，为了从公网访问拨号猫后面的内网PC，需要外部提供一个查询机制，即DDNS，在这个外部查询系统注册一个域名之后，内部再装一个客户端，里应外合，把拨号拿到的公网IP通知给公网上的查询系统。这样公网用户每次要访问内网的PC，首先到这个确定地址的公网查询注册的域名，然后转换成对应的IP，从">
 <meta property="og:image" content="http://pansila.github.io/img/2015-09-13_174117.png">
-<meta property="og:updated_time" content="2015-09-13T09:44:57.001Z">
+<meta property="og:updated_time" content="2015-09-15T14:35:06.958Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Set up Oray DDNS for Raspberry Pi">
-<meta name="twitter:description" content="raspbeery pi玩到后来不可避免会玩上DDNS，即动态域名解析，众所周知拨号上网拿到的公网IP每次可能不一样，为了从公网访问拨号猫后面的内网PC，需要外部提供一个查询机制，即DDNS，在这个外部查询系统注册一个域名之后，内部再装一个客户端，里应外合，把拨号拿到的公网IP通知给公网上的查询系统。这样公网用户每次要访问内网的PC，首先到这个确定地址的公网查询注册的域名，然后转换成对应的IP，从">
+<meta name="twitter:description" content="raspberry pi玩到后来不可避免会玩上DDNS，即动态域名解析，众所周知拨号上网拿到的公网IP每次可能不一样，为了从公网访问拨号猫后面的内网PC，需要外部提供一个查询机制，即DDNS，在这个外部查询系统注册一个域名之后，内部再装一个客户端，里应外合，把拨号拿到的公网IP通知给公网上的查询系统。这样公网用户每次要访问内网的PC，首先到这个确定地址的公网查询注册的域名，然后转换成对应的IP，从">
   
     <link rel="alternative" href="/atom.xml" title="Fantasy and Fiction" type="application/atom+xml">
   
@@ -83,13 +83,13 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>raspbeery pi玩到后来不可避免会玩上DDNS，即<a href="https://en.wikipedia.org/wiki/Dynamic_DNS" target="_blank" rel="external">动态域名解析</a>，众所周知拨号上网拿到的公网IP每次可能不一样，为了从公网访问拨号猫后面的内网PC，需要外部提供一个查询机制，即DDNS，在这个外部查询系统注册一个域名之后，内部再装一个客户端，里应外合，把拨号拿到的公网IP通知给公网上的查询系统。这样公网用户每次要访问内网的PC，首先到这个确定地址的公网查询注册的域名，然后转换成对应的IP，从而达到访问内网PC的目的。<br>关于如何在Raspberry Pi设置花生壳，官网已经有<a href="http://service.oray.com/question/2680.html" target="_blank" rel="external">介绍</a>。<br>需要注意的是运行oraynewph需要root权限。</p>
-<p>更新@2015-09-13<br>花生壳的免费域名实在太不好用，第一次成功更新A记录后，不管后面拨号再怎么重换地址，A记录始终不变，还不能手动改，怒弃之。。。<br><img src="/img/2015-09-13_174117.png" alt="死活不更新"><br>另外考虑到花生壳的免费域名，可能会被无聊人士盯上乱扫描，万一自家的路由器，树莓派等等有什么漏洞，城池难保。折衷的办法就是自己麻烦一点，让rapsberry pi主动email报告IP。后面完善了回来补充。。。</p>
+        <p>raspberry pi玩到后来不可避免会玩上DDNS，即<a href="https://en.wikipedia.org/wiki/Dynamic_DNS" target="_blank" rel="external">动态域名解析</a>，众所周知拨号上网拿到的公网IP每次可能不一样，为了从公网访问拨号猫后面的内网PC，需要外部提供一个查询机制，即DDNS，在这个外部查询系统注册一个域名之后，内部再装一个客户端，里应外合，把拨号拿到的公网IP通知给公网上的查询系统。这样公网用户每次要访问内网的PC，首先到这个确定地址的公网查询注册的域名，然后转换成对应的IP，从而达到访问内网PC的目的。<br>关于如何在Raspberry Pi设置花生壳，官网已经有<a href="http://service.oray.com/question/2680.html" target="_blank" rel="external">介绍</a>。<br>需要注意的是运行oraynewph需要root权限。</p>
+<p><strong>Update@2015-09-13</strong><br>花生壳的免费域名实在太不好用，第一次成功更新A记录后，不管后面拨号再怎么重换地址，花生壳系统的A记录和路由的WAN地址始终不一致，还不能手动改。考虑到使用的电信网络，应该不存在ISP NAT的情况，折腾数天不妥，怒弃之。。。<br><img src="/img/2015-09-13_174117.png" alt="死活不更新"><br>另外考虑到花生壳的免费域名，可能会被无聊人士盯上乱扫描，万一自家的路由器，树莓派等等有什么漏洞，城池难保。折衷的办法就是自己麻烦一点，让rapsberry pi主动email报告IP。后面完善了回来补充。。。<br><strong>Update@2015-09-14</strong><br>换了路由自带的花生壳客户端，同样的不一致问题，<del>只能归咎于免费域名的故意限制。。。尝试其他DDNS服务。。。</del><br><strong>Update@2015-09-14</strong><br>3322也一样，ip138也显示这个地址，看来真的是有ISP NAT。。。<br><strong>Update@2015-09-15</strong><br>对于ISP NAT，花生壳官网介绍有<a href="">解决方案</a>，只要你升到专业服务:(<br>说实话这个解决方案只是重新选择了下接入线路，背后原理莫名其妙，貌似再没有其它家有类似的解决方案。<br>初步搜索了下，在有ISP NAT的情况下，如果自己用，VPN不失为一个靠谱的解决方案。</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://pansila.github.io/2015/09/12/Set-up-Peanut-Hull-for-Raspberry-Pi/" data-id="cieibf2t00004rop3u1oi7jeo" class="article-share-link">Share</a>
+      <a data-url="http://pansila.github.io/2015/09/12/Set-up-Peanut-Hull-for-Raspberry-Pi/" data-id="cielgpn7200049wp3om1bwnv8" class="article-share-link">Share</a>
       
       
     </footer>

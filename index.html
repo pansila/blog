@@ -83,13 +83,13 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>raspbeery pi玩到后来不可避免会玩上DDNS，即<a href="https://en.wikipedia.org/wiki/Dynamic_DNS" target="_blank" rel="external">动态域名解析</a>，众所周知拨号上网拿到的公网IP每次可能不一样，为了从公网访问拨号猫后面的内网PC，需要外部提供一个查询机制，即DDNS，在这个外部查询系统注册一个域名之后，内部再装一个客户端，里应外合，把拨号拿到的公网IP通知给公网上的查询系统。这样公网用户每次要访问内网的PC，首先到这个确定地址的公网查询注册的域名，然后转换成对应的IP，从而达到访问内网PC的目的。<br>关于如何在Raspberry Pi设置花生壳，官网已经有<a href="http://service.oray.com/question/2680.html" target="_blank" rel="external">介绍</a>。<br>需要注意的是运行oraynewph需要root权限。</p>
-<p>更新@2015-09-13<br>花生壳的免费域名实在太不好用，第一次成功更新A记录后，不管后面拨号再怎么重换地址，A记录始终不变，还不能手动改，怒弃之。。。<br><img src="/img/2015-09-13_174117.png" alt="死活不更新"><br>另外考虑到花生壳的免费域名，可能会被无聊人士盯上乱扫描，万一自家的路由器，树莓派等等有什么漏洞，城池难保。折衷的办法就是自己麻烦一点，让rapsberry pi主动email报告IP。后面完善了回来补充。。。</p>
+        <p>raspberry pi玩到后来不可避免会玩上DDNS，即<a href="https://en.wikipedia.org/wiki/Dynamic_DNS" target="_blank" rel="external">动态域名解析</a>，众所周知拨号上网拿到的公网IP每次可能不一样，为了从公网访问拨号猫后面的内网PC，需要外部提供一个查询机制，即DDNS，在这个外部查询系统注册一个域名之后，内部再装一个客户端，里应外合，把拨号拿到的公网IP通知给公网上的查询系统。这样公网用户每次要访问内网的PC，首先到这个确定地址的公网查询注册的域名，然后转换成对应的IP，从而达到访问内网PC的目的。<br>关于如何在Raspberry Pi设置花生壳，官网已经有<a href="http://service.oray.com/question/2680.html" target="_blank" rel="external">介绍</a>。<br>需要注意的是运行oraynewph需要root权限。</p>
+<p><strong>Update@2015-09-13</strong><br>花生壳的免费域名实在太不好用，第一次成功更新A记录后，不管后面拨号再怎么重换地址，花生壳系统的A记录和路由的WAN地址始终不一致，还不能手动改。考虑到使用的电信网络，应该不存在ISP NAT的情况，折腾数天不妥，怒弃之。。。<br><img src="/img/2015-09-13_174117.png" alt="死活不更新"><br>另外考虑到花生壳的免费域名，可能会被无聊人士盯上乱扫描，万一自家的路由器，树莓派等等有什么漏洞，城池难保。折衷的办法就是自己麻烦一点，让rapsberry pi主动email报告IP。后面完善了回来补充。。。<br><strong>Update@2015-09-14</strong><br>换了路由自带的花生壳客户端，同样的不一致问题，<del>只能归咎于免费域名的故意限制。。。尝试其他DDNS服务。。。</del><br><strong>Update@2015-09-14</strong><br>3322也一样，ip138也显示这个地址，看来真的是有ISP NAT。。。<br><strong>Update@2015-09-15</strong><br>对于ISP NAT，花生壳官网介绍有<a href="">解决方案</a>，只要你升到专业服务:(<br>说实话这个解决方案只是重新选择了下接入线路，背后原理莫名其妙，貌似再没有其它家有类似的解决方案。<br>初步搜索了下，在有ISP NAT的情况下，如果自己用，VPN不失为一个靠谱的解决方案。</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://pansila.github.io/2015/09/12/Set-up-Peanut-Hull-for-Raspberry-Pi/" data-id="cieibf2t00004rop3u1oi7jeo" class="article-share-link">Share</a>
+      <a data-url="http://pansila.github.io/2015/09/12/Set-up-Peanut-Hull-for-Raspberry-Pi/" data-id="cielgpn7200049wp3om1bwnv8" class="article-share-link">Share</a>
       
       
     </footer>
@@ -129,7 +129,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://pansila.github.io/2015/09/12/Set-up-nginx-for-hexo/" data-id="cieibf2sx0003rop30qevd7ox" class="article-share-link">Share</a>
+      <a data-url="http://pansila.github.io/2015/09/12/Set-up-nginx-for-hexo/" data-id="cielgpn7000039wp35rczqf0m" class="article-share-link">Share</a>
       
       
     </footer>
@@ -172,7 +172,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://pansila.github.io/2015/09/12/Set-up-the-Hexo-on-Raspberry-Pi/" data-id="cieibf2ss0002rop38krohpof" class="article-share-link">Share</a>
+      <a data-url="http://pansila.github.io/2015/09/12/Set-up-the-Hexo-on-Raspberry-Pi/" data-id="cielgpn6w00029wp36t8uyb0o" class="article-share-link">Share</a>
       
       
     </footer>
@@ -213,7 +213,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://pansila.github.io/2015/09/12/new-toy-SanDisk-Ultra-16G-Class10-UHS-I/" data-id="cieibf2sl0001rop3cjs5rseo" class="article-share-link">Share</a>
+      <a data-url="http://pansila.github.io/2015/09/12/new-toy-SanDisk-Ultra-16G-Class10-UHS-I/" data-id="cielgpn6p00019wp3lqxexctn" class="article-share-link">Share</a>
       
       
     </footer>
@@ -254,7 +254,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://pansila.github.io/2015/09/10/cache-exercises-memory-read-optimization/" data-id="cieibf2t20005rop3t7eqaauk" class="article-share-link">Share</a>
+      <a data-url="http://pansila.github.io/2015/09/10/cache-exercises-memory-read-optimization/" data-id="cielgpn7400059wp3c335nmw9" class="article-share-link">Share</a>
       
       
     </footer>
@@ -293,7 +293,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://pansila.github.io/2015/09/05/Resize-MAC-OS-X-Yosemite-Disk/" data-id="cieibf2t80007rop3e3qnt93z" class="article-share-link">Share</a>
+      <a data-url="http://pansila.github.io/2015/09/05/Resize-MAC-OS-X-Yosemite-Disk/" data-id="cielgpn7c00079wp3kojkqybs" class="article-share-link">Share</a>
       
       
     </footer>
@@ -339,7 +339,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://pansila.github.io/2015/09/05/restore-Yosemite-after-corrupted-by-grub2/" data-id="cieibf2t50006rop30cuh1b9x" class="article-share-link">Share</a>
+      <a data-url="http://pansila.github.io/2015/09/05/restore-Yosemite-after-corrupted-by-grub2/" data-id="cielgpn7600069wp3bqx23yj1" class="article-share-link">Share</a>
       
       
     </footer>
@@ -381,7 +381,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://pansila.github.io/2015/08/30/fbinst-fbinstTool-no-menu问题/" data-id="cieibf2ta0008rop3bdc1lnjk" class="article-share-link">Share</a>
+      <a data-url="http://pansila.github.io/2015/08/30/fbinst-fbinstTool-no-menu问题/" data-id="cielgpn7e00089wp37kcu65fj" class="article-share-link">Share</a>
       
       
     </footer>
@@ -418,7 +418,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://pansila.github.io/2015/08/29/Install-clover-on-USB-stick/" data-id="cieibf2td0009rop31mzimc3p" class="article-share-link">Share</a>
+      <a data-url="http://pansila.github.io/2015/08/29/Install-clover-on-USB-stick/" data-id="cielgpn7f00099wp31rv6dbc9" class="article-share-link">Share</a>
       
       
     </footer>
@@ -468,7 +468,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://pansila.github.io/2015/08/22/hello-new-home/" data-id="cieibf2tj000arop39p35yz92" class="article-share-link">Share</a>
+      <a data-url="http://pansila.github.io/2015/08/22/hello-new-home/" data-id="cielgpn7k000a9wp3faxcuugf" class="article-share-link">Share</a>
       
       
     </footer>
