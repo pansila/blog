@@ -61,6 +61,60 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-Design-Patterns-Decorator-AOP-in-Python-and-C-C" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2015/09/20/Design-Patterns-Decorator-AOP-in-Python-and-C-C/" class="article-date">
+  <time datetime="2015-09-20T13:14:45.000Z" itemprop="datePublished">2015-09-20</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/09/20/Design-Patterns-Decorator-AOP-in-Python-and-C-C/">Design Patterns, Decorator/AOP in Python and C/C++</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="设计模式之装饰器/面向切面编程在Python和C/C++中的体现">设计模式之装饰器/面向切面编程在Python和C/C++中的体现</h3><p>最近接触到python中的装饰器，顿感奇妙，函数前面声明一句话，即可改变函数的部分行为。不同的声明，可以从不同方面改变函数的行为，就像一栋房子重新装修了下，就有了不同的风格。<br>比如<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">hello</span><span class="params">(fn)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">wrapper</span><span class="params">()</span>:</span></span><br><span class="line">        <span class="keyword">print</span> <span class="string">"hello, %s"</span> % fn.__name__</span><br><span class="line">        fn()</span><br><span class="line">        <span class="keyword">print</span> <span class="string">"goodby, %s"</span> % fn.__name__</span><br><span class="line">    <span class="keyword">return</span> wrapper</span><br><span class="line"></span><br><span class="line"><span class="decorator">@hello</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">foo</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">print</span> <span class="string">"i am foo"</span></span><br><span class="line"></span><br><span class="line">foo()</span><br></pre></td></tr></table></figure></p>
+<p>运行后<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ python hello<span class="class">.py</span></span><br><span class="line">hello, foo</span><br><span class="line"><span class="tag">i</span> am foo</span><br><span class="line">goodby, foo</span><br></pre></td></tr></table></figure></p>
+<p>追究其本质，首先是因为在python中一切皆对象，函数也不例外，所以有了动态修改函数指向对象的机会，那么经过修饰器修饰后，foo其实已不是原来的foo，而是被包装过的：<code>foo = hello(foo)</code>，再次调用时，新的foo指向了包装后的新函数，从而包括了原来的foo功能和包装器的新功能。</p>
+<blockquote>
+<p>装饰器作为一种设计模式，在插入日志，性能测试，事务处理方面有着广泛应用。</p>
+</blockquote>
+<p>作为一个C起家的程序员，看完这些突然意识到，这样的模式其实在C实践中也有很多应用，比如上面插入日志的例子，在C中就是：<br><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">foo</span><span class="params">(<span class="keyword">int</span> x)</span></span><br><span class="line"></span>&#123;</span><br><span class="line">	print(<span class="string">"in foo: %d\n"</span>, x);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>修饰下，插入日志。<br><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">void</span> _foo(<span class="keyword">int</span> x)</span><br><span class="line">&#123;</span><br><span class="line">	print(<span class="string">"in foo: %d\n"</span>, x);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="preprocessor">#<span class="keyword">define</span> foo(x)		\</span><br><span class="line">	do &#123;			\</span><br><span class="line">		printf(<span class="string">"hello\n"</span>);	\</span><br><span class="line">		_foo(x);	\</span><br><span class="line">		printf(<span class="string">"goodbye\n"</span>);	\</span><br><span class="line">	&#125; while (<span class="number">0</span>)</span></span><br></pre></td></tr></table></figure></p>
+<p>更进一步，C语言中有种特殊的调试技巧：某个函数被广泛调用，我们想追踪这个函数在动态执行时，被哪些函数调用，以及传入的参数是什么名称。<br>最简单粗暴的方法就是找出所有调用的地方，前面插入跟踪代码，打印调用函数和参数。<br><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">#<span class="keyword">define</span> ARG_1	<span class="number">50</span></span></span><br><span class="line"><span class="preprocessor">#<span class="keyword">define</span> ARG_2	<span class="number">100</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">foo1</span><span class="params">()</span></span><br><span class="line"></span>&#123;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"caller %s, argument ARG_1\n"</span>, __func__);</span><br><span class="line">	foo(ARG_1);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">foo2</span><span class="params">()</span></span><br><span class="line"></span>&#123;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"caller %s, argument ARG_2\n"</span>, __func__);</span><br><span class="line">	foo(ARG_2);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>显然这样做既费时痛苦又无扩展性，如果想跟踪其它函数，还得再这样改一遍。<br>改进的做法就是用宏定义同名覆盖函数，然后加上调试信息。<br><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">void</span> _foo(<span class="keyword">int</span> x)</span><br><span class="line">&#123;</span><br><span class="line">	print(<span class="string">"in foo: %d\n"</span>, x);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="preprocessor">#<span class="keyword">define</span> foo(x)		\</span><br><span class="line">	do &#123;			\</span><br><span class="line">		printf(<span class="string">"caller %s, argument %s\n"</span>, __func__, ##x);	\</span><br><span class="line">		_foo(x);	\</span><br><span class="line">	&#125; while (<span class="number">0</span>)</span></span><br></pre></td></tr></table></figure></p>
+<p>只需如此修改，其它所有调用foo的地方无需修改即可达到前述跟踪目的。这里面蕴含的思想其实跟修饰器是类似的：<code>通过修改原函数的指向，在原函数的基础上添加新功能</code>。</p>
+<p>当然这里有三点区别：</p>
+<ol>
+<li>C实现的修饰是编译时修改，而python是运行时动态修改；</li>
+<li>C函数的修饰器就是宏定义，而且需要修改原函数原型的名称，以防命名冲突；Python的修饰器是另一个函数，修饰后原函数被覆盖。</li>
+<li>C函数被修饰后，并没有生成新的函数，而是在原来的函数调用处添加了一些语句，而python就容易多了，重新生成新的函数对象。</li>
+</ol>
+<p>参考文章：<br><a href="http://coolshell.cn/articles/11265.html" target="_blank" rel="external">coolshell的Python修饰器的函数式编程</a><br><a href="http://www.cnblogs.com/huxi/archive/2011/03/01/1967600.html" target="_blank" rel="external">Python装饰器与面向切面编程</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://pansila.github.io/2015/09/20/Design-Patterns-Decorator-AOP-in-Python-and-C-C/" data-id="ciesloimq000114p3g97czw4t" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-Set-up-Peanut-Hull-for-Raspberry-Pi" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2015/09/12/Set-up-Peanut-Hull-for-Raspberry-Pi/" class="article-date">
@@ -89,7 +143,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://pansila.github.io/2015/09/12/Set-up-Peanut-Hull-for-Raspberry-Pi/" data-id="cielgpn7200049wp3om1bwnv8" class="article-share-link">Share</a>
+      <a data-url="http://pansila.github.io/2015/09/12/Set-up-Peanut-Hull-for-Raspberry-Pi/" data-id="ciesloin4000514p3lxgp2s72" class="article-share-link">Share</a>
       
       
     </footer>
@@ -129,7 +183,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://pansila.github.io/2015/09/12/Set-up-nginx-for-hexo/" data-id="cielgpn7000039wp35rczqf0m" class="article-share-link">Share</a>
+      <a data-url="http://pansila.github.io/2015/09/12/Set-up-nginx-for-hexo/" data-id="ciesloin1000414p3k7q9jekt" class="article-share-link">Share</a>
       
       
     </footer>
@@ -172,7 +226,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://pansila.github.io/2015/09/12/Set-up-the-Hexo-on-Raspberry-Pi/" data-id="cielgpn6w00029wp36t8uyb0o" class="article-share-link">Share</a>
+      <a data-url="http://pansila.github.io/2015/09/12/Set-up-the-Hexo-on-Raspberry-Pi/" data-id="ciesloin0000314p38mqycx5z" class="article-share-link">Share</a>
       
       
     </footer>
@@ -213,7 +267,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://pansila.github.io/2015/09/12/new-toy-SanDisk-Ultra-16G-Class10-UHS-I/" data-id="cielgpn6p00019wp3lqxexctn" class="article-share-link">Share</a>
+      <a data-url="http://pansila.github.io/2015/09/12/new-toy-SanDisk-Ultra-16G-Class10-UHS-I/" data-id="ciesloimx000214p3h5fwpsc4" class="article-share-link">Share</a>
       
       
     </footer>
@@ -248,8 +302,8 @@
         <p>Cache对于现代处理器提升性能有多重要就不多说了，最近看到这方面的练习，正好来实践下。<br>原文来自伯乐在线请猛击<a href="http://blog.jobbole.com/89759/" target="_blank" rel="external">这里</a><br>第一个例子解释cache一次从memory读取的大小，这是可能与cache line不一致的，具体多少可以通过统计得出。<br>原文使用了C#例子，正好最近学习python，这里来模拟下。</p>
 <h3 id="1-_基于list的测试">1. 基于list的测试</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">buf_len = <span class="number">64</span>*<span class="number">1024</span>*<span class="number">1024</span></span><br><span class="line">buffer = [<span class="number">0</span>] * buf_len</span><br><span class="line"></span><br><span class="line"><span class="comment"># update @2015-09-20</span></span><br><span class="line"><span class="comment">#def calc_at_every(step):</span></span><br><span class="line"><span class="comment">#	i = 0</span></span><br><span class="line"><span class="comment">#	while i &lt; buf_len:</span></span><br><span class="line"><span class="comment">#		buffer[i] *= 3</span></span><br><span class="line"><span class="comment">#		i += step</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">calc_at_every</span><span class="params">(step)</span>:</span></span><br><span class="line">	<span class="keyword">for</span> i <span class="keyword">in</span> xrange(<span class="number">0</span>, buf_len, step):</span><br><span class="line">		buffer[i] *= <span class="number">3</span></span><br><span class="line">		</span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">	<span class="keyword">from</span> timeit <span class="keyword">import</span> Timer</span><br><span class="line">	results = []</span><br><span class="line">	<span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>, <span class="number">33</span>):</span><br><span class="line">		<span class="comment">#print "test starts for step %d" % i</span></span><br><span class="line">		t = Timer(<span class="string">"calc_at_every(%d)"</span> % i, <span class="string">"from __main__ import calc_at_every"</span>)</span><br><span class="line">		<span class="comment">#print t.timeit(1)</span></span><br><span class="line">		results.append(t.timeit(<span class="number">1</span>))</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line">	plt.plot(range(<span class="number">1</span>, <span class="number">33</span>), results)</span><br><span class="line">	plt.ylabel(<span class="string">'runtime per step size'</span>)</span><br><span class="line">	plt.xlabel(<span class="string">'set size'</span>)</span><br><span class="line">	plt.show()</span><br></pre></td></tr></table></figure>
 <p>最直接的模仿就是list，可惜结果差3个数量级，看下图：<br><img src="/img/2015-09-10_130439.png" alt="list test"><br>步长为1时，遍历一遍需要12秒之多，例子中是80ms，大家感受下，cache肯定没有发挥作用。事实上随着step加倍，运行时间减半，完美的指数函数，完全忽视cache。。。<br>事实上python中list跟C/C++中的array并不一样，是一个包装起来的行为类似array的对象，其占用的size远远超过元素本身之和。<br><code>&gt;&gt;&gt; sys.getsizeof([])</code><br><code>64</code><br>这里其实已经做过优化，并没有使用<code>for ... in ...</code>这样的pythonic遍历方式，因为产生一个索引list会占用同样多的memory，而且也有memory read的cache问题。难道用python做性能测试就是个杯具。。。<br><strong>update @2015-09-20</strong><br>xrange正是为这样的迭代所优化，它不会实际产生一个遍历list，而是按需生成数据，因此内存效率和性能都大有改善。PS：range在python3中升级成为<a href="https://wiki.python.org/moin/Generators" target="_blank" rel="external">generator</a><br><img src="/img/2015-09-20_103325.png" alt="list test by xrange"><br>可以看到1步遍历提高了约33%的性能，遍历一遍需要大约8秒(缩短4秒)，虽然离cache的结果还差得远，但就遍历来说是个很好的优化。</p>
-<h3 id="2-_基于array的测试">2. 基于array的测试</h3><p>既然list不够快，那换能够直接接触memory的array。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> array <span class="keyword">import</span> array</span><br><span class="line"></span><br><span class="line">buf_len = <span class="number">64</span>*<span class="number">1024</span>*<span class="number">1024</span></span><br><span class="line">buf = [<span class="number">0</span>] * buf_len</span><br><span class="line">buffer = array(<span class="string">'i'</span>, buf)</span><br><span class="line"></span><br><span class="line"><span class="comment">#def calc_at_every(step):</span></span><br><span class="line"><span class="comment">#	i = 0</span></span><br><span class="line"><span class="comment">#	while i &lt; buf_len:</span></span><br><span class="line"><span class="comment">#		buffer[i] *= 3</span></span><br><span class="line"><span class="comment">#		i += step</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">calc_at_every</span><span class="params">(step)</span>:</span></span><br><span class="line">	<span class="keyword">for</span> i <span class="keyword">in</span> xrange(<span class="number">0</span>, buf_len, step):</span><br><span class="line">		buffer[i] *= <span class="number">3</span></span><br><span class="line">		</span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">	<span class="keyword">from</span> timeit <span class="keyword">import</span> Timer</span><br><span class="line">	results = []</span><br><span class="line">	<span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>, <span class="number">33</span>):</span><br><span class="line">		<span class="comment">#print "test starts for step %d" % i</span></span><br><span class="line">		t = Timer(<span class="string">"calc_at_every(%d)"</span> % i, <span class="string">"from __main__ import calc_at_every"</span>)</span><br><span class="line">		<span class="comment">#print t.timeit(1)</span></span><br><span class="line">		results.append(t.timeit(<span class="number">1</span>))</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line">	plt.plot(range(<span class="number">1</span>, <span class="number">33</span>), results)</span><br><span class="line">	plt.ylabel(<span class="string">'runtime per step size'</span>)</span><br><span class="line">	plt.xlabel(<span class="string">'set size'</span>)</span><br><span class="line">	plt.show()</span><br></pre></td></tr></table></figure></p>
-<p>结果更差。。。<br><img src="/img/2015-09-10_133710.png" alt="Array test"><br><strong>update @2015-09-20</strong><br>采用xrange后，大约提升25%性能(同样缩短4秒?)。<br><img src="/img/2015-09-20_104140.png" alt="Array test by xrange"></p>
+<h3 id="2-_基于array的测试">2. 基于array的测试</h3><p>既然list不够快，那换能够直接接触memory的array。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> array <span class="keyword">import</span> array</span><br><span class="line"></span><br><span class="line">buf_len = <span class="number">64</span>*<span class="number">1024</span>*<span class="number">1024</span></span><br><span class="line">buf = [<span class="number">0</span>] * buf_len</span><br><span class="line">buffer = array(<span class="string">'i'</span>, buf)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">calc_at_every</span><span class="params">(step)</span>:</span></span><br><span class="line">	<span class="keyword">for</span> i <span class="keyword">in</span> xrange(<span class="number">0</span>, buf_len, step):</span><br><span class="line">		buffer[i] *= <span class="number">3</span></span><br><span class="line">		</span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">	<span class="keyword">from</span> timeit <span class="keyword">import</span> Timer</span><br><span class="line">	results = []</span><br><span class="line">	<span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>, <span class="number">33</span>):</span><br><span class="line">		<span class="comment">#print "test starts for step %d" % i</span></span><br><span class="line">		t = Timer(<span class="string">"calc_at_every(%d)"</span> % i, <span class="string">"from __main__ import calc_at_every"</span>)</span><br><span class="line">		<span class="comment">#print t.timeit(1)</span></span><br><span class="line">		results.append(t.timeit(<span class="number">1</span>))</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line">	plt.plot(range(<span class="number">1</span>, <span class="number">33</span>), results)</span><br><span class="line">	plt.ylabel(<span class="string">'runtime per step size'</span>)</span><br><span class="line">	plt.xlabel(<span class="string">'set size'</span>)</span><br><span class="line">	plt.show()</span><br></pre></td></tr></table></figure></p>
+<p>结果更差。。。<br><img src="/img/2015-09-20_104140.png" alt="Array test by xrange"></p>
 <h3 id="3-_基于numpy-array的测试">3. 基于numpy.array的测试</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> array <span class="keyword">import</span> array</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line">buf_len = <span class="number">64</span>*<span class="number">1024</span>*<span class="number">1024</span></span><br><span class="line">buf = [<span class="number">0</span>] * buf_len</span><br><span class="line">buffer = np.array(buf)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">calc_at_every</span><span class="params">(step)</span>:</span></span><br><span class="line">	<span class="keyword">for</span> i <span class="keyword">in</span> xrange(<span class="number">0</span>, buf_len, step):</span><br><span class="line">		buffer[i] *= <span class="number">3</span></span><br><span class="line">		</span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">	<span class="keyword">from</span> timeit <span class="keyword">import</span> Timer</span><br><span class="line">	results = []</span><br><span class="line">	<span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>, <span class="number">33</span>):</span><br><span class="line">		<span class="comment">#print "test starts for step %d" % i</span></span><br><span class="line">		t = Timer(<span class="string">"calc_at_every(%d)"</span> % i, <span class="string">"from __main__ import calc_at_every"</span>)</span><br><span class="line">		<span class="comment">#print t.timeit(1)</span></span><br><span class="line">		results.append(t.timeit(<span class="number">1</span>))</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line">	plt.plot(range(<span class="number">1</span>, <span class="number">33</span>), results)</span><br><span class="line">	plt.ylabel(<span class="string">'runtime per step size'</span>)</span><br><span class="line">	plt.xlabel(<span class="string">'set size'</span>)</span><br><span class="line">	plt.show()</span><br></pre></td></tr></table></figure>
 <p>惨不忍睹。。。</p>
 <h2 id=""><img src="/img/2015-09-20_104818.png" alt="numpy.array test"></h2><p><strong>to be continued</strong></p>
@@ -257,7 +311,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://pansila.github.io/2015/09/10/cache-exercises-memory-read-optimization/" data-id="cielgpn7400059wp3c335nmw9" class="article-share-link">Share</a>
+      <a data-url="http://pansila.github.io/2015/09/10/cache-exercises-memory-read-optimization/" data-id="ciesloin7000614p3ow66hcry" class="article-share-link">Share</a>
       
       
     </footer>
@@ -296,7 +350,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://pansila.github.io/2015/09/05/Resize-MAC-OS-X-Yosemite-Disk/" data-id="cielgpn7c00079wp3kojkqybs" class="article-share-link">Share</a>
+      <a data-url="http://pansila.github.io/2015/09/05/Resize-MAC-OS-X-Yosemite-Disk/" data-id="ciesloinf000814p3n3l4xb8n" class="article-share-link">Share</a>
       
       
     </footer>
@@ -342,7 +396,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://pansila.github.io/2015/09/05/restore-Yosemite-after-corrupted-by-grub2/" data-id="cielgpn7600069wp3bqx23yj1" class="article-share-link">Share</a>
+      <a data-url="http://pansila.github.io/2015/09/05/restore-Yosemite-after-corrupted-by-grub2/" data-id="ciesloinb000714p32owzdd78" class="article-share-link">Share</a>
       
       
     </footer>
@@ -384,7 +438,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://pansila.github.io/2015/08/30/fbinst-fbinstTool-no-menu问题/" data-id="cielgpn7e00089wp37kcu65fj" class="article-share-link">Share</a>
+      <a data-url="http://pansila.github.io/2015/08/30/fbinst-fbinstTool-no-menu问题/" data-id="ciesloink000914p3w6d1d58y" class="article-share-link">Share</a>
       
       
     </footer>
@@ -421,7 +475,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://pansila.github.io/2015/08/29/Install-clover-on-USB-stick/" data-id="cielgpn7f00099wp31rv6dbc9" class="article-share-link">Share</a>
+      <a data-url="http://pansila.github.io/2015/08/29/Install-clover-on-USB-stick/" data-id="ciesloinp000a14p3s6jmlo3d" class="article-share-link">Share</a>
       
       
     </footer>
@@ -431,56 +485,10 @@
 
 
   
-    <article id="post-hello-new-home" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2015/08/22/hello-new-home/" class="article-date">
-  <time datetime="2015-08-22T13:23:19.000Z" itemprop="datePublished">2015-08-22</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/08/22/hello-new-home/">Blog架设总结</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>虽然有各种教程，折腾了一天才算能用起来，总结下:</p>
-<ul>
-<li>repository必须是以如下的形式命名:<blockquote>
-<p>[<strong>用户名</strong>].github.io</p>
-</blockquote>
-</li>
-</ul>
-<p>比如abc就是abc.github.io<br>branch名字必须是master，对于子目录下的站点，必须是gh-pages  </p>
-<ul>
-<li>hexo generate生成的文件默认在public里面，需要复制到外面与_config.yaml同目录下。</li>
-<li>开始不知道在哪写文章，后来发现其实接着生成的md文件内容往下写就行了。。。</li>
-<li>采用markdown写作，所见即所得 </li>
-</ul>
-<p>相关引用：<br><a href="https://www.zybuluo.com/mdeditor" target="_blank" rel="external">Cmd Markdown</a><br><a href="http://wowubuntu.com/markdown" target="_blank" rel="external">Markdown简明介绍</a><br><a href="https://github.com/coapp/coapp.org/blob/master/src/dynamic/reference/garrett-flavored-markdown.html.md#precode" target="_blank" rel="external">Markdown代码块支持的语言</a></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://pansila.github.io/2015/08/22/hello-new-home/" data-id="cielgpn7k000a9wp3faxcuugf" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
+    <nav id="page-nav">
+      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
+    </nav>
   
 </section>
         
@@ -496,7 +504,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">August 2015</a><span class="archive-list-count">3</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">August 2015</a><span class="archive-list-count">3</span></li></ul>
     </div>
   </div>
 
@@ -506,6 +514,10 @@
     <h3 class="widget-title">Recents</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2015/09/20/Design-Patterns-Decorator-AOP-in-Python-and-C-C/">Design Patterns, Decorator/AOP in Python and C/C++</a>
+          </li>
         
           <li>
             <a href="/2015/09/12/Set-up-Peanut-Hull-for-Raspberry-Pi/">Set up Oray DDNS for Raspberry Pi</a>
@@ -521,10 +533,6 @@
         
           <li>
             <a href="/2015/09/12/new-toy-SanDisk-Ultra-16G-Class10-UHS-I/">New Toy - SanDisk Ultra 16G Class10 UHS-I</a>
-          </li>
-        
-          <li>
-            <a href="/2015/09/10/cache-exercises-memory-read-optimization/">cache exercises - Ex. 1 memory read optimization</a>
           </li>
         
       </ul>
