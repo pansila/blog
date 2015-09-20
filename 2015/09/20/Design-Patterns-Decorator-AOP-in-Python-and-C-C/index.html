@@ -3,18 +3,18 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Design Patterns, Decorator/AOP in Python and C/C++ | Fantasy and Fiction</title>
+  <title>Design Patterns, Decorator/AOP in Python and C | Fantasy and Fiction</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="设计模式之装饰器/面向切面编程在Python和C/C++中的体现最近接触到python中的装饰器，顿感奇妙，函数前面声明一句话，即可改变函数的部分行为。不同的声明，可以从不同方面改变函数的行为，就像一栋房子重新装修了下，就有了不同的风格。比如123456789101112def hello(fn):    def wrapper():        print &quot;hello, %s&quot; % fn._">
+  <meta name="description" content="设计模式之装饰器/面向切面编程在Python和C中的体现最近接触到python中的装饰器，顿感奇妙，函数前面声明一句话，即可改变函数的部分行为。不同的声明，可以从不同方面改变函数的行为，就像一栋房子重新装修了下，就有了不同的风格。比如123456789101112def hello(fn):    def wrapper():        print &quot;hello, %s&quot; % fn.__nam">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Design Patterns, Decorator/AOP in Python and C/C++">
+<meta property="og:title" content="Design Patterns, Decorator/AOP in Python and C">
 <meta property="og:url" content="http://pansila.github.io/2015/09/20/Design-Patterns-Decorator-AOP-in-Python-and-C-C/index.html">
 <meta property="og:site_name" content="Fantasy and Fiction">
-<meta property="og:description" content="设计模式之装饰器/面向切面编程在Python和C/C++中的体现最近接触到python中的装饰器，顿感奇妙，函数前面声明一句话，即可改变函数的部分行为。不同的声明，可以从不同方面改变函数的行为，就像一栋房子重新装修了下，就有了不同的风格。比如123456789101112def hello(fn):    def wrapper():        print &quot;hello, %s&quot; % fn._">
-<meta property="og:updated_time" content="2015-09-20T14:28:20.222Z">
+<meta property="og:description" content="设计模式之装饰器/面向切面编程在Python和C中的体现最近接触到python中的装饰器，顿感奇妙，函数前面声明一句话，即可改变函数的部分行为。不同的声明，可以从不同方面改变函数的行为，就像一栋房子重新装修了下，就有了不同的风格。比如123456789101112def hello(fn):    def wrapper():        print &quot;hello, %s&quot; % fn.__nam">
+<meta property="og:updated_time" content="2015-09-20T14:37:10.870Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Design Patterns, Decorator/AOP in Python and C/C++">
-<meta name="twitter:description" content="设计模式之装饰器/面向切面编程在Python和C/C++中的体现最近接触到python中的装饰器，顿感奇妙，函数前面声明一句话，即可改变函数的部分行为。不同的声明，可以从不同方面改变函数的行为，就像一栋房子重新装修了下，就有了不同的风格。比如123456789101112def hello(fn):    def wrapper():        print &quot;hello, %s&quot; % fn._">
+<meta name="twitter:title" content="Design Patterns, Decorator/AOP in Python and C">
+<meta name="twitter:description" content="设计模式之装饰器/面向切面编程在Python和C中的体现最近接触到python中的装饰器，顿感奇妙，函数前面声明一句话，即可改变函数的部分行为。不同的声明，可以从不同方面改变函数的行为，就像一栋房子重新装修了下，就有了不同的风格。比如123456789101112def hello(fn):    def wrapper():        print &quot;hello, %s&quot; % fn.__nam">
   
     <link rel="alternative" href="/atom.xml" title="Fantasy and Fiction" type="application/atom+xml">
   
@@ -74,7 +74,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      Design Patterns, Decorator/AOP in Python and C/C++
+      Design Patterns, Decorator/AOP in Python and C
     </h1>
   
 
@@ -82,7 +82,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h3 id="设计模式之装饰器/面向切面编程在Python和C/C++中的体现">设计模式之装饰器/面向切面编程在Python和C/C++中的体现</h3><p>最近接触到python中的装饰器，顿感奇妙，函数前面声明一句话，即可改变函数的部分行为。不同的声明，可以从不同方面改变函数的行为，就像一栋房子重新装修了下，就有了不同的风格。<br>比如<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">hello</span><span class="params">(fn)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">wrapper</span><span class="params">()</span>:</span></span><br><span class="line">        <span class="keyword">print</span> <span class="string">"hello, %s"</span> % fn.__name__</span><br><span class="line">        fn()</span><br><span class="line">        <span class="keyword">print</span> <span class="string">"goodby, %s"</span> % fn.__name__</span><br><span class="line">    <span class="keyword">return</span> wrapper</span><br><span class="line"></span><br><span class="line"><span class="decorator">@hello</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">foo</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">print</span> <span class="string">"i am foo"</span></span><br><span class="line"></span><br><span class="line">foo()</span><br></pre></td></tr></table></figure></p>
+        <h3 id="设计模式之装饰器/面向切面编程在Python和C中的体现">设计模式之装饰器/面向切面编程在Python和C中的体现</h3><p>最近接触到python中的装饰器，顿感奇妙，函数前面声明一句话，即可改变函数的部分行为。不同的声明，可以从不同方面改变函数的行为，就像一栋房子重新装修了下，就有了不同的风格。<br>比如<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">hello</span><span class="params">(fn)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">wrapper</span><span class="params">()</span>:</span></span><br><span class="line">        <span class="keyword">print</span> <span class="string">"hello, %s"</span> % fn.__name__</span><br><span class="line">        fn()</span><br><span class="line">        <span class="keyword">print</span> <span class="string">"goodby, %s"</span> % fn.__name__</span><br><span class="line">    <span class="keyword">return</span> wrapper</span><br><span class="line"></span><br><span class="line"><span class="decorator">@hello</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">foo</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">print</span> <span class="string">"i am foo"</span></span><br><span class="line"></span><br><span class="line">foo()</span><br></pre></td></tr></table></figure></p>
 <p>运行后<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ python hello<span class="class">.py</span></span><br><span class="line">hello, foo</span><br><span class="line"><span class="tag">i</span> am foo</span><br><span class="line">goodby, foo</span><br></pre></td></tr></table></figure></p>
 <p>追究其本质，首先是因为在python中一切皆对象，函数也不例外，所以有了动态修改函数指向对象的机会，那么经过修饰器修饰后，foo其实已不是原来的foo，而是被包装过的：<code>foo = hello(foo)</code>，再次调用时，新的foo指向了包装后的新函数，从而包括了原来的foo功能和包装器的新功能。</p>
 <blockquote>
@@ -127,7 +127,7 @@
 
 <section id="comments">
 <!-- ��˵���ۿ� start -->
-	<div class="ds-thread" data-thread-key="post-Design-Patterns-Decorator-AOP-in-Python-and-C-C" data-title="Design Patterns, Decorator/AOP in Python and C/C++" data-url="http://pansila.github.io/2015/09/20/Design-Patterns-Decorator-AOP-in-Python-and-C-C/"></div>
+	<div class="ds-thread" data-thread-key="post-Design-Patterns-Decorator-AOP-in-Python-and-C-C" data-title="Design Patterns, Decorator/AOP in Python and C" data-url="http://pansila.github.io/2015/09/20/Design-Patterns-Decorator-AOP-in-Python-and-C-C/"></div>
 <!-- ��˵���ۿ� end -->
 <!-- ��˵����JS���� start (һ����ҳֻ������һ��) -->
 <script type="text/javascript">
@@ -169,7 +169,7 @@ var duoshuoQuery = {short_name:"pansila"};
       <ul>
         
           <li>
-            <a href="/2015/09/20/Design-Patterns-Decorator-AOP-in-Python-and-C-C/">Design Patterns, Decorator/AOP in Python and C/C++</a>
+            <a href="/2015/09/20/Design-Patterns-Decorator-AOP-in-Python-and-C-C/">Design Patterns, Decorator/AOP in Python and C</a>
           </li>
         
           <li>
