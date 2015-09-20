@@ -59,12 +59,6 @@ buf_len = 64*1024*1024
 buf = [0] * buf_len
 buffer = array('i', buf)
 
-#def calc_at_every(step):
-#	i = 0
-#	while i < buf_len:
-#		buffer[i] *= 3
-#		i += step
-
 def calc_at_every(step):
 	for i in xrange(0, buf_len, step):
 		buffer[i] *= 3
@@ -85,9 +79,6 @@ if __name__ == '__main__':
 	plt.show()
 ```
 结果更差。。。
-![Array test](/img/2015-09-10_133710.png)
-**update @2015-09-20**
-采用xrange后，大约提升25%性能(同样缩短4秒?)。
 ![Array test by xrange](/img/2015-09-20_104140.png)
 
 ### 3. 基于numpy.array的测试
