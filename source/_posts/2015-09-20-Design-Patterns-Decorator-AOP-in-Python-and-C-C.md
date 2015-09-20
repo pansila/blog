@@ -1,9 +1,9 @@
-title: 'Design Patterns, Decorator/AOP in Python and C/C++'
+title: 'Design Patterns, Decorator/AOP in Python and C'
 date: 2015-09-20 21:14:45
 tags:
 category:
 ---
-### 设计模式之装饰器/面向切面编程在Python和C/C++中的体现
+### 设计模式之装饰器/面向切面编程在Python和C中的体现
 最近接触到python中的装饰器，顿感奇妙，函数前面声明一句话，即可改变函数的部分行为。不同的声明，可以从不同方面改变函数的行为，就像一栋房子重新装修了下，就有了不同的风格。
 比如
 ```python
