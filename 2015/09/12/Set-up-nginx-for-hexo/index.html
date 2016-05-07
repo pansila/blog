@@ -3,48 +3,18 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Blog架设总结 | Fantasy and Fiction</title>
+  <title>Set up nginx for Hexo | Fantasy and Fiction</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="虽然有各种教程，折腾了一天才算能用起来，总结下:
-
-repository必须是以如下的形式命名:
-[用户名].github.io
-
-
-
-比如abc就是abc.github.iobranch名字必须是master，对于子目录下的站点，必须是gh-pages  
-
-hexo generate生成的文件默认在public里面，需要复制到外面与_config.yaml同目录下。
-开始不知道在哪写文章，后来">
+  <meta name="description" content="hexo基于nodejs实现，本质上都是V8引擎解释js语句执行，效率必然比不上本地代码。在raspberry pi资源这么有限的环境下，hexo server不是个好主意，那么以速度著称的nginx就是个必然选择。1234sudo apt-get install nginxsudo /etc/init.d/nginx startsudo /usr/sbin/update-rc.d -f ngin">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Blog架设总结">
-<meta property="og:url" content="http://pansila.github.io/2015/08/22/hello-new-home/index.html">
+<meta property="og:title" content="Set up nginx for Hexo">
+<meta property="og:url" content="http://pansila.github.io/2015/09/12/Set-up-nginx-for-hexo/index.html">
 <meta property="og:site_name" content="Fantasy and Fiction">
-<meta property="og:description" content="虽然有各种教程，折腾了一天才算能用起来，总结下:
-
-repository必须是以如下的形式命名:
-[用户名].github.io
-
-
-
-比如abc就是abc.github.iobranch名字必须是master，对于子目录下的站点，必须是gh-pages  
-
-hexo generate生成的文件默认在public里面，需要复制到外面与_config.yaml同目录下。
-开始不知道在哪写文章，后来">
-<meta property="og:updated_time" content="2015-08-30T04:07:12.234Z">
+<meta property="og:description" content="hexo基于nodejs实现，本质上都是V8引擎解释js语句执行，效率必然比不上本地代码。在raspberry pi资源这么有限的环境下，hexo server不是个好主意，那么以速度著称的nginx就是个必然选择。1234sudo apt-get install nginxsudo /etc/init.d/nginx startsudo /usr/sbin/update-rc.d -f ngin">
+<meta property="og:updated_time" content="2015-09-15T14:45:15.359Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Blog架设总结">
-<meta name="twitter:description" content="虽然有各种教程，折腾了一天才算能用起来，总结下:
-
-repository必须是以如下的形式命名:
-[用户名].github.io
-
-
-
-比如abc就是abc.github.iobranch名字必须是master，对于子目录下的站点，必须是gh-pages  
-
-hexo generate生成的文件默认在public里面，需要复制到外面与_config.yaml同目录下。
-开始不知道在哪写文章，后来">
+<meta name="twitter:title" content="Set up nginx for Hexo">
+<meta name="twitter:description" content="hexo基于nodejs实现，本质上都是V8引擎解释js语句执行，效率必然比不上本地代码。在raspberry pi资源这么有限的环境下，hexo server不是个好主意，那么以速度著称的nginx就是个必然选择。1234sudo apt-get install nginxsudo /etc/init.d/nginx startsudo /usr/sbin/update-rc.d -f ngin">
   
     <link rel="alternative" href="/atom.xml" title="Fantasy and Fiction" type="application/atom+xml">
   
@@ -90,10 +60,10 @@ hexo generate生成的文件默认在public里面，需要复制到外面与_con
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-hello-new-home" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-Set-up-nginx-for-hexo" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2015/08/22/hello-new-home/" class="article-date">
-  <time datetime="2015-08-22T13:23:19.000Z" itemprop="datePublished">2015-08-22</time>
+    <a href="/2015/09/12/Set-up-nginx-for-hexo/" class="article-date">
+  <time datetime="2015-09-12T03:00:36.000Z" itemprop="datePublished">2015-09-12</time>
 </a>
     
   </div>
@@ -104,7 +74,7 @@ hexo generate生成的文件默认在public里面，需要复制到外面与_con
         
   
     <h1 class="article-title" itemprop="name">
-      Blog架设总结
+      Set up nginx for Hexo
     </h1>
   
 
@@ -112,25 +82,15 @@ hexo generate生成的文件默认在public里面，需要复制到外面与_con
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>虽然有各种教程，折腾了一天才算能用起来，总结下:</p>
-<ul>
-<li>repository必须是以如下的形式命名:<blockquote>
-<p>[<strong>用户名</strong>].github.io</p>
-</blockquote>
-</li>
-</ul>
-<p>比如abc就是abc.github.io<br>branch名字必须是master，对于子目录下的站点，必须是gh-pages  </p>
-<ul>
-<li>hexo generate生成的文件默认在public里面，需要复制到外面与_config.yaml同目录下。</li>
-<li>开始不知道在哪写文章，后来发现其实接着生成的md文件内容往下写就行了。。。</li>
-<li>采用markdown写作，所见即所得 </li>
-</ul>
-<p>相关引用：<br><a href="https://www.zybuluo.com/mdeditor" target="_blank" rel="external">Cmd Markdown</a><br><a href="http://wowubuntu.com/markdown" target="_blank" rel="external">Markdown简明介绍</a><br><a href="https://github.com/coapp/coapp.org/blob/master/src/dynamic/reference/garrett-flavored-markdown.html.md#precode" target="_blank" rel="external">Markdown代码块支持的语言</a></p>
+        <p>hexo基于nodejs实现，本质上都是V8引擎解释js语句执行，效率必然比不上本地代码。在raspberry pi资源这么有限的环境下，hexo server不是个好主意，那么以速度著称的nginx就是个必然选择。<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get <span class="operator"><span class="keyword">install</span> nginx</span><br><span class="line">sudo /etc/init.<span class="keyword">d</span>/nginx <span class="keyword">start</span></span><br><span class="line">sudo /usr/sbin/<span class="keyword">update</span>-rc.<span class="keyword">d</span> -<span class="keyword">f</span> nginx <span class="keyword">defaults</span></span><br><span class="line">sudo vi /etc/nginx/sites-enabled/<span class="keyword">default</span></span></span><br></pre></td></tr></table></figure></p>
+<p>找到server的配置，修改root目录<br><figure class="highlight axapta"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">server</span> &#123;</span><br><span class="line">    ...</span><br><span class="line">    server_name localhost;</span><br><span class="line">    <span class="keyword">index</span> <span class="keyword">index</span>.html <span class="keyword">index</span>.htm;</span><br><span class="line">    root  /home/pi/hexo/<span class="keyword">public</span>;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>修改完后别忘了让nginx重新读取配置<br><figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo <span class="regexp">/etc/i</span>nit.d<span class="regexp">/nginx reload</span></span><br></pre></td></tr></table></figure></p>
+<p>为了能根据blog源代码的改变及时更新public，可以让hexo在后台进行监视<br><figure class="highlight vhdl"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo <span class="keyword">generate</span> <span class="comment">--watch</span></span><br></pre></td></tr></table></figure></p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://pansila.github.io/2015/08/22/hello-new-home/" data-id="ciesloinu000b14p3zdobdiwd" class="article-share-link">Share</a>
+      <a data-url="http://pansila.github.io/2015/09/12/Set-up-nginx-for-hexo/" data-id="ciesloin1000414p3k7q9jekt" class="article-share-link">Share</a>
       
       
     </footer>
@@ -139,15 +99,20 @@ hexo generate生成的文件默认在public里面，需要复制到外面与_con
     
 <nav id="article-nav">
   
-    <a href="/2015/08/29/Install-clover-on-USB-stick/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2015/09/12/Set-up-Peanut-Hull-for-Raspberry-Pi/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Newer</strong>
       <div class="article-nav-title">
         
-          Install clover on USB stick
+          Set up Oray DDNS for Raspberry Pi
         
       </div>
     </a>
   
+  
+    <a href="/2015/09/12/Set-up-the-Hexo-on-Raspberry-Pi/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Set up the Hexo on Raspberry Pi</div>
+    </a>
   
 </nav>
 
@@ -157,7 +122,7 @@ hexo generate生成的文件默认在public里面，需要复制到外面与_con
 
 <section id="comments">
 <!-- ��˵���ۿ� start -->
-	<div class="ds-thread" data-thread-key="post-hello-new-home" data-title="Blog架设总结" data-url="http://pansila.github.io/2015/08/22/hello-new-home/"></div>
+	<div class="ds-thread" data-thread-key="post-Set-up-nginx-for-hexo" data-title="Set up nginx for Hexo" data-url="http://pansila.github.io/2015/09/12/Set-up-nginx-for-hexo/"></div>
 <!-- ��˵���ۿ� end -->
 <!-- ��˵����JS���� start (һ����ҳֻ������һ��) -->
 <script type="text/javascript">

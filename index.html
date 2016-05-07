@@ -61,6 +61,266 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-Design-Patterns-Decorator-AOP-in-Python-and-C-C" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2015/09/20/Design-Patterns-Decorator-AOP-in-Python-and-C-C/" class="article-date">
+  <time datetime="2015-09-20T13:14:45.000Z" itemprop="datePublished">2015-09-20</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/09/20/Design-Patterns-Decorator-AOP-in-Python-and-C-C/">Design Patterns, Decorator/AOP in Python and C</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="设计模式之装饰器/面向切面编程在Python和C中的体现">设计模式之装饰器/面向切面编程在Python和C中的体现</h3><p>最近接触到python中的装饰器，顿感奇妙，函数前面声明一句话，即可改变函数的部分行为。不同的声明，可以从不同方面改变函数的行为，就像一栋房子重新装修了下，就有了不同的风格。<br>比如<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">hello</span><span class="params">(fn)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">wrapper</span><span class="params">()</span>:</span></span><br><span class="line">        <span class="keyword">print</span> <span class="string">"hello, %s"</span> % fn.__name__</span><br><span class="line">        fn()</span><br><span class="line">        <span class="keyword">print</span> <span class="string">"goodby, %s"</span> % fn.__name__</span><br><span class="line">    <span class="keyword">return</span> wrapper</span><br><span class="line"></span><br><span class="line"><span class="decorator">@hello</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">foo</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">print</span> <span class="string">"i am foo"</span></span><br><span class="line"></span><br><span class="line">foo()</span><br></pre></td></tr></table></figure></p>
+<p>运行后<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ python hello<span class="class">.py</span></span><br><span class="line">hello, foo</span><br><span class="line"><span class="tag">i</span> am foo</span><br><span class="line">goodby, foo</span><br></pre></td></tr></table></figure></p>
+<p>追究其本质，首先是因为在python中一切皆对象，函数也不例外，所以有了动态修改函数指向对象的机会，那么经过修饰器修饰后，foo其实已不是原来的foo，而是被包装过的：<code>foo = hello(foo)</code>，再次调用时，新的foo指向了包装后的新函数，从而包括了原来的foo功能和包装器的新功能。</p>
+<blockquote>
+<p>装饰器作为一种设计模式，在插入日志，性能测试，事务处理方面有着广泛应用。</p>
+</blockquote>
+<p>作为一个C起家的程序员，看完这些突然意识到，这样的模式其实在C实践中也有很多应用，比如上面插入日志的例子，在C中就是：<br><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">foo</span><span class="params">(<span class="keyword">int</span> x)</span></span><br><span class="line"></span>&#123;</span><br><span class="line">	print(<span class="string">"in foo: %d\n"</span>, x);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>修饰下，插入日志。<br><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">void</span> _foo(<span class="keyword">int</span> x)</span><br><span class="line">&#123;</span><br><span class="line">	print(<span class="string">"in foo: %d\n"</span>, x);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="preprocessor">#<span class="keyword">define</span> foo(x)		\</span><br><span class="line">	do &#123;			\</span><br><span class="line">		printf(<span class="string">"hello\n"</span>);	\</span><br><span class="line">		_foo(x);	\</span><br><span class="line">		printf(<span class="string">"goodbye\n"</span>);	\</span><br><span class="line">	&#125; while (<span class="number">0</span>)</span></span><br></pre></td></tr></table></figure></p>
+<p>更进一步，C语言中有种特殊的调试技巧：某个函数被广泛调用，我们想追踪这个函数在动态执行时，被哪些函数调用，以及传入的参数是什么名称。<br>最简单粗暴的方法就是找出所有调用的地方，前面插入跟踪代码，打印调用函数和参数。<br><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">#<span class="keyword">define</span> ARG_1	<span class="number">50</span></span></span><br><span class="line"><span class="preprocessor">#<span class="keyword">define</span> ARG_2	<span class="number">100</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">foo1</span><span class="params">()</span></span><br><span class="line"></span>&#123;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"caller %s, argument ARG_1\n"</span>, __func__);</span><br><span class="line">	foo(ARG_1);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">foo2</span><span class="params">()</span></span><br><span class="line"></span>&#123;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"caller %s, argument ARG_2\n"</span>, __func__);</span><br><span class="line">	foo(ARG_2);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>显然这样做既费时痛苦又无扩展性，如果想跟踪其它函数，还得再这样改一遍。<br>改进的做法就是用宏定义同名覆盖函数，然后加上调试信息。<br><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">void</span> _foo(<span class="keyword">int</span> x)</span><br><span class="line">&#123;</span><br><span class="line">	print(<span class="string">"in foo: %d\n"</span>, x);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="preprocessor">#<span class="keyword">define</span> foo(x)		\</span><br><span class="line">	do &#123;			\</span><br><span class="line">		printf(<span class="string">"caller %s, argument %s\n"</span>, __func__, ##x);	\</span><br><span class="line">		_foo(x);	\</span><br><span class="line">	&#125; while (<span class="number">0</span>)</span></span><br></pre></td></tr></table></figure></p>
+<p>只需如此修改，其它所有调用foo的地方无需修改即可达到前述跟踪目的。这里面蕴含的思想其实跟修饰器是类似的：<code>通过修改原函数的指向，在原函数的基础上添加新功能</code>。</p>
+<p>当然这里有三点区别：</p>
+<ol>
+<li>C实现的修饰是编译时修改，而python是运行时动态修改；</li>
+<li>C函数的修饰器就是宏定义，而且需要修改原函数原型的名称，以防命名冲突；Python的修饰器是另一个函数，修饰后原函数被覆盖。</li>
+<li>C函数被修饰后，并没有生成新的函数，而是在原来的函数调用处添加了一些语句，而python就容易多了，重新生成新的函数对象。</li>
+</ol>
+<p>参考文章：<br><a href="http://coolshell.cn/articles/11265.html" target="_blank" rel="external">coolshell的Python修饰器的函数式编程</a><br><a href="http://www.cnblogs.com/huxi/archive/2011/03/01/1967600.html" target="_blank" rel="external">Python装饰器与面向切面编程</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://pansila.github.io/2015/09/20/Design-Patterns-Decorator-AOP-in-Python-and-C-C/" data-id="ciesloimq000114p3g97czw4t" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Set-up-Peanut-Hull-for-Raspberry-Pi" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2015/09/12/Set-up-Peanut-Hull-for-Raspberry-Pi/" class="article-date">
+  <time datetime="2015-09-12T13:45:53.000Z" itemprop="datePublished">2015-09-12</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/09/12/Set-up-Peanut-Hull-for-Raspberry-Pi/">Set up Oray DDNS for Raspberry Pi</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>raspberry pi玩到后来不可避免会玩上DDNS，即<a href="https://en.wikipedia.org/wiki/Dynamic_DNS" target="_blank" rel="external">动态域名解析</a>，众所周知拨号上网拿到的公网IP每次可能不一样，为了从公网访问拨号猫后面的内网PC，需要外部提供一个查询机制，即DDNS，在这个外部查询系统注册一个域名之后，内部再装一个客户端，里应外合，把拨号拿到的公网IP通知给公网上的查询系统。这样公网用户每次要访问内网的PC，首先到这个确定地址的公网查询注册的域名，然后转换成对应的IP，从而达到访问内网PC的目的。<br>关于如何在Raspberry Pi设置花生壳，官网已经有<a href="http://service.oray.com/question/2680.html" target="_blank" rel="external">介绍</a>。<br>需要注意的是运行oraynewph需要root权限。</p>
+<p><strong>Update@2015-09-13</strong><br>花生壳的免费域名实在太不好用，第一次成功更新A记录后，不管后面拨号再怎么重换地址，花生壳系统的A记录和路由的WAN地址始终不一致，还不能手动改。考虑到使用的电信网络，应该不存在ISP NAT的情况，折腾数天不妥，怒弃之。。。<br><img src="/img/2015-09-13_174117.png" alt="死活不更新"><br>另外考虑到花生壳的免费域名，可能会被无聊人士盯上乱扫描，万一自家的路由器，树莓派等等有什么漏洞，城池难保。<del>折衷的办法就是自己麻烦一点，让rapsberry pi主动email报告IP。后面完善了回来补充</del>。鉴于ISP NAT的问题，WAN的IP也不是公网IP，这个方案也被否决了。<br><strong>Update@2015-09-14</strong><br>换了路由自带的花生壳客户端，同样的不一致问题，<del>只能归咎于免费域名的故意限制。。。尝试其他DDNS服务。。。</del><br><strong>Update@2015-09-14</strong><br>3322也一样，ip138也显示这个地址，看来真的是有ISP NAT。。。<br><strong>Update@2015-09-15</strong><br>对于ISP NAT，花生壳官网介绍有<a href="http://service.oray.com/question/136.html" target="_blank" rel="external">解决方案</a>，只要你升到专业服务:(<br>说实话这个解决方案只是重新选择了下接入线路，背后原理莫名其妙，貌似再没有其它家有类似的解决方案。<br>初步搜索了下，在有ISP NAT的情况下，如果自己用，VPN不失为一个靠谱的解决方案。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://pansila.github.io/2015/09/12/Set-up-Peanut-Hull-for-Raspberry-Pi/" data-id="ciesloin4000514p3lxgp2s72" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Set-up-nginx-for-hexo" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2015/09/12/Set-up-nginx-for-hexo/" class="article-date">
+  <time datetime="2015-09-12T03:00:36.000Z" itemprop="datePublished">2015-09-12</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/09/12/Set-up-nginx-for-hexo/">Set up nginx for Hexo</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>hexo基于nodejs实现，本质上都是V8引擎解释js语句执行，效率必然比不上本地代码。在raspberry pi资源这么有限的环境下，hexo server不是个好主意，那么以速度著称的nginx就是个必然选择。<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get <span class="operator"><span class="keyword">install</span> nginx</span><br><span class="line">sudo /etc/init.<span class="keyword">d</span>/nginx <span class="keyword">start</span></span><br><span class="line">sudo /usr/sbin/<span class="keyword">update</span>-rc.<span class="keyword">d</span> -<span class="keyword">f</span> nginx <span class="keyword">defaults</span></span><br><span class="line">sudo vi /etc/nginx/sites-enabled/<span class="keyword">default</span></span></span><br></pre></td></tr></table></figure></p>
+<p>找到server的配置，修改root目录<br><figure class="highlight axapta"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">server</span> &#123;</span><br><span class="line">    ...</span><br><span class="line">    server_name localhost;</span><br><span class="line">    <span class="keyword">index</span> <span class="keyword">index</span>.html <span class="keyword">index</span>.htm;</span><br><span class="line">    root  /home/pi/hexo/<span class="keyword">public</span>;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>修改完后别忘了让nginx重新读取配置<br><figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo <span class="regexp">/etc/i</span>nit.d<span class="regexp">/nginx reload</span></span><br></pre></td></tr></table></figure></p>
+<p>为了能根据blog源代码的改变及时更新public，可以让hexo在后台进行监视<br><figure class="highlight vhdl"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo <span class="keyword">generate</span> <span class="comment">--watch</span></span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://pansila.github.io/2015/09/12/Set-up-nginx-for-hexo/" data-id="ciesloin1000414p3k7q9jekt" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Set-up-the-Hexo-on-Raspberry-Pi" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2015/09/12/Set-up-the-Hexo-on-Raspberry-Pi/" class="article-date">
+  <time datetime="2015-09-12T01:01:19.000Z" itemprop="datePublished">2015-09-12</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/09/12/Set-up-the-Hexo-on-Raspberry-Pi/">Set up the Hexo on Raspberry Pi</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>之前烧录的Raspberry image已经自带了很多工具，其中包括git，但是hexo还不在里面。用<code>apt-get install nodejs</code>装了一个，版本非常老0.6.xx。想要更新到最新？没问题，官网直接为树莓派的老旧CPU编译好了。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">wget http://nodejs.org/dist/latest/node-v4.<span class="number">0.0</span>-linux-armv6l.tar.gz</span><br><span class="line">tar xf node-v4.<span class="number">0.0</span>-linux-armv6l.tar.gz</span><br><span class="line">mv node-v4.<span class="number">0.0</span>-linux-armv6l/ node</span><br><span class="line">mv node /usr/<span class="built_in">local</span>/</span><br><span class="line">chown -R pi.pi /usr/<span class="built_in">local</span>/node</span><br></pre></td></tr></table></figure></p>
+<p>如果后面有更新版本，上面的版本号注意替换掉。<br>设置环境变量<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> <span class="string">"PATH=<span class="variable">$PATH</span>:/usr/local/node/bin"</span> &gt;&gt; ~/.profile</span><br><span class="line"><span class="built_in">echo</span> <span class="string">"export PATH"</span> &gt;&gt; ~/.profile</span><br><span class="line"><span class="built_in">source</span> ~/.profile</span><br><span class="line">node -v  <span class="comment">#检查路径是否设置正确</span></span><br></pre></td></tr></table></figure></p>
+<p>安装hexo<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">npm install -g hexo</span><br><span class="line">mkdir -p /home/hexo</span><br><span class="line"><span class="built_in">cd</span> /home/hexo</span><br><span class="line">hexo init <span class="comment">#添加一个博客站点</span></span><br><span class="line">npm install</span><br></pre></td></tr></table></figure></p>
+<p>clone blog hexo源文件到本地<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> -b blog_code https://github.com/pansila/pansila.github.io.git</span><br></pre></td></tr></table></figure></p>
+<p>执行后会将git上blog_code分支的文件放到pansila.github.io目录，这个目录放置了hexo源代码（网页静态文件放在了master branch），因为之前在hexo目录建立hexo环境，所以要让hexo在git的文件上跑起来，需要将pansila.github.io目录下的所有东西复制到hexo目录<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cp pansila<span class="class">.github</span><span class="class">.io</span> .. -R</span><br><span class="line">rm pansila<span class="class">.github</span><span class="class">.io</span> -R</span><br></pre></td></tr></table></figure></p>
+<p>试了下速度，rapberry pi上跑hexo性能不如乐观。。。<br>同样的文件raspberry pi上，load files要24s，generate files要23s<br>PC上load files只要1s，generate files 580ms</p>
+<p>参考文章：<a href="http://rpi.linux48.com/Hexo.html" target="_blank" rel="external">树莓派安装node.js来跑Hexo静态博客</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://pansila.github.io/2015/09/12/Set-up-the-Hexo-on-Raspberry-Pi/" data-id="ciesloin0000314p38mqycx5z" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-new-toy-SanDisk-Ultra-16G-Class10-UHS-I" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2015/09/12/new-toy-SanDisk-Ultra-16G-Class10-UHS-I/" class="article-date">
+  <time datetime="2015-09-11T20:10:32.000Z" itemprop="datePublished">2015-09-12</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/09/12/new-toy-SanDisk-Ultra-16G-Class10-UHS-I/">New Toy - SanDisk Ultra 16G Class10 UHS-I</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>自从iPhone开启自带Flash Rom风潮以来，外置TF卡在手机上越来越不受待见，这次为了把吃灰多年的Raspberry Pi拿出来晒晒太阳，决心新入手一块TF卡。<br>吐槽下京东可能除了物流价格上真心没啥优势。。。<br>先来一张大头照<br><img src="/img/20150912041903.jpg" alt="美照"><br>然后照例验证正品，没问题。<br>测试读写速度<br><img src="/img/2015-09-12_035642.png" alt="ATTO Disk BenchMark"><br>最大速度，读45MB/s，写17MB/s左右。比官网号称48MB/s稍显乏力。。。<br>写入Raspberry Pi image<br><img src="/img/2015-09-12_040514.png" alt="Win32 Disk Imager"><br>写入速度差不多在15~16MB/s。</p>
+<p>附上对比测试，金士顿未知Class卡<br><img src="/img/20150912062844.jpg" alt="Kinston unknown TF"><br>速度测试<br><img src="/img/2015-09-12_050307.png" alt="ATTO Disk BenchMark"><br>看起来应该也是Class 10级别的卡。<br><del>Raspberry Pi板载速度测试敬请期待。。。</del><br>接上文接着测试Raspberry Pi上，方法简单粗暴，就是dd拷贝测试：<br>写<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">dd <span class="keyword">if</span>=/dev/zero of=~/test.tmp bs=<span class="number">500</span>K count=<span class="number">1024</span></span><br><span class="line"><span class="number">524288000</span> bytes (<span class="number">524</span> MB) copied, <span class="number">36.7958</span> s, <span class="number">14.2</span> MB/s</span><br></pre></td></tr></table></figure></p>
+<p>读<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">dd <span class="keyword">if</span>=~/test.tmp of=/dev/null bs=<span class="number">500</span>K count=<span class="number">1024</span></span><br><span class="line"><span class="number">524288000</span> bytes (<span class="number">524</span> MB) copied, <span class="number">28.128</span> s, <span class="number">18.6</span> MB/s</span><br></pre></td></tr></table></figure></p>
+<p>这个数据与官方同款测试基本一致（详见下方链接），猜测受限于raspberry pi的SDIO总线速度，读写速度均有一定程度下降。</p>
+<p><a href="http://elinux.org/RPi_SD_cards#SD_card_performance" target="_blank" rel="external">树莓派SD卡参考速度</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://pansila.github.io/2015/09/12/new-toy-SanDisk-Ultra-16G-Class10-UHS-I/" data-id="ciesloimx000214p3h5fwpsc4" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-cache-exercises-memory-read-optimization" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2015/09/10/cache-exercises-memory-read-optimization/" class="article-date">
+  <time datetime="2015-09-10T05:02:37.000Z" itemprop="datePublished">2015-09-10</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/09/10/cache-exercises-memory-read-optimization/">cache exercises - Ex. 1 memory read optimization</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Cache对于现代处理器提升性能有多重要就不多说了，最近看到这方面的练习，正好来实践下。<br>原文来自伯乐在线请猛击<a href="http://blog.jobbole.com/89759/" target="_blank" rel="external">这里</a><br>第一个例子解释cache一次从memory读取的大小，这是可能与cache line不一致的，具体多少可以通过统计得出。<br>原文使用了C#例子，正好最近学习python，这里来模拟下。</p>
+<h3 id="1-_基于list的测试">1. 基于list的测试</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">buf_len = <span class="number">64</span>*<span class="number">1024</span>*<span class="number">1024</span></span><br><span class="line">buffer = [<span class="number">0</span>] * buf_len</span><br><span class="line"></span><br><span class="line"><span class="comment"># update @2015-09-20</span></span><br><span class="line"><span class="comment">#def calc_at_every(step):</span></span><br><span class="line"><span class="comment">#	i = 0</span></span><br><span class="line"><span class="comment">#	while i &lt; buf_len:</span></span><br><span class="line"><span class="comment">#		buffer[i] *= 3</span></span><br><span class="line"><span class="comment">#		i += step</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">calc_at_every</span><span class="params">(step)</span>:</span></span><br><span class="line">	<span class="keyword">for</span> i <span class="keyword">in</span> xrange(<span class="number">0</span>, buf_len, step):</span><br><span class="line">		buffer[i] *= <span class="number">3</span></span><br><span class="line">		</span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">	<span class="keyword">from</span> timeit <span class="keyword">import</span> Timer</span><br><span class="line">	results = []</span><br><span class="line">	<span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>, <span class="number">33</span>):</span><br><span class="line">		<span class="comment">#print "test starts for step %d" % i</span></span><br><span class="line">		t = Timer(<span class="string">"calc_at_every(%d)"</span> % i, <span class="string">"from __main__ import calc_at_every"</span>)</span><br><span class="line">		<span class="comment">#print t.timeit(1)</span></span><br><span class="line">		results.append(t.timeit(<span class="number">1</span>))</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line">	plt.plot(range(<span class="number">1</span>, <span class="number">33</span>), results)</span><br><span class="line">	plt.ylabel(<span class="string">'runtime per step size'</span>)</span><br><span class="line">	plt.xlabel(<span class="string">'set size'</span>)</span><br><span class="line">	plt.show()</span><br></pre></td></tr></table></figure>
+<p>最直接的模仿就是list，可惜结果差3个数量级，看下图：<br><img src="/img/2015-09-10_130439.png" alt="list test"><br>步长为1时，遍历一遍需要12秒之多，例子中是80ms，大家感受下，cache肯定没有发挥作用。事实上随着step加倍，运行时间减半，完美的指数函数，完全忽视cache。。。<br>事实上python中list跟C/C++中的array并不一样，是一个包装起来的行为类似array的对象，其占用的size远远超过元素本身之和。<br><code>&gt;&gt;&gt; sys.getsizeof([])</code><br><code>64</code><br>这里其实已经做过优化，并没有使用<code>for ... in ...</code>这样的pythonic遍历方式，因为产生一个索引list会占用同样多的memory，而且也有memory read的cache问题。难道用python做性能测试就是个杯具。。。<br><strong>update @2015-09-20</strong><br>xrange正是为这样的迭代所优化，它不会实际产生一个遍历list，而是按需生成数据，因此内存效率和性能都大有改善。PS：range在python3中升级成为<a href="https://wiki.python.org/moin/Generators" target="_blank" rel="external">generator</a><br><img src="/img/2015-09-20_103325.png" alt="list test by xrange"><br>可以看到1步遍历提高了约33%的性能，遍历一遍需要大约8秒(缩短4秒)，虽然离cache的结果还差得远，但就遍历来说是个很好的优化。</p>
+<h3 id="2-_基于array的测试">2. 基于array的测试</h3><p>既然list不够快，那换能够直接接触memory的array。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> array <span class="keyword">import</span> array</span><br><span class="line"></span><br><span class="line">buf_len = <span class="number">64</span>*<span class="number">1024</span>*<span class="number">1024</span></span><br><span class="line">buf = [<span class="number">0</span>] * buf_len</span><br><span class="line">buffer = array(<span class="string">'i'</span>, buf)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">calc_at_every</span><span class="params">(step)</span>:</span></span><br><span class="line">	<span class="keyword">for</span> i <span class="keyword">in</span> xrange(<span class="number">0</span>, buf_len, step):</span><br><span class="line">		buffer[i] *= <span class="number">3</span></span><br><span class="line">		</span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">	<span class="keyword">from</span> timeit <span class="keyword">import</span> Timer</span><br><span class="line">	results = []</span><br><span class="line">	<span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>, <span class="number">33</span>):</span><br><span class="line">		<span class="comment">#print "test starts for step %d" % i</span></span><br><span class="line">		t = Timer(<span class="string">"calc_at_every(%d)"</span> % i, <span class="string">"from __main__ import calc_at_every"</span>)</span><br><span class="line">		<span class="comment">#print t.timeit(1)</span></span><br><span class="line">		results.append(t.timeit(<span class="number">1</span>))</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line">	plt.plot(range(<span class="number">1</span>, <span class="number">33</span>), results)</span><br><span class="line">	plt.ylabel(<span class="string">'runtime per step size'</span>)</span><br><span class="line">	plt.xlabel(<span class="string">'set size'</span>)</span><br><span class="line">	plt.show()</span><br></pre></td></tr></table></figure></p>
+<p>结果更差。。。<br><img src="/img/2015-09-20_104140.png" alt="Array test by xrange"></p>
+<h3 id="3-_基于numpy-array的测试">3. 基于numpy.array的测试</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> array <span class="keyword">import</span> array</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line">buf_len = <span class="number">64</span>*<span class="number">1024</span>*<span class="number">1024</span></span><br><span class="line">buf = [<span class="number">0</span>] * buf_len</span><br><span class="line">buffer = np.array(buf)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">calc_at_every</span><span class="params">(step)</span>:</span></span><br><span class="line">	<span class="keyword">for</span> i <span class="keyword">in</span> xrange(<span class="number">0</span>, buf_len, step):</span><br><span class="line">		buffer[i] *= <span class="number">3</span></span><br><span class="line">		</span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">	<span class="keyword">from</span> timeit <span class="keyword">import</span> Timer</span><br><span class="line">	results = []</span><br><span class="line">	<span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>, <span class="number">33</span>):</span><br><span class="line">		<span class="comment">#print "test starts for step %d" % i</span></span><br><span class="line">		t = Timer(<span class="string">"calc_at_every(%d)"</span> % i, <span class="string">"from __main__ import calc_at_every"</span>)</span><br><span class="line">		<span class="comment">#print t.timeit(1)</span></span><br><span class="line">		results.append(t.timeit(<span class="number">1</span>))</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line">	plt.plot(range(<span class="number">1</span>, <span class="number">33</span>), results)</span><br><span class="line">	plt.ylabel(<span class="string">'runtime per step size'</span>)</span><br><span class="line">	plt.xlabel(<span class="string">'set size'</span>)</span><br><span class="line">	plt.show()</span><br></pre></td></tr></table></figure>
+<p>惨不忍睹。。。</p>
+<h2 id=""><img src="/img/2015-09-20_104818.png" alt="numpy.array test"></h2><p><strong>to be continued</strong></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://pansila.github.io/2015/09/10/cache-exercises-memory-read-optimization/" data-id="ciesloin7000614p3ow66hcry" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-Resize-MAC-OS-X-Yosemite-Disk" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2015/09/05/Resize-MAC-OS-X-Yosemite-Disk/" class="article-date">
@@ -90,7 +350,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://pansila.github.io/2015/09/05/Resize-MAC-OS-X-Yosemite-Disk/" data-id="cie60qzn90003wsp33die3j7l" class="article-share-link">Share</a>
+      <a data-url="http://pansila.github.io/2015/09/05/Resize-MAC-OS-X-Yosemite-Disk/" data-id="ciesloinf000814p3n3l4xb8n" class="article-share-link">Share</a>
       
       
     </footer>
@@ -136,7 +396,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://pansila.github.io/2015/09/05/restore-Yosemite-after-corrupted-by-grub2/" data-id="cie60qzn50002wsp38vdz0kfz" class="article-share-link">Share</a>
+      <a data-url="http://pansila.github.io/2015/09/05/restore-Yosemite-after-corrupted-by-grub2/" data-id="ciesloinb000714p32owzdd78" class="article-share-link">Share</a>
       
       
     </footer>
@@ -178,7 +438,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://pansila.github.io/2015/08/30/fbinst-fbinstTool-no-menu问题/" data-id="cie60qznb0004wsp3f5tjuehy" class="article-share-link">Share</a>
+      <a data-url="http://pansila.github.io/2015/08/30/fbinst-fbinstTool-no-menu问题/" data-id="ciesloink000914p3w6d1d58y" class="article-share-link">Share</a>
       
       
     </footer>
@@ -215,7 +475,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://pansila.github.io/2015/08/29/Install-clover-on-USB-stick/" data-id="cie60qzne0005wsp3whgw1hyi" class="article-share-link">Share</a>
+      <a data-url="http://pansila.github.io/2015/08/29/Install-clover-on-USB-stick/" data-id="ciesloinp000a14p3s6jmlo3d" class="article-share-link">Share</a>
       
       
     </footer>
@@ -225,101 +485,10 @@
 
 
   
-    <article id="post-hello-new-home" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2015/08/22/hello-new-home/" class="article-date">
-  <time datetime="2015-08-22T13:23:19.000Z" itemprop="datePublished">2015-08-22</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/08/22/hello-new-home/">Blog架设总结</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>虽然有各种教程，折腾了一天才算能用起来，总结下:</p>
-<ul>
-<li>repository必须是以如下的形式命名:<blockquote>
-<p>[<strong>用户名</strong>].github.io</p>
-</blockquote>
-</li>
-</ul>
-<p>比如abc就是abc.github.io<br>branch名字必须是master，对于子目录下的站点，必须是gh-pages  </p>
-<ul>
-<li>hexo generate生成的文件默认在public里面，需要复制到外面与_config.yaml同目录下。</li>
-<li>开始不知道在哪写文章，后来发现其实接着生成的md文件内容往下写就行了。。。</li>
-<li>采用markdown写作，所见即所得 </li>
-</ul>
-<p>相关引用：<br><a href="https://www.zybuluo.com/mdeditor" target="_blank" rel="external">Cmd Markdown</a><br><a href="http://wowubuntu.com/markdown" target="_blank" rel="external">Markdown简明介绍</a><br><a href="https://github.com/coapp/coapp.org/blob/master/src/dynamic/reference/garrett-flavored-markdown.html.md#precode" target="_blank" rel="external">Markdown代码块支持的语言</a></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://pansila.github.io/2015/08/22/hello-new-home/" data-id="cie60qznh0006wsp3vsgudu7f" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-hello-world" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2015/08/22/hello-world/" class="article-date">
-  <time datetime="2015-08-22T13:07:46.381Z" itemprop="datePublished">2015-08-22</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/08/22/hello-world/">Hello World</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>Welcome to <a href="http://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="http://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="http://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
-<h2 id="Quick_Start">Quick Start</h2><h3 id="Create_a_new_post">Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="http://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
-<h3 id="Run_server">Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="http://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
-<h3 id="Generate_static_files">Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="http://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
-<h3 id="Deploy_to_remote_sites">Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="http://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://pansila.github.io/2015/08/22/hello-world/" data-id="cie60qzmw0001wsp35fot1d0u" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
+    <nav id="page-nav">
+      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
+    </nav>
   
 </section>
         
@@ -335,7 +504,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">August 2015</a><span class="archive-list-count">4</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">August 2015</a><span class="archive-list-count">3</span></li></ul>
     </div>
   </div>
 
@@ -347,23 +516,23 @@
       <ul>
         
           <li>
-            <a href="/2015/09/05/Resize-MAC-OS-X-Yosemite-Disk/">Resize MAC OS X (Yosemite) Disk</a>
+            <a href="/2015/09/20/Design-Patterns-Decorator-AOP-in-Python-and-C-C/">Design Patterns, Decorator/AOP in Python and C</a>
           </li>
         
           <li>
-            <a href="/2015/09/05/restore-Yosemite-after-corrupted-by-grub2/">Restore Yosemite after corrupted by grub2</a>
+            <a href="/2015/09/12/Set-up-Peanut-Hull-for-Raspberry-Pi/">Set up Oray DDNS for Raspberry Pi</a>
           </li>
         
           <li>
-            <a href="/2015/08/30/fbinst-fbinstTool-no-menu问题/">fbinst/fbinstTool no menu问题</a>
+            <a href="/2015/09/12/Set-up-nginx-for-hexo/">Set up nginx for Hexo</a>
           </li>
         
           <li>
-            <a href="/2015/08/29/Install-clover-on-USB-stick/">Install clover on USB stick</a>
+            <a href="/2015/09/12/Set-up-the-Hexo-on-Raspberry-Pi/">Set up the Hexo on Raspberry Pi</a>
           </li>
         
           <li>
-            <a href="/2015/08/22/hello-new-home/">Blog架设总结</a>
+            <a href="/2015/09/12/new-toy-SanDisk-Ultra-16G-Class10-UHS-I/">New Toy - SanDisk Ultra 16G Class10 UHS-I</a>
           </li>
         
       </ul>
