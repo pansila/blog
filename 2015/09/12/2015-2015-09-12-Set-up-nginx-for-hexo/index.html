@@ -3,24 +3,18 @@
 <head>
   <meta charset="utf-8">
   
-  <title>完全云端工作 | Fantasy and Fiction</title>
+  <title>设置nginx运行Hexo生产的静态网站 | Fantasy and Fiction</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="随着工作环境的增多，工作内容的同步变得越来越麻烦。以前我们拿U盘拷或者网盘共享，现在进入的云时代，如果不考虑隐私问题，托管在云端不失为一个好办法。目前初步计划完成代码部分的云托管，随后拓展到笔记，个人知识库，二进制资料等等。
-
-代码github是首选，如果要托管私人项目，可以选择gitlab。">
+  <meta name="description" content="hexo基于nodejs实现，本质上都是V8引擎解释js语句执行，效率必然比不上本地代码。在raspberry pi资源这么有限的环境下，hexo server不是个好主意，那么以速度著称的nginx就是个必然选择。1234sudo apt-get install nginxsudo /etc/init.d/nginx startsudo /usr/sbin/update-rc.d -f ngin">
 <meta property="og:type" content="article">
-<meta property="og:title" content="完全云端工作">
-<meta property="og:url" content="http://pansila.github.io/2016/08/06/2016-2016-08-06-work-on-the-cloud-thoroughly/index.html">
+<meta property="og:title" content="设置nginx运行Hexo生产的静态网站">
+<meta property="og:url" content="http://pansila.github.io/2015/09/12/2015-2015-09-12-Set-up-nginx-for-hexo/index.html">
 <meta property="og:site_name" content="Fantasy and Fiction">
-<meta property="og:description" content="随着工作环境的增多，工作内容的同步变得越来越麻烦。以前我们拿U盘拷或者网盘共享，现在进入的云时代，如果不考虑隐私问题，托管在云端不失为一个好办法。目前初步计划完成代码部分的云托管，随后拓展到笔记，个人知识库，二进制资料等等。
-
-代码github是首选，如果要托管私人项目，可以选择gitlab。">
-<meta property="og:updated_time" content="2016-08-06T07:44:40.278Z">
+<meta property="og:description" content="hexo基于nodejs实现，本质上都是V8引擎解释js语句执行，效率必然比不上本地代码。在raspberry pi资源这么有限的环境下，hexo server不是个好主意，那么以速度著称的nginx就是个必然选择。1234sudo apt-get install nginxsudo /etc/init.d/nginx startsudo /usr/sbin/update-rc.d -f ngin">
+<meta property="og:updated_time" content="2016-08-06T07:50:20.740Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="完全云端工作">
-<meta name="twitter:description" content="随着工作环境的增多，工作内容的同步变得越来越麻烦。以前我们拿U盘拷或者网盘共享，现在进入的云时代，如果不考虑隐私问题，托管在云端不失为一个好办法。目前初步计划完成代码部分的云托管，随后拓展到笔记，个人知识库，二进制资料等等。
-
-代码github是首选，如果要托管私人项目，可以选择gitlab。">
+<meta name="twitter:title" content="设置nginx运行Hexo生产的静态网站">
+<meta name="twitter:description" content="hexo基于nodejs实现，本质上都是V8引擎解释js语句执行，效率必然比不上本地代码。在raspberry pi资源这么有限的环境下，hexo server不是个好主意，那么以速度著称的nginx就是个必然选择。1234sudo apt-get install nginxsudo /etc/init.d/nginx startsudo /usr/sbin/update-rc.d -f ngin">
   
     <link rel="alternative" href="/atom.xml" title="Fantasy and Fiction" type="application/atom+xml">
   
@@ -66,10 +60,10 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-2016-2016-08-06-work-on-the-cloud-thoroughly" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-2015-2015-09-12-Set-up-nginx-for-hexo" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2016/08/06/2016-2016-08-06-work-on-the-cloud-thoroughly/" class="article-date">
-  <time datetime="2016-08-06T07:04:00.000Z" itemprop="datePublished">2016-08-06</time>
+    <a href="/2015/09/12/2015-2015-09-12-Set-up-nginx-for-hexo/" class="article-date">
+  <time datetime="2015-09-12T03:00:36.000Z" itemprop="datePublished">2015-09-12</time>
 </a>
     
   </div>
@@ -80,7 +74,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      完全云端工作
+      设置nginx运行Hexo生产的静态网站
     </h1>
   
 
@@ -88,15 +82,15 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>随着工作环境的增多，工作内容的同步变得越来越麻烦。以前我们拿U盘拷或者网盘共享，现在进入的云时代，如果不考虑隐私问题，托管在云端不失为一个好办法。<br>目前初步计划完成代码部分的云托管，随后拓展到笔记，个人知识库，二进制资料等等。</p>
-<ol>
-<li><h3 id="代码">代码</h3>github是首选，如果要托管私人项目，可以选择gitlab。</li>
-</ol>
+        <p>hexo基于nodejs实现，本质上都是V8引擎解释js语句执行，效率必然比不上本地代码。在raspberry pi资源这么有限的环境下，hexo server不是个好主意，那么以速度著称的nginx就是个必然选择。<br><figure class="highlight groovy"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">sudo apt-get install nginx</div><div class="line">sudo <span class="regexp">/etc/</span>init.d/nginx start</div><div class="line">sudo <span class="regexp">/usr/</span>sbin/update-rc.d -f nginx defaults</div><div class="line">sudo vi <span class="regexp">/etc/</span>nginx<span class="regexp">/sites-enabled/</span><span class="keyword">default</span></div></pre></td></tr></table></figure></p>
+<p>找到server的配置，修改root目录<br><figure class="highlight axapta"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">server</span> &#123;</div><div class="line">    ...</div><div class="line">    server_name localhost;</div><div class="line">    <span class="keyword">index</span> <span class="keyword">index</span>.html <span class="keyword">index</span>.htm;</div><div class="line">    root  /home/pi/hexo/<span class="keyword">public</span>;</div><div class="line">    ...</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>修改完后别忘了让nginx重新读取配置<br><figure class="highlight dts"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo <span class="meta-keyword">/etc/</span>init.d/nginx reload</div></pre></td></tr></table></figure></p>
+<p>为了能根据blog源代码的改变及时更新public，可以让hexo在后台进行监视<br><figure class="highlight verilog"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">hexo <span class="keyword">generate</span> --watch</div></pre></td></tr></table></figure></p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://pansila.github.io/2016/08/06/2016-2016-08-06-work-on-the-cloud-thoroughly/" data-id="cirivie96000b60p3yx69pu16" class="article-share-link">Share</a>
+      <a data-url="http://pansila.github.io/2015/09/12/2015-2015-09-12-Set-up-nginx-for-hexo/" data-id="cirivie8z000860p3hb7e637v" class="article-share-link">Share</a>
       
       
     </footer>
@@ -105,10 +99,19 @@
     
 <nav id="article-nav">
   
+    <a href="/2015/09/12/2015-2015-09-12-Set-up-Peanut-Hull-for-Raspberry-Pi/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          树莓派上安装动态域名解析Oray DDNS
+        
+      </div>
+    </a>
   
-    <a href="/2015/09/20/2015-2015-09-20-Design-Patterns-Decorator-AOP-in-Python-and-C-C/" id="article-nav-older" class="article-nav-link-wrap">
+  
+    <a href="/2015/09/12/2015-2015-09-12-Set-up-the-Hexo-on-Raspberry-Pi/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">设计模式之装饰器/面向切面编程在Python和C中的体现</div>
+      <div class="article-nav-title">在树莓派上安装hexo</div>
     </a>
   
 </nav>
@@ -119,7 +122,7 @@
 
 <section id="comments">
 <!-- ��˵���ۿ� start -->
-	<div class="ds-thread" data-thread-key="post-2016-2016-08-06-work-on-the-cloud-thoroughly" data-title="完全云端工作" data-url="http://pansila.github.io/2016/08/06/2016-2016-08-06-work-on-the-cloud-thoroughly/"></div>
+	<div class="ds-thread" data-thread-key="post-2015-2015-09-12-Set-up-nginx-for-hexo" data-title="设置nginx运行Hexo生产的静态网站" data-url="http://pansila.github.io/2015/09/12/2015-2015-09-12-Set-up-nginx-for-hexo/"></div>
 <!-- ��˵���ۿ� end -->
 <!-- ��˵����JS���� start (һ����ҳֻ������һ��) -->
 <script type="text/javascript">

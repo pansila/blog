@@ -72,7 +72,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2016/08/06/2016-2016-08-06-work-on-the-cloud-thoroughly/">Work on the cloud thoroughly</a>
+      <a class="article-title" href="/2016/08/06/2016-2016-08-06-work-on-the-cloud-thoroughly/">完全云端工作</a>
     </h1>
   
 
@@ -81,12 +81,14 @@
     <div class="article-entry" itemprop="articleBody">
       
         <p>随着工作环境的增多，工作内容的同步变得越来越麻烦。以前我们拿U盘拷或者网盘共享，现在进入的云时代，如果不考虑隐私问题，托管在云端不失为一个好办法。<br>目前初步计划完成代码部分的云托管，随后拓展到笔记，个人知识库，二进制资料等等。</p>
-<p>代码<br>github是首选，如果要托管私人项目，可以选择gitlab。</p>
+<ol>
+<li><h3 id="代码">代码</h3>github是首选，如果要托管私人项目，可以选择gitlab。</li>
+</ol>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://pansila.github.io/2016/08/06/2016-2016-08-06-work-on-the-cloud-thoroughly/" data-id="ciriufavc000cxop34pwvy0e7" class="article-share-link">Share</a>
+      <a data-url="http://pansila.github.io/2016/08/06/2016-2016-08-06-work-on-the-cloud-thoroughly/" data-id="cirivie96000b60p3yx69pu16" class="article-share-link">Share</a>
       
       
     </footer>
@@ -96,9 +98,9 @@
 
 
   
-    <article id="post-Design-Patterns-Decorator-AOP-in-Python-and-C-C" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-2015-2015-09-20-Design-Patterns-Decorator-AOP-in-Python-and-C-C" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2015/09/20/Design-Patterns-Decorator-AOP-in-Python-and-C-C/" class="article-date">
+    <a href="/2015/09/20/2015-2015-09-20-Design-Patterns-Decorator-AOP-in-Python-and-C-C/" class="article-date">
   <time datetime="2015-09-20T13:14:45.000Z" itemprop="datePublished">2015-09-20</time>
 </a>
     
@@ -110,7 +112,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2015/09/20/Design-Patterns-Decorator-AOP-in-Python-and-C-C/">Design Patterns, Decorator/AOP in Python and C</a>
+      <a class="article-title" href="/2015/09/20/2015-2015-09-20-Design-Patterns-Decorator-AOP-in-Python-and-C-C/">设计模式之装饰器/面向切面编程在Python和C中的体现</a>
     </h1>
   
 
@@ -118,7 +120,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h3 id="设计模式之装饰器/面向切面编程在Python和C中的体现">设计模式之装饰器/面向切面编程在Python和C中的体现</h3><p>最近接触到python中的装饰器，顿感奇妙，函数前面声明一句话，即可改变函数的部分行为。不同的声明，可以从不同方面改变函数的行为，就像一栋房子重新装修了下，就有了不同的风格。<br>比如<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">hello</span><span class="params">(fn)</span>:</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">wrapper</span><span class="params">()</span>:</span></div><div class="line">        <span class="keyword">print</span> <span class="string">"hello, %s"</span> % fn.__name__</div><div class="line">        fn()</div><div class="line">        <span class="keyword">print</span> <span class="string">"goodby, %s"</span> % fn.__name__</div><div class="line">    <span class="keyword">return</span> wrapper</div><div class="line"></div><div class="line"><span class="meta">@hello</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">foo</span><span class="params">()</span>:</span></div><div class="line">    <span class="keyword">print</span> <span class="string">"i am foo"</span></div><div class="line"></div><div class="line">foo()</div></pre></td></tr></table></figure></p>
+        <p>最近学习到python中的装饰器有点意思，函数定义前面声明一句话，即可改变函数的部分行为。不同的声明，可以从不同方面改变函数的行为，就像一栋房子重新装修了下，就有了不同的风格。<br>小小的提炼却是大大的进步。<br>比如<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">hello</span><span class="params">(fn)</span>:</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">wrapper</span><span class="params">()</span>:</span></div><div class="line">        <span class="keyword">print</span> <span class="string">"hello, %s"</span> % fn.__name__</div><div class="line">        fn()</div><div class="line">        <span class="keyword">print</span> <span class="string">"goodby, %s"</span> % fn.__name__</div><div class="line">    <span class="keyword">return</span> wrapper</div><div class="line"></div><div class="line"><span class="meta">@hello</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">foo</span><span class="params">()</span>:</span></div><div class="line">    <span class="keyword">print</span> <span class="string">"i am foo"</span></div><div class="line"></div><div class="line">foo()</div></pre></td></tr></table></figure></p>
 <p>运行后<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">$ python hello<span class="selector-class">.py</span></div><div class="line">hello, foo</div><div class="line"><span class="selector-tag">i</span> am foo</div><div class="line">goodby, foo</div></pre></td></tr></table></figure></p>
 <p>追究其本质，首先是因为在python中一切皆对象，函数也不例外，所以有了动态修改函数指向对象的机会，那么经过修饰器修饰后，foo其实已不是原来的foo，而是被包装过的：<code>foo = hello(foo)</code>，再次调用时，新的foo指向了包装后的新函数，从而包括了原来的foo功能和包装器的新功能。</p>
 <blockquote>
@@ -140,7 +142,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://pansila.github.io/2015/09/20/Design-Patterns-Decorator-AOP-in-Python-and-C-C/" data-id="ciriufauj0009xop3gmnadcaj" class="article-share-link">Share</a>
+      <a data-url="http://pansila.github.io/2015/09/20/2015-2015-09-20-Design-Patterns-Decorator-AOP-in-Python-and-C-C/" data-id="cirivie9a000c60p3p1l30c9l" class="article-share-link">Share</a>
       
       
     </footer>
@@ -150,9 +152,9 @@
 
 
   
-    <article id="post-Set-up-Peanut-Hull-for-Raspberry-Pi" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-2015-2015-09-12-Set-up-Peanut-Hull-for-Raspberry-Pi" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2015/09/12/Set-up-Peanut-Hull-for-Raspberry-Pi/" class="article-date">
+    <a href="/2015/09/12/2015-2015-09-12-Set-up-Peanut-Hull-for-Raspberry-Pi/" class="article-date">
   <time datetime="2015-09-12T13:45:53.000Z" itemprop="datePublished">2015-09-12</time>
 </a>
     
@@ -164,7 +166,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2015/09/12/Set-up-Peanut-Hull-for-Raspberry-Pi/">Set up Oray DDNS for Raspberry Pi</a>
+      <a class="article-title" href="/2015/09/12/2015-2015-09-12-Set-up-Peanut-Hull-for-Raspberry-Pi/">树莓派上安装动态域名解析Oray DDNS</a>
     </h1>
   
 
@@ -178,7 +180,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://pansila.github.io/2015/09/12/Set-up-Peanut-Hull-for-Raspberry-Pi/" data-id="ciriufau20006xop31dbcwaap" class="article-share-link">Share</a>
+      <a data-url="http://pansila.github.io/2015/09/12/2015-2015-09-12-Set-up-Peanut-Hull-for-Raspberry-Pi/" data-id="cirivie8u000760p3eceylj96" class="article-share-link">Share</a>
       
       
     </footer>
@@ -188,9 +190,9 @@
 
 
   
-    <article id="post-Set-up-nginx-for-hexo" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-2015-2015-09-12-Set-up-nginx-for-hexo" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2015/09/12/Set-up-nginx-for-hexo/" class="article-date">
+    <a href="/2015/09/12/2015-2015-09-12-Set-up-nginx-for-hexo/" class="article-date">
   <time datetime="2015-09-12T03:00:36.000Z" itemprop="datePublished">2015-09-12</time>
 </a>
     
@@ -202,7 +204,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2015/09/12/Set-up-nginx-for-hexo/">Set up nginx for Hexo</a>
+      <a class="article-title" href="/2015/09/12/2015-2015-09-12-Set-up-nginx-for-hexo/">设置nginx运行Hexo生产的静态网站</a>
     </h1>
   
 
@@ -218,7 +220,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://pansila.github.io/2015/09/12/Set-up-nginx-for-hexo/" data-id="ciriufaud0007xop3ocgwntag" class="article-share-link">Share</a>
+      <a data-url="http://pansila.github.io/2015/09/12/2015-2015-09-12-Set-up-nginx-for-hexo/" data-id="cirivie8z000860p3hb7e637v" class="article-share-link">Share</a>
       
       
     </footer>
@@ -228,9 +230,9 @@
 
 
   
-    <article id="post-Set-up-the-Hexo-on-Raspberry-Pi" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-2015-2015-09-12-Set-up-the-Hexo-on-Raspberry-Pi" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2015/09/12/Set-up-the-Hexo-on-Raspberry-Pi/" class="article-date">
+    <a href="/2015/09/12/2015-2015-09-12-Set-up-the-Hexo-on-Raspberry-Pi/" class="article-date">
   <time datetime="2015-09-12T01:01:19.000Z" itemprop="datePublished">2015-09-12</time>
 </a>
     
@@ -242,7 +244,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2015/09/12/Set-up-the-Hexo-on-Raspberry-Pi/">Set up the Hexo on Raspberry Pi</a>
+      <a class="article-title" href="/2015/09/12/2015-2015-09-12-Set-up-the-Hexo-on-Raspberry-Pi/">在树莓派上安装hexo</a>
     </h1>
   
 
@@ -261,7 +263,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://pansila.github.io/2015/09/12/Set-up-the-Hexo-on-Raspberry-Pi/" data-id="ciriufaun000axop3v9o793wi" class="article-share-link">Share</a>
+      <a data-url="http://pansila.github.io/2015/09/12/2015-2015-09-12-Set-up-the-Hexo-on-Raspberry-Pi/" data-id="cirivie91000960p3sjgjyzc2" class="article-share-link">Share</a>
       
       
     </footer>
@@ -271,9 +273,9 @@
 
 
   
-    <article id="post-new-toy-SanDisk-Ultra-16G-Class10-UHS-I" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-2015-2015-09-12-new-toy-SanDisk-Ultra-16G-Class10-UHS-I" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2015/09/12/new-toy-SanDisk-Ultra-16G-Class10-UHS-I/" class="article-date">
+    <a href="/2015/09/12/2015-2015-09-12-new-toy-SanDisk-Ultra-16G-Class10-UHS-I/" class="article-date">
   <time datetime="2015-09-11T20:10:32.000Z" itemprop="datePublished">2015-09-12</time>
 </a>
     
@@ -285,7 +287,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2015/09/12/new-toy-SanDisk-Ultra-16G-Class10-UHS-I/">New Toy - SanDisk Ultra 16G Class10 UHS-I</a>
+      <a class="article-title" href="/2015/09/12/2015-2015-09-12-new-toy-SanDisk-Ultra-16G-Class10-UHS-I/">New Toy - SanDisk Ultra 16G Class10 UHS-I</a>
     </h1>
   
 
@@ -302,7 +304,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://pansila.github.io/2015/09/12/new-toy-SanDisk-Ultra-16G-Class10-UHS-I/" data-id="ciriufauh0008xop3qkvs7uv8" class="article-share-link">Share</a>
+      <a data-url="http://pansila.github.io/2015/09/12/2015-2015-09-12-new-toy-SanDisk-Ultra-16G-Class10-UHS-I/" data-id="cirivie94000a60p3vluu5xre" class="article-share-link">Share</a>
       
       
     </footer>
@@ -312,9 +314,9 @@
 
 
   
-    <article id="post-cache-exercises-memory-read-optimization" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-2015-2015-09-10-cache-exercises-memory-read-optimization" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2015/09/10/cache-exercises-memory-read-optimization/" class="article-date">
+    <a href="/2015/09/10/2015-2015-09-10-cache-exercises-memory-read-optimization/" class="article-date">
   <time datetime="2015-09-10T05:02:37.000Z" itemprop="datePublished">2015-09-10</time>
 </a>
     
@@ -326,7 +328,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2015/09/10/cache-exercises-memory-read-optimization/">cache exercises - Ex. 1 memory read optimization</a>
+      <a class="article-title" href="/2015/09/10/2015-2015-09-10-cache-exercises-memory-read-optimization/">cache exercises - Ex. 1 memory read optimization</a>
     </h1>
   
 
@@ -346,7 +348,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://pansila.github.io/2015/09/10/cache-exercises-memory-read-optimization/" data-id="ciriufauo000bxop3xq3bjewc" class="article-share-link">Share</a>
+      <a data-url="http://pansila.github.io/2015/09/10/2015-2015-09-10-cache-exercises-memory-read-optimization/" data-id="cirivie8p000560p3h83q0tsd" class="article-share-link">Share</a>
       
       
     </footer>
@@ -356,9 +358,9 @@
 
 
   
-    <article id="post-Resize-MAC-OS-X-Yosemite-Disk" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-2015-2015-09-05-Resize-MAC-OS-X-Yosemite-Disk" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2015/09/05/Resize-MAC-OS-X-Yosemite-Disk/" class="article-date">
+    <a href="/2015/09/05/2015-2015-09-05-Resize-MAC-OS-X-Yosemite-Disk/" class="article-date">
   <time datetime="2015-09-04T18:58:20.000Z" itemprop="datePublished">2015-09-05</time>
 </a>
     
@@ -370,7 +372,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2015/09/05/Resize-MAC-OS-X-Yosemite-Disk/">Resize MAC OS X (Yosemite) Disk</a>
+      <a class="article-title" href="/2015/09/05/2015-2015-09-05-Resize-MAC-OS-X-Yosemite-Disk/">调整MAC OS X系统所在分区大小</a>
     </h1>
   
 
@@ -378,14 +380,14 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h3 id="调整MAC_OS_X系统所在分区大小">调整MAC OS X系统所在分区大小</h3><p>开始安装Yosemite时，划分的分区过小，安装Xcode和IOS SDK时磁盘已经不够。作为爱偷懒的程序员，自然是能不重新安装最好不重装。</p>
+        <p>开始安装Yosemite时，划分的分区过小，安装Xcode和IOS SDK时磁盘已经不够。作为爱偷懒的程序员，自然是能不重新安装最好不重装。</p>
 <p>第一个想到的办法是Windows时代常用的Ghost。首先新划分一个合适大小的分区，格式不格式化无所谓，设置分区为激活状态。这里推荐分区助手，无损调节分区大小。<br>然后USB启动到PE，Ghost搬移partition，全程无压力。完成后启动新的Yosemite分区，发现分区大小也复制了过来。此法不通。</p>
 <p>很快发现，Yosemite自带有Disk Utility，里面有Restore功能，专业系统搬移！Apple简直是太有预见性！<br>所以只要把原来的分区内容restore到一个更大的分区，就等于调节了分区大小。<br>不过要搬移的disk在Yosemite启动后就不能操作了，所以要从Yosemite的安装盘启动，里面也有这个工具。而且速度比Ghost还要快的多，3分钟搞定。</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://pansila.github.io/2015/09/05/Resize-MAC-OS-X-Yosemite-Disk/" data-id="ciriufatt0003xop3ix9zs7bd" class="article-share-link">Share</a>
+      <a data-url="http://pansila.github.io/2015/09/05/2015-2015-09-05-Resize-MAC-OS-X-Yosemite-Disk/" data-id="cirivie8n000460p3kmxsrovg" class="article-share-link">Share</a>
       
       
     </footer>
@@ -395,9 +397,9 @@
 
 
   
-    <article id="post-restore-Yosemite-after-corrupted-by-grub2" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-2015-2015-09-05-restore-Yosemite-after-corrupted-by-grub2" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2015/09/05/restore-Yosemite-after-corrupted-by-grub2/" class="article-date">
+    <a href="/2015/09/05/2015-2015-09-05-restore-Yosemite-after-corrupted-by-grub2/" class="article-date">
   <time datetime="2015-09-04T17:45:14.000Z" itemprop="datePublished">2015-09-05</time>
 </a>
     
@@ -409,7 +411,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2015/09/05/restore-Yosemite-after-corrupted-by-grub2/">Restore Yosemite after corrupted by grub2</a>
+      <a class="article-title" href="/2015/09/05/2015-2015-09-05-restore-Yosemite-after-corrupted-by-grub2/">被GRUB2破坏MBR后Yosemite的恢复</a>
     </h1>
   
 
@@ -417,7 +419,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h3 id="被GRUB2破坏MBR后Yosemite的恢复">被GRUB2破坏MBR后Yosemite的恢复</h3><p>之前已经成功安装了Yosemite到Thinkpad T420上，然而不幸的是，楼主手贱在玩Ubuntu 14.04时把grub2安装到了所有硬盘上。<br>不得不吐槽Linux系统桌面软件不如Windows成熟，这么重要的操作，Ubuntu自带的这个grub2配置GUI程序，在应用修改时居然没有一声提示，所有tab下的设置都统统设了下去。欲哭无泪。</p>
+        <p>之前已经成功安装了Yosemite到Thinkpad T420上，然而不幸的是，楼主手贱在玩Ubuntu 14.04时把grub2安装到了所有硬盘上。<br>不得不吐槽Linux系统桌面软件不如Windows成熟，这么重要的操作，Ubuntu自带的这个grub2配置GUI程序，在应用修改时居然没有一声提示，所有tab下的设置都统统设了下去。欲哭无泪。</p>
 <p>由于之前已经成功安装Yosemite，而Grub2理论上只会破坏MBR以及MBR到VBR之间的数据，所以只要恢复这部分数据就可以了。<br>那么原来的这部分数据是什么呢，是Yosemite自己的bootloader，由于楼主之前用Multibeast安装了Chimera bootloader，所以首先要找到这个bootloader的boot0数据，即MBR数据。</p>
 <p>有两种办法可以拿到这个数据：</p>
 <ol>
@@ -431,7 +433,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://pansila.github.io/2015/09/05/restore-Yosemite-after-corrupted-by-grub2/" data-id="ciriufau10005xop37reu4a47" class="article-share-link">Share</a>
+      <a data-url="http://pansila.github.io/2015/09/05/2015-2015-09-05-restore-Yosemite-after-corrupted-by-grub2/" data-id="cirivie8r000660p3gfctsrm1" class="article-share-link">Share</a>
       
       
     </footer>
@@ -441,9 +443,9 @@
 
 
   
-    <article id="post-fbinst-fbinstTool-no-menu问题" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-2015-2015-08-30-fbinst-fbinstTool-no-menu问题" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2015/08/30/fbinst-fbinstTool-no-menu问题/" class="article-date">
+    <a href="/2015/08/30/2015-2015-08-30-fbinst-fbinstTool-no-menu问题/" class="article-date">
   <time datetime="2015-08-30T03:30:40.000Z" itemprop="datePublished">2015-08-30</time>
 </a>
     
@@ -455,7 +457,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2015/08/30/fbinst-fbinstTool-no-menu问题/">fbinst/fbinstTool no menu问题</a>
+      <a class="article-title" href="/2015/08/30/2015-2015-08-30-fbinst-fbinstTool-no-menu问题/">fbinst/fbinstTool no menu问题</a>
     </h1>
   
 
@@ -473,7 +475,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://pansila.github.io/2015/08/30/fbinst-fbinstTool-no-menu问题/" data-id="ciriufatx0004xop35cka0pja" class="article-share-link">Share</a>
+      <a data-url="http://pansila.github.io/2015/08/30/2015-2015-08-30-fbinst-fbinstTool-no-menu问题/" data-id="cirivie8h000260p37n9kf2yc" class="article-share-link">Share</a>
       
       
     </footer>
@@ -514,23 +516,23 @@
       <ul>
         
           <li>
-            <a href="/2016/08/06/2016-2016-08-06-work-on-the-cloud-thoroughly/">Work on the cloud thoroughly</a>
+            <a href="/2016/08/06/2016-2016-08-06-work-on-the-cloud-thoroughly/">完全云端工作</a>
           </li>
         
           <li>
-            <a href="/2015/09/20/Design-Patterns-Decorator-AOP-in-Python-and-C-C/">Design Patterns, Decorator/AOP in Python and C</a>
+            <a href="/2015/09/20/2015-2015-09-20-Design-Patterns-Decorator-AOP-in-Python-and-C-C/">设计模式之装饰器/面向切面编程在Python和C中的体现</a>
           </li>
         
           <li>
-            <a href="/2015/09/12/Set-up-Peanut-Hull-for-Raspberry-Pi/">Set up Oray DDNS for Raspberry Pi</a>
+            <a href="/2015/09/12/2015-2015-09-12-Set-up-Peanut-Hull-for-Raspberry-Pi/">树莓派上安装动态域名解析Oray DDNS</a>
           </li>
         
           <li>
-            <a href="/2015/09/12/Set-up-nginx-for-hexo/">Set up nginx for Hexo</a>
+            <a href="/2015/09/12/2015-2015-09-12-Set-up-nginx-for-hexo/">设置nginx运行Hexo生产的静态网站</a>
           </li>
         
           <li>
-            <a href="/2015/09/12/Set-up-the-Hexo-on-Raspberry-Pi/">Set up the Hexo on Raspberry Pi</a>
+            <a href="/2015/09/12/2015-2015-09-12-Set-up-the-Hexo-on-Raspberry-Pi/">在树莓派上安装hexo</a>
           </li>
         
       </ul>
