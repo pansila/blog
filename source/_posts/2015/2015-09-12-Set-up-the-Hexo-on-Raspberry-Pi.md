@@ -1,4 +1,4 @@
-title: Set up the Hexo on Raspberry Pi
+title: 在树莓派上安装hexo
 date: 2015-09-12 09:01:19
 tags:
 category:

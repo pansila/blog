@@ -1,10 +1,8 @@
-title: Restore Yosemite after corrupted by grub2
+title: 被GRUB2破坏MBR后Yosemite的恢复
 date: 2015-09-05 01:45:14
 tags:
 category:
 ---
-### 被GRUB2破坏MBR后Yosemite的恢复
-
 之前已经成功安装了Yosemite到Thinkpad T420上，然而不幸的是，楼主手贱在玩Ubuntu 14.04时把grub2安装到了所有硬盘上。
 不得不吐槽Linux系统桌面软件不如Windows成熟，这么重要的操作，Ubuntu自带的这个grub2配置GUI程序，在应用修改时居然没有一声提示，所有tab下的设置都统统设了下去。欲哭无泪。
 

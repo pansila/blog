@@ -1,10 +1,8 @@
-title: Resize MAC OS X (Yosemite) Disk
+title: 调整MAC OS X系统所在分区大小
 date: 2015-09-05 02:58:20
 tags:
 category:
 ---
-### 调整MAC OS X系统所在分区大小
-
 开始安装Yosemite时，划分的分区过小，安装Xcode和IOS SDK时磁盘已经不够。作为爱偷懒的程序员，自然是能不重新安装最好不重装。
 
 第一个想到的办法是Windows时代常用的Ghost。首先新划分一个合适大小的分区，格式不格式化无所谓，设置分区为激活状态。这里推荐分区助手，无损调节分区大小。
