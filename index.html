@@ -58,6 +58,54 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-2016-2016-12-25-database-synchronization-with-kettle" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/25/2016-2016-12-25-database-synchronization-with-kettle/" class="article-date">
+  <time datetime="2016-12-25T10:19:36.000Z" itemprop="datePublished">2016-12-25</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/25/2016-2016-12-25-database-synchronization-with-kettle/">ETL利器Kettle数据库同步实战</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>最近有需求在SQL server和MySQL之间数据库同步，在比较多种方案后选择了Kettle，因其开源免费，用户多文档完善，图形化编辑上手容易。这里使用了其最新版本，Pentaho Data Integration 7.0。</p>
+<p>具体需求不复杂，要从MySQL数据库一张表定期更新到SQL server数据库。这里面数据库之间的差异，Kettle已经通过SQL语言抽象，所以只要处理表结构的差异和转换，主要是数据类型的转换和值映射。这些转换都使用了<code>Script Values / Mod</code>模块处理。而类型和值都匹配仅字段名不同的转换，可以直接在<code>Insert / Update</code>模块里面映射。</p>
+<p>为了便于后续调试，为远程MySQL数据库做了一个本地映射，这里用到了合并模块<code>Merge Rows (diff)</code>和同步模块<code>Synchronize after merge</code>。</p>
+<p>首先为这三个数据分别建立连接。从左边设计面板拖出一个表输入模块<code>Table input</code>。<br><img src="/img/2016-12-25_203233.png" alt="Table input"></p>
+<p>点击New按钮，为数据库连接配置参数。配置好后可以点下面的Test按钮，测试配置是否正确。为本地备份数据库也如此建立连接。<br><img src="/img/2016-12-25_203404.png" alt="Edit connection for MySQL"><br>这是SQL Server数据库的连接配置。<br><img src="/img/2016-12-25_203821.png" alt="Edit connection for SQL server"><br>注意从官网下载的Kettle缺少这两个数据库的驱动文件。分别是<code>jtds-1.3.1.jar</code>和<code>mysql-connector-java-5.1.40-bin.jar</code>。放到kettle的lib目录下即可。</p>
+<p>然后建立远端数据库到本地数据库的映射，同样从左边面板拖出来<code>Merge Rows (diff)</code>，这个模块根据若干Key来检索两边数据，然后根据选定的若干Value来检查数据是否一致，哪边的数据较新，哪边的过时。<br><img src="/img/2016-12-25_202709.png" alt="Merge Rows (diff)"><br>注意这里的<code>Flag fieldname</code>字段，它会作为输出之一送到后续模块，后面会看到它的作用。</p>
+<p>接着放上同步模块<code>Synchronize after merge</code>，这里有个坑，可以看到General页旁边还有个Advanced页面，一般这种并排折叠的tab页都是些高级配置，不配置默认就不起作用。然而这里不是，它不配置就无法正常工作。<br><img src="/img/2016-12-25_204752.png" alt="Synchronize after merge"><br><img src="/img/2016-12-25_205129.png" alt="Synchronize after merge Advanced"><br>这是配置后的样子，可以看到前面的flagfield字段的作用，它会保存前面Merge模块的比较结果，有三个值<code>new</code>，<code>changed</code>和<code>deleted</code>，意思是对照远程参考数据库，正在检索的数据是否是新添加的，是否是已经有的数据但是需要更新的，是否是过时的数据需要删除的。</p>
+<p>接着来到<code>Script Values / Mod</code>模块，这是整个任务的重点，<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//类型映射，datetime to string可以方便地用内置的JS函数库date2str来完成</span></div><div class="line">i_FStartDate = date2str(WRITE_DATE, <span class="string">"yyyy-mm-dd hh:mm:ss"</span>);</div><div class="line">i_FCreateDate = i_FStartDate;</div><div class="line"><span class="keyword">var</span> d1 = str2date(i_FStartDate, <span class="string">"yyyy-mm-dd hh:mm:ss"</span>);</div><div class="line"></div><div class="line"><span class="comment">// 值映射</span></div><div class="line"><span class="keyword">switch</span> (<span class="literal">true</span>) &#123;</div><div class="line"><span class="keyword">case</span> (PASS_TYPE.equals(<span class="string">"员工车辆"</span>)):</div><div class="line">  <span class="comment">// 还可以对数据做一些计算后转换</span></div><div class="line">	i_FEndDate = dateAdd(d1, <span class="string">"y"</span>, year(VALID_DATE));</div><div class="line">	i_FEndDate = date2str(i_FEndDate, <span class="string">"yyyy-mm-dd hh:mm:ss"</span>);</div><div class="line">	i_FCardTypeID = <span class="number">1010</span>;</div><div class="line">	<span class="keyword">break</span>;</div><div class="line"><span class="keyword">case</span> (PASS_TYPE.equals(<span class="string">"客户车辆"</span>)):</div><div class="line">	i_FEndDate = dateAdd(d1, <span class="string">"y"</span>, year(VALID_DATE));</div><div class="line">	i_FEndDate = date2str(i_FEndDate, <span class="string">"yyyy-mm-dd hh:mm:ss"</span>);</div><div class="line">	i_FCardTypeID = <span class="number">1020</span>;</div><div class="line">	<span class="keyword">break</span>;</div><div class="line"><span class="keyword">case</span> (PASS_TYPE.equals(<span class="string">"作业车辆"</span>)):</div><div class="line">	i_FEndDate = dateAdd(d1, <span class="string">"y"</span>, year(VALID_DATE));</div><div class="line">	i_FEndDate = date2str(i_FEndDate, <span class="string">"yyyy-mm-dd hh:mm:ss"</span>);</div><div class="line">	i_FCardTypeID = <span class="number">1030</span>;</div><div class="line">	<span class="keyword">break</span>;</div><div class="line"><span class="keyword">default</span>:</div><div class="line">	i_FEndDate = dateAdd(d1, <span class="string">"y"</span>, year(VALID_DATE));</div><div class="line">	i_FEndDate = date2str(i_FEndDate, <span class="string">"yyyy-mm-dd hh:mm:ss"</span>);</div><div class="line">	i_FCardTypeID = <span class="number">1020</span>;</div><div class="line">	<span class="keyword">break</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>datetime to string可以方便地用内置的JS函数库date2str来完成，甚至进而可以对数据做一些计算，这里体现了用javascript转换的灵活性，这在<code>Insert / Update</code>是不可能的。 注意转换后的字段，在javascript可以当成普通变量赋值，只要在下面的Fields里面声明过。<br><img src="/img/2016-12-25_210515.png" alt="Script Values / Mod"></p>
+<p>最后将处理好的字段和可以直接映射的字段，在<code>Insert /Update</code>里面做好一一映射。这里也有个新手坑，根据look up keys检索不到的数据会被insert到目标数据库，检索到的数据会接着去比较下面的Update fields映射表，值不同的字段会接着去Update，除非后面Update字段指定了N。然而对于没有在Update fields表里出现的字段，该模块即不会去insert也不会去update。这点区别很重要，因为一般数据表都会有一个主键，这个键是不能重复的，如果insert或update时包含了这个字段，会报错该字段无法更新。所以不要把主键或者Identity属性字段放到Update fields里面，让数据库内部自动分配主键，这也适用于其它自动过程控制的字段。<br><img src="/img/2016-12-25_210645.png" alt="Insert / Update"></p>
+<p>这样就得到了最终的转换方案。<br><img src="/img/2016-12-25_200159.png" alt="Final solution"></p>
+<p>为了定期运行这个转换任务(Transformation)，还要建立Kettle里面的Job任务，也很简单，新建一个job，拖出start模块。设置运行间隔。<br><img src="/img/2016-12-25_213058.png" alt="Job Scheduling"><br>然后拖出Transformation模块，指定之前配置的转换任务文件路径。<br><img src="/img/2016-12-25_213327.png" alt="Transformation"><br>连接两个模块，搞定。<br><img src="/img/2016-12-25_213426.png" alt="Job"></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://pansila.github.io/2016/12/25/2016-2016-12-25-database-synchronization-with-kettle/" data-id="cix4ojv9t0000z8p3a91lzj94" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-2016-2016-12-24-move-OS-to-the-new-disk-without-reinstalling" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2016/12/24/2016-2016-12-24-move-OS-to-the-new-disk-without-reinstalling/" class="article-date">
@@ -441,52 +489,6 @@
 
 
   
-    <article id="post-2015-2015-09-05-restore-Yosemite-after-corrupted-by-grub2" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2015/09/05/2015-2015-09-05-restore-Yosemite-after-corrupted-by-grub2/" class="article-date">
-  <time datetime="2015-09-04T17:45:14.000Z" itemprop="datePublished">2015-09-05</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/09/05/2015-2015-09-05-restore-Yosemite-after-corrupted-by-grub2/">被GRUB2破坏MBR后Yosemite的恢复</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>之前已经成功安装了Yosemite到Thinkpad T420上，然而不幸的是，楼主手贱在玩Ubuntu 14.04时把grub2安装到了所有硬盘上。<br>不得不吐槽Linux系统桌面软件不如Windows成熟，这么重要的操作，Ubuntu自带的这个grub2配置GUI程序，在应用修改时居然没有一声提示，所有tab下的设置都统统设了下去。欲哭无泪。</p>
-<p>由于之前已经成功安装Yosemite，而Grub2理论上只会破坏MBR以及MBR到VBR之间的数据，所以只要恢复这部分数据就可以了。<br>那么原来的这部分数据是什么呢，是Yosemite自己的bootloader，由于楼主之前用Multibeast安装了Chimera bootloader，所以首先要找到这个bootloader的boot0数据，即MBR数据。</p>
-<p>有两种办法可以拿到这个数据：</p>
-<ol>
-<li><p>找到相应版本的Chimera pkg，这个文件可以用解压缩软件打开，在路径<code>Chimera 4.1.0.pkg\chimeraV41.pkg\Payload\Payload~\.\usr\standalone\i386\</code><br>下可以看到有四个文件：<code>boot</code>，<code>boot0</code>，<code>boot0md</code>，<code>boot1h</code>，boot是存放于HFS文件系统下的Chimera主体程序，boot0存放于MBR，boot1h存放于VBR，这几个文件的关系有兴趣的可以看<a href="https://en.wikipedia.org/wiki/GNU_GRUB" target="_blank" rel="external">GRUB的维基介绍</a>，原理一样。</p>
-</li>
-<li><p>另一个地方就在Yosemite系统里面，<code>/usr/standalone/i386</code>，里面也有这几个文件。</p>
-</li>
-</ol>
-<p>找到这几个文件后，就可以动手实施恢复。<strong>以下高能，模仿慎重</strong><br>首先要独立于要操作的硬盘所在的系统进行操作，比如可以用USB盘启动PE，或者Yosemite的安装盘，或者其它硬盘上的系统。否则会提示无法操作成功，目标硬盘被占用。<br>楼主使用其他硬盘上的Ubuntu操作，使用最简单的dd指令即可恢复。<br><code>sudo dd if=/media/username/bakup/boot0 of=/dev/sdc bs=440 count=1</code><br>里面的路径注意替换成自己的，440字节是为了避免把分区表覆盖，同时还要保留分区表前面6个字节的磁盘签名。关于MBR可以猛戳<a href="https://en.wikipedia.org/wiki/Master_boot_record" target="_blank" rel="external">MBR维基</a>。<br>最后，注意要把活动分区设为Yosemite所在的分区，这个boot0，似乎只认活动分区，不认HFS分区。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://pansila.github.io/2015/09/05/2015-2015-09-05-restore-Yosemite-after-corrupted-by-grub2/" data-id="cix3dp4ac00052cp3bt1ygp2n" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
   
     <nav id="page-nav">
       <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
@@ -506,7 +508,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">August 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">August 2015</a><span class="archive-list-count">3</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">August 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">August 2015</a><span class="archive-list-count">3</span></li></ul>
     </div>
   </div>
 
@@ -516,6 +518,10 @@
     <h3 class="widget-title">Recents</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2016/12/25/2016-2016-12-25-database-synchronization-with-kettle/">ETL利器Kettle数据库同步实战</a>
+          </li>
         
           <li>
             <a href="/2016/12/24/2016-2016-12-24-move-OS-to-the-new-disk-without-reinstalling/">不重装迁移系统到新磁盘</a>
@@ -531,10 +537,6 @@
         
           <li>
             <a href="/2015/09/12/2015-2015-09-12-Set-up-Peanut-Hull-for-Raspberry-Pi/">树莓派上配置动态域名解析Oray DDNS</a>
-          </li>
-        
-          <li>
-            <a href="/2015/09/12/2015-2015-09-12-Set-up-nginx-for-hexo/">设置nginx运行Hexo生产的静态网站</a>
           </li>
         
       </ul>
