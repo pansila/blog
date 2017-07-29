@@ -3,18 +3,21 @@
 <head>
   <meta charset="utf-8">
   
-  <title>设置nginx运行Hexo生产的静态网站 | Fantasy and Fiction</title>
+  <title>一个诡异的232串口故障 | Fantasy and Fiction</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="hexo基于nodejs实现，本质上都是V8引擎解释js语句执行，效率必然比不上本地代码。在raspberry pi资源这么有限的环境下，hexo server不是个好主意，那么以速度著称的nginx就是个必然选择。1234sudo apt-get install nginxsudo /etc/init.d/nginx startsudo /usr/sbin/update-rc.d -f ngin">
+  <meta name="description" content="前段时间收到一块LED显示屏的通讯电路板，有很明显的串口通讯问题，表现就是无收发数据，显示屏无显示，量测TX和RX上也的确没有电平变化。尝试替换MAX3232芯片后，问题依旧，因为以前吃过亏，怀疑买到假货，又替换SP3232，还是趴窝，苦思不得其解，买假货买到怀疑人生。。。过了几天重新制作一批板子，同样的232芯片居然是正常工作的，才反应过来可能是配套电容有问题。回过头又重新观察232串口电路，拿">
 <meta property="og:type" content="article">
-<meta property="og:title" content="设置nginx运行Hexo生产的静态网站">
-<meta property="og:url" content="http://pansila.github.io/2015/09/12/2015-2015-09-12-Set-up-nginx-for-hexo/index.html">
+<meta property="og:title" content="一个诡异的232串口故障">
+<meta property="og:url" content="http://pansila.github.io/2017/07/29/2017-2017-07-29-a-weird-serial-port-issue/index.html">
 <meta property="og:site_name" content="Fantasy and Fiction">
-<meta property="og:description" content="hexo基于nodejs实现，本质上都是V8引擎解释js语句执行，效率必然比不上本地代码。在raspberry pi资源这么有限的环境下，hexo server不是个好主意，那么以速度著称的nginx就是个必然选择。1234sudo apt-get install nginxsudo /etc/init.d/nginx startsudo /usr/sbin/update-rc.d -f ngin">
-<meta property="og:updated_time" content="2016-12-24T14:31:28.358Z">
+<meta property="og:description" content="前段时间收到一块LED显示屏的通讯电路板，有很明显的串口通讯问题，表现就是无收发数据，显示屏无显示，量测TX和RX上也的确没有电平变化。尝试替换MAX3232芯片后，问题依旧，因为以前吃过亏，怀疑买到假货，又替换SP3232，还是趴窝，苦思不得其解，买假货买到怀疑人生。。。过了几天重新制作一批板子，同样的232芯片居然是正常工作的，才反应过来可能是配套电容有问题。回过头又重新观察232串口电路，拿">
+<meta property="og:image" content="http://pansila.github.io/img/2017-07-29_222557.png">
+<meta property="og:image" content="http://pansila.github.io/img/2017-07-29_222222.jpg">
+<meta property="og:updated_time" content="2017-07-29T14:39:39.476Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="设置nginx运行Hexo生产的静态网站">
-<meta name="twitter:description" content="hexo基于nodejs实现，本质上都是V8引擎解释js语句执行，效率必然比不上本地代码。在raspberry pi资源这么有限的环境下，hexo server不是个好主意，那么以速度著称的nginx就是个必然选择。1234sudo apt-get install nginxsudo /etc/init.d/nginx startsudo /usr/sbin/update-rc.d -f ngin">
+<meta name="twitter:title" content="一个诡异的232串口故障">
+<meta name="twitter:description" content="前段时间收到一块LED显示屏的通讯电路板，有很明显的串口通讯问题，表现就是无收发数据，显示屏无显示，量测TX和RX上也的确没有电平变化。尝试替换MAX3232芯片后，问题依旧，因为以前吃过亏，怀疑买到假货，又替换SP3232，还是趴窝，苦思不得其解，买假货买到怀疑人生。。。过了几天重新制作一批板子，同样的232芯片居然是正常工作的，才反应过来可能是配套电容有问题。回过头又重新观察232串口电路，拿">
+<meta name="twitter:image" content="http://pansila.github.io/img/2017-07-29_222557.png">
   
     <link rel="alternative" href="/atom.xml" title="Fantasy and Fiction" type="application/atom+xml">
   
@@ -60,10 +63,10 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-2015-2015-09-12-Set-up-nginx-for-hexo" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-2017-2017-07-29-a-weird-serial-port-issue" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2015/09/12/2015-2015-09-12-Set-up-nginx-for-hexo/" class="article-date">
-  <time datetime="2015-09-12T03:00:36.000Z" itemprop="datePublished">2015-09-12</time>
+    <a href="/2017/07/29/2017-2017-07-29-a-weird-serial-port-issue/" class="article-date">
+  <time datetime="2017-07-29T13:59:04.000Z" itemprop="datePublished">2017-07-29</time>
 </a>
     
   </div>
@@ -74,7 +77,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      设置nginx运行Hexo生产的静态网站
+      一个诡异的232串口故障
     </h1>
   
 
@@ -82,15 +85,12 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>hexo基于nodejs实现，本质上都是V8引擎解释js语句执行，效率必然比不上本地代码。在raspberry pi资源这么有限的环境下，hexo server不是个好主意，那么以速度著称的nginx就是个必然选择。<br><figure class="highlight groovy"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">sudo apt-get install nginx</div><div class="line">sudo <span class="regexp">/etc/</span>init.d/nginx start</div><div class="line">sudo <span class="regexp">/usr/</span>sbin/update-rc.d -f nginx defaults</div><div class="line">sudo vi <span class="regexp">/etc/</span>nginx<span class="regexp">/sites-enabled/</span><span class="keyword">default</span></div></pre></td></tr></table></figure></p>
-<p>找到server的配置，修改root目录<br><figure class="highlight axapta"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">server</span> &#123;</div><div class="line">    ...</div><div class="line">    server_name localhost;</div><div class="line">    <span class="keyword">index</span> <span class="keyword">index</span>.html <span class="keyword">index</span>.htm;</div><div class="line">    root  /home/pi/hexo/<span class="keyword">public</span>;</div><div class="line">    ...</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>修改完后别忘了让nginx重新读取配置<br><figure class="highlight awk"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo <span class="regexp">/etc/i</span>nit.d<span class="regexp">/nginx reload</span></div></pre></td></tr></table></figure></p>
-<p>为了能根据blog源代码的改变及时更新public，可以让hexo在后台进行监视<br><figure class="highlight verilog"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">hexo <span class="keyword">generate</span> --watch</div></pre></td></tr></table></figure></p>
+        <p>前段时间收到一块LED显示屏的通讯电路板，有很明显的串口通讯问题，表现就是无收发数据，显示屏无显示，量测TX和RX上也的确没有电平变化。<br><img src="/img/2017-07-29_222557.png" alt="MAX3232电路图"><br>尝试替换MAX3232芯片后，问题依旧，因为以前吃过亏，怀疑买到假货，又替换SP3232，还是趴窝，苦思不得其解，买假货买到怀疑人生。。。<br>过了几天重新制作一批板子，同样的232芯片居然是正常工作的，才反应过来可能是配套电容有问题。回过头又重新观察232串口电路，拿示波器依次量测几颗电容两端的电压，对比正常板子，发现问题板子这几个点位信号幅度大约只有正常板子的一半，但电容两端的信号仍然保持反向对称，只有pin 1和pin 3之间的这颗电容两端，不仅幅度减半，pin 3的信号异常低，只有大约300mV的幅度，遂替换之，问题立马消失。<br>那么这颗电容到底有什么问题呢，上图<br><img src="/img/2017-07-29_222222.jpg" alt="罪魁祸首"><br>大概是某小作坊良心之作，一端的焊盘直接脱落了。。。WTF</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://pansila.github.io/2015/09/12/2015-2015-09-12-Set-up-nginx-for-hexo/" data-id="cj5pek5v70007z0p3pvlzmcfr" class="article-share-link">Share</a>
+      <a data-url="http://pansila.github.io/2017/07/29/2017-2017-07-29-a-weird-serial-port-issue/" data-id="cj5pezhyx0000mgp31a7y5x2d" class="article-share-link">Share</a>
       
       
     </footer>
@@ -99,19 +99,10 @@
     
 <nav id="article-nav">
   
-    <a href="/2015/09/12/2015-2015-09-12-Set-up-Peanut-Hull-for-Raspberry-Pi/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Newer</strong>
-      <div class="article-nav-title">
-        
-          树莓派上配置动态域名解析Oray DDNS
-        
-      </div>
-    </a>
   
-  
-    <a href="/2015/09/12/2015-2015-09-12-Set-up-the-Hexo-on-Raspberry-Pi/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2016/12/25/2016-2016-12-25-database-synchronization-with-kettle/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">在树莓派上安装hexo</div>
+      <div class="article-nav-title">ETL利器Kettle数据库同步实战</div>
     </a>
   
 </nav>
@@ -122,7 +113,7 @@
 
 <section id="comments">
 <!-- ��˵���ۿ� start -->
-	<div class="ds-thread" data-thread-key="post-2015-2015-09-12-Set-up-nginx-for-hexo" data-title="设置nginx运行Hexo生产的静态网站" data-url="http://pansila.github.io/2015/09/12/2015-2015-09-12-Set-up-nginx-for-hexo/"></div>
+	<div class="ds-thread" data-thread-key="post-2017-2017-07-29-a-weird-serial-port-issue" data-title="一个诡异的232串口故障" data-url="http://pansila.github.io/2017/07/29/2017-2017-07-29-a-weird-serial-port-issue/"></div>
 <!-- ��˵���ۿ� end -->
 <!-- ��˵����JS���� start (һ����ҳֻ������һ��) -->
 <script type="text/javascript">
