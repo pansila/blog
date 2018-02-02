@@ -50,13 +50,57 @@
         <a id="nav-search-btn" class="nav-icon" title="Search"></a>
       </nav>
       <div id="search-form-wrap">
-        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://pansila.github.io"></form>
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://pansila.github.io"></form>
       </div>
     </div>
   </div>
 </header>
       <div class="outer">
         <section id="main">
+  
+    <article id="post-2015-2015-09-10-cache-exercises-memory-read-optimization" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2015/09/10/2015-2015-09-10-cache-exercises-memory-read-optimization/" class="article-date">
+  <time datetime="2015-09-10T05:02:37.000Z" itemprop="datePublished">2015-09-10</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/09/10/2015-2015-09-10-cache-exercises-memory-read-optimization/">cache exercises - Ex. 1 memory read optimization</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Cache对于现代处理器提升性能有多重要就不多说了，最近看到这方面的练习，正好来实践下。<br>原文来自伯乐在线请猛击<a href="http://blog.jobbole.com/89759/" target="_blank" rel="noopener">这里</a><br>第一个例子解释cache一次从memory读取的大小，这是可能与cache line不一致的，具体多少可以通过统计得出。<br>原文使用了C#例子，正好最近学习python，这里来模拟下。</p>
+<h3 id="1-基于list的测试"><a href="#1-基于list的测试" class="headerlink" title="1. 基于list的测试"></a>1. 基于list的测试</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">buf_len = <span class="number">64</span>*<span class="number">1024</span>*<span class="number">1024</span></span><br><span class="line">buffer = [<span class="number">0</span>] * buf_len</span><br><span class="line"></span><br><span class="line"><span class="comment"># update @2015-09-20</span></span><br><span class="line"><span class="comment">#def calc_at_every(step):</span></span><br><span class="line"><span class="comment">#	i = 0</span></span><br><span class="line"><span class="comment">#	while i &lt; buf_len:</span></span><br><span class="line"><span class="comment">#		buffer[i] *= 3</span></span><br><span class="line"><span class="comment">#		i += step</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">calc_at_every</span><span class="params">(step)</span>:</span></span><br><span class="line">	<span class="keyword">for</span> i <span class="keyword">in</span> xrange(<span class="number">0</span>, buf_len, step):</span><br><span class="line">		buffer[i] *= <span class="number">3</span></span><br><span class="line">		</span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">	<span class="keyword">from</span> timeit <span class="keyword">import</span> Timer</span><br><span class="line">	results = []</span><br><span class="line">	<span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>, <span class="number">33</span>):</span><br><span class="line">		<span class="comment">#print "test starts for step %d" % i</span></span><br><span class="line">		t = Timer(<span class="string">"calc_at_every(%d)"</span> % i, <span class="string">"from __main__ import calc_at_every"</span>)</span><br><span class="line">		<span class="comment">#print t.timeit(1)</span></span><br><span class="line">		results.append(t.timeit(<span class="number">1</span>))</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line">	plt.plot(range(<span class="number">1</span>, <span class="number">33</span>), results)</span><br><span class="line">	plt.ylabel(<span class="string">'runtime per step size'</span>)</span><br><span class="line">	plt.xlabel(<span class="string">'set size'</span>)</span><br><span class="line">	plt.show()</span><br></pre></td></tr></table></figure>
+<p>最直接的模仿就是list，可惜结果差3个数量级，看下图：<br><img src="/img/2015-09-10_130439.png" alt="list test"><br>步长为1时，遍历一遍需要12秒之多，例子中是80ms，大家感受下，cache肯定没有发挥作用。事实上随着step加倍，运行时间减半，完美的指数函数，完全忽视cache。。。<br>事实上python中list跟C/C++中的array并不一样，是一个包装起来的行为类似array的对象，其占用的size远远超过元素本身之和。<br><code>&gt;&gt;&gt; sys.getsizeof([])</code><br><code>64</code><br>这里其实已经做过优化，并没有使用<code>for ... in ...</code>这样的pythonic遍历方式，因为产生一个索引list会占用同样多的memory，而且也有memory read的cache问题。难道用python做性能测试就是个杯具。。。<br><strong>update @2015-09-20</strong><br>xrange正是为这样的迭代所优化，它不会实际产生一个遍历list，而是按需生成数据，因此内存效率和性能都大有改善。PS：range在python3中升级成为<a href="https://wiki.python.org/moin/Generators" target="_blank" rel="noopener">generator</a><br><img src="/img/2015-09-20_103325.png" alt="list test by xrange"><br>可以看到1步遍历提高了约33%的性能，遍历一遍需要大约8秒(缩短4秒)，虽然离cache的结果还差得远，但就遍历来说是个很好的优化。</p>
+<h3 id="2-基于array的测试"><a href="#2-基于array的测试" class="headerlink" title="2. 基于array的测试"></a>2. 基于array的测试</h3><p>既然list不够快，那换能够直接接触memory的array。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> array <span class="keyword">import</span> array</span><br><span class="line"></span><br><span class="line">buf_len = <span class="number">64</span>*<span class="number">1024</span>*<span class="number">1024</span></span><br><span class="line">buf = [<span class="number">0</span>] * buf_len</span><br><span class="line">buffer = array(<span class="string">'i'</span>, buf)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">calc_at_every</span><span class="params">(step)</span>:</span></span><br><span class="line">	<span class="keyword">for</span> i <span class="keyword">in</span> xrange(<span class="number">0</span>, buf_len, step):</span><br><span class="line">		buffer[i] *= <span class="number">3</span></span><br><span class="line">		</span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">	<span class="keyword">from</span> timeit <span class="keyword">import</span> Timer</span><br><span class="line">	results = []</span><br><span class="line">	<span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>, <span class="number">33</span>):</span><br><span class="line">		<span class="comment">#print "test starts for step %d" % i</span></span><br><span class="line">		t = Timer(<span class="string">"calc_at_every(%d)"</span> % i, <span class="string">"from __main__ import calc_at_every"</span>)</span><br><span class="line">		<span class="comment">#print t.timeit(1)</span></span><br><span class="line">		results.append(t.timeit(<span class="number">1</span>))</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line">	plt.plot(range(<span class="number">1</span>, <span class="number">33</span>), results)</span><br><span class="line">	plt.ylabel(<span class="string">'runtime per step size'</span>)</span><br><span class="line">	plt.xlabel(<span class="string">'set size'</span>)</span><br><span class="line">	plt.show()</span><br></pre></td></tr></table></figure></p>
+<p>结果更差。。。<br><img src="/img/2015-09-20_104140.png" alt="Array test by xrange"></p>
+<h3 id="3-基于numpy-array的测试"><a href="#3-基于numpy-array的测试" class="headerlink" title="3. 基于numpy.array的测试"></a>3. 基于numpy.array的测试</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> array <span class="keyword">import</span> array</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line">buf_len = <span class="number">64</span>*<span class="number">1024</span>*<span class="number">1024</span></span><br><span class="line">buf = [<span class="number">0</span>] * buf_len</span><br><span class="line">buffer = np.array(buf)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">calc_at_every</span><span class="params">(step)</span>:</span></span><br><span class="line">	<span class="keyword">for</span> i <span class="keyword">in</span> xrange(<span class="number">0</span>, buf_len, step):</span><br><span class="line">		buffer[i] *= <span class="number">3</span></span><br><span class="line">		</span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">	<span class="keyword">from</span> timeit <span class="keyword">import</span> Timer</span><br><span class="line">	results = []</span><br><span class="line">	<span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>, <span class="number">33</span>):</span><br><span class="line">		<span class="comment">#print "test starts for step %d" % i</span></span><br><span class="line">		t = Timer(<span class="string">"calc_at_every(%d)"</span> % i, <span class="string">"from __main__ import calc_at_every"</span>)</span><br><span class="line">		<span class="comment">#print t.timeit(1)</span></span><br><span class="line">		results.append(t.timeit(<span class="number">1</span>))</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line">	plt.plot(range(<span class="number">1</span>, <span class="number">33</span>), results)</span><br><span class="line">	plt.ylabel(<span class="string">'runtime per step size'</span>)</span><br><span class="line">	plt.xlabel(<span class="string">'set size'</span>)</span><br><span class="line">	plt.show()</span><br></pre></td></tr></table></figure>
+<p>惨不忍睹。。。</p>
+<h2 id=""><a href="#" class="headerlink" title=""></a><img src="/img/2015-09-20_104818.png" alt="numpy.array test"></h2><p><strong>to be continued</strong></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://pansila.github.io/2015/09/10/2015-2015-09-10-cache-exercises-memory-read-optimization/" data-id="cjd5qhzrl0007084691msh4ou" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
   
     <article id="post-2015-2015-09-05-Resize-MAC-OS-X-Yosemite-Disk" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
@@ -87,7 +131,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://pansila.github.io/2015/09/05/2015-2015-09-05-Resize-MAC-OS-X-Yosemite-Disk/" data-id="cj5pek5v40005z0p3v10q386f" class="article-share-link">Share</a>
+      <a data-url="http://pansila.github.io/2015/09/05/2015-2015-09-05-Resize-MAC-OS-X-Yosemite-Disk/" data-id="cjd5qhzre00050846nnkry4oz" class="article-share-link">Share</a>
       
       
     </footer>
@@ -123,17 +167,17 @@
 <p>由于之前已经成功安装Yosemite，而Grub2理论上只会破坏MBR以及MBR到VBR之间的数据，所以只要恢复这部分数据就可以了。<br>那么原来的这部分数据是什么呢，是Yosemite自己的bootloader，由于楼主之前用Multibeast安装了Chimera bootloader，所以首先要找到这个bootloader的boot0数据，即MBR数据。</p>
 <p>有两种办法可以拿到这个数据：</p>
 <ol>
-<li><p>找到相应版本的Chimera pkg，这个文件可以用解压缩软件打开，在路径<code>Chimera 4.1.0.pkg\chimeraV41.pkg\Payload\Payload~\.\usr\standalone\i386\</code><br>下可以看到有四个文件：<code>boot</code>，<code>boot0</code>，<code>boot0md</code>，<code>boot1h</code>，boot是存放于HFS文件系统下的Chimera主体程序，boot0存放于MBR，boot1h存放于VBR，这几个文件的关系有兴趣的可以看<a href="https://en.wikipedia.org/wiki/GNU_GRUB" target="_blank" rel="external">GRUB的维基介绍</a>，原理一样。</p>
+<li><p>找到相应版本的Chimera pkg，这个文件可以用解压缩软件打开，在路径<code>Chimera 4.1.0.pkg\chimeraV41.pkg\Payload\Payload~\.\usr\standalone\i386\</code><br>下可以看到有四个文件：<code>boot</code>，<code>boot0</code>，<code>boot0md</code>，<code>boot1h</code>，boot是存放于HFS文件系统下的Chimera主体程序，boot0存放于MBR，boot1h存放于VBR，这几个文件的关系有兴趣的可以看<a href="https://en.wikipedia.org/wiki/GNU_GRUB" target="_blank" rel="noopener">GRUB的维基介绍</a>，原理一样。</p>
 </li>
 <li><p>另一个地方就在Yosemite系统里面，<code>/usr/standalone/i386</code>，里面也有这几个文件。</p>
 </li>
 </ol>
-<p>找到这几个文件后，就可以动手实施恢复。<strong>以下高能，模仿慎重</strong><br>首先要独立于要操作的硬盘所在的系统进行操作，比如可以用USB盘启动PE，或者Yosemite的安装盘，或者其它硬盘上的系统。否则会提示无法操作成功，目标硬盘被占用。<br>楼主使用其他硬盘上的Ubuntu操作，使用最简单的dd指令即可恢复。<br><code>sudo dd if=/media/username/bakup/boot0 of=/dev/sdc bs=440 count=1</code><br>里面的路径注意替换成自己的，440字节是为了避免把分区表覆盖，同时还要保留分区表前面6个字节的磁盘签名。关于MBR可以猛戳<a href="https://en.wikipedia.org/wiki/Master_boot_record" target="_blank" rel="external">MBR维基</a>。<br>最后，注意要把活动分区设为Yosemite所在的分区，这个boot0，似乎只认活动分区，不认HFS分区。</p>
+<p>找到这几个文件后，就可以动手实施恢复。<strong>以下高能，模仿慎重</strong><br>首先要独立于要操作的硬盘所在的系统进行操作，比如可以用USB盘启动PE，或者Yosemite的安装盘，或者其它硬盘上的系统。否则会提示无法操作成功，目标硬盘被占用。<br>楼主使用其他硬盘上的Ubuntu操作，使用最简单的dd指令即可恢复。<br><code>sudo dd if=/media/username/bakup/boot0 of=/dev/sdc bs=440 count=1</code><br>里面的路径注意替换成自己的，440字节是为了避免把分区表覆盖，同时还要保留分区表前面6个字节的磁盘签名。关于MBR可以猛戳<a href="https://en.wikipedia.org/wiki/Master_boot_record" target="_blank" rel="noopener">MBR维基</a>。<br>最后，注意要把活动分区设为Yosemite所在的分区，这个boot0，似乎只认活动分区，不认HFS分区。</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://pansila.github.io/2015/09/05/2015-2015-09-05-restore-Yosemite-after-corrupted-by-grub2/" data-id="cj5pek5v30004z0p3g9sslhs9" class="article-share-link">Share</a>
+      <a data-url="http://pansila.github.io/2015/09/05/2015-2015-09-05-restore-Yosemite-after-corrupted-by-grub2/" data-id="cjd5qhzrg00060846v4am14vm" class="article-share-link">Share</a>
       
       
     </footer>
@@ -167,15 +211,15 @@
       
         <p>安利下，fbinst是个万能启动盘制作工具，能引导多种类型系统，网管必备。。。<br>使用fbinstTool制作启动盘时，碰到无法启动引导程序问题，提示”no menu”信息。</p>
 <p><img src="/img/2015-08-30_113215.png" alt="错误提示"></p>
-<p>google搜索没有结果，只好尝试自己排查问题。首先fbinst是个<a href="http://download.gna.org/grubutil/" target="_blank" rel="external">开源程序</a>，因此最简单办法就是看代码为何出现如此错误。<br>搜索no menu，可以看到相关代码在fbmbr.S<br><figure class="highlight x86asm"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">	movb	$FBM_TYPE_MENU, %cl</div><div class="line">	<span class="keyword">call</span>	find_first_item</div><div class="line"></div><div class="line"><span class="number">1</span>:</div><div class="line">	<span class="keyword">jc</span>	1f</div><div class="line">	subb	<span class="number">$1</span>, %bl</div><div class="line">	<span class="keyword">jc</span>	boot_item</div><div class="line">	<span class="keyword">call</span>	find_next_item</div><div class="line">	<span class="keyword">jmp</span>	<span class="number">1b</span></div><div class="line"></div><div class="line"><span class="number">1</span>:</div><div class="line">	movw	$<span class="built_in">ABS</span>(err_no_menu), %si</div><div class="line">	<span class="keyword">jmp</span>	fail</div><div class="line">	</div><div class="line">	...</div><div class="line"><span class="symbol"></span></div><div class="line">err_no_menu:</div><div class="line"><span class="meta">	.ascii</span>	<span class="string">"no menu\0"</span></div></pre></td></tr></table></figure></p>
-<p>可以看到是在查找FBM_TYPE_MENU这个类型的数据时失败所致，继续回溯调用路径，可以看到这部分代码在parse_menu label下，而调用parse_menu的地方只有一个<br><figure class="highlight x86asm"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">movw	$<span class="built_in">ABS</span>(menu_file), %si</div><div class="line">pushw	%si</div><div class="line"><span class="keyword">call</span>	check_file</div><div class="line">popw	%si</div><div class="line"><span class="keyword">jc</span>	1f</div><div class="line"><span class="keyword">call</span>	load_file</div><div class="line"><span class="keyword">jmp</span>	parse_menu</div><div class="line"></div><div class="line">...</div><div class="line"><span class="symbol"></span></div><div class="line">menu_file:</div><div class="line"><span class="meta">.ascii</span>	FB_MENU_FILE <span class="string">"\0"</span></div></pre></td></tr></table></figure></p>
+<p>google搜索没有结果，只好尝试自己排查问题。首先fbinst是个<a href="http://download.gna.org/grubutil/" target="_blank" rel="noopener">开源程序</a>，因此最简单办法就是看代码为何出现如此错误。<br>搜索no menu，可以看到相关代码在fbmbr.S<br><figure class="highlight x86asm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">	movb	$FBM_TYPE_MENU, %cl</span><br><span class="line">	<span class="keyword">call</span>	find_first_item</span><br><span class="line"></span><br><span class="line"><span class="number">1</span>:</span><br><span class="line">	<span class="keyword">jc</span>	1f</span><br><span class="line">	subb	<span class="number">$1</span>, %bl</span><br><span class="line">	<span class="keyword">jc</span>	boot_item</span><br><span class="line">	<span class="keyword">call</span>	find_next_item</span><br><span class="line">	<span class="keyword">jmp</span>	<span class="number">1b</span></span><br><span class="line"></span><br><span class="line"><span class="number">1</span>:</span><br><span class="line">	movw	$<span class="built_in">ABS</span>(err_no_menu), %si</span><br><span class="line">	<span class="keyword">jmp</span>	fail</span><br><span class="line">	</span><br><span class="line">	...</span><br><span class="line"></span><br><span class="line"><span class="symbol">err_no_menu:</span></span><br><span class="line"><span class="meta">	.ascii</span>	<span class="string">"no menu\0"</span></span><br></pre></td></tr></table></figure></p>
+<p>可以看到是在查找FBM_TYPE_MENU这个类型的数据时失败所致，继续回溯调用路径，可以看到这部分代码在parse_menu label下，而调用parse_menu的地方只有一个<br><figure class="highlight x86asm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">movw	$<span class="built_in">ABS</span>(menu_file), %si</span><br><span class="line">pushw	%si</span><br><span class="line"><span class="keyword">call</span>	check_file</span><br><span class="line">popw	%si</span><br><span class="line"><span class="keyword">jc</span>	1f</span><br><span class="line"><span class="keyword">call</span>	load_file</span><br><span class="line"><span class="keyword">jmp</span>	parse_menu</span><br><span class="line"></span><br><span class="line">...</span><br><span class="line"></span><br><span class="line"><span class="symbol">menu_file:</span></span><br><span class="line"><span class="meta">.ascii</span>	FB_MENU_FILE <span class="string">"\0"</span></span><br></pre></td></tr></table></figure></p>
 <p>FB_MENU_FILE就是要查找的目标，看看它是什么，搜索可以发现其定义在fbinst.h，<code>#define FB_MENU_FILE        &quot;fb.cfg&quot;</code><br>所以问题是这个文件找不到，这个文件其实是有的，它就是fbinst菜单</p>
 <p><img src="/img/2015-08-30_122425.png" alt="fbinst菜单"><br>原来默认启动项指向了一个不存在的条目，这才想起来因为之前配置过其它引导条目，后又删除忘记恢复default所致。。。<br>修改后，正常启动。<br><img src="/img/2015-08-30_113423.png" alt="正常启动"></p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://pansila.github.io/2015/08/30/2015-2015-08-30-fbinst-fbinstTool-no-menu-issue/" data-id="cj5pek5v10003z0p380jmen1y" class="article-share-link">Share</a>
+      <a data-url="http://pansila.github.io/2015/08/30/2015-2015-08-30-fbinst-fbinstTool-no-menu-issue/" data-id="cjd5qhzqz00030846r0e1di9o" class="article-share-link">Share</a>
       
       
     </footer>
@@ -212,7 +256,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://pansila.github.io/2015/08/29/2015-2015-08-29-Install-clover-on-USB-stick/" data-id="cj5pek5uy0002z0p37tltot75" class="article-share-link">Share</a>
+      <a data-url="http://pansila.github.io/2015/08/29/2015-2015-08-29-Install-clover-on-USB-stick/" data-id="cjd5qhzqw000208460nlg20w2" class="article-share-link">Share</a>
       
       
     </footer>
@@ -257,12 +301,12 @@
 <li>开始不知道在哪写文章，后来发现其实接着生成的md文件内容往下写就行了。。。</li>
 <li>采用markdown写作，所见即所得 </li>
 </ul>
-<p>相关引用：<br><a href="https://www.zybuluo.com/mdeditor" target="_blank" rel="external">Cmd Markdown</a><br><a href="http://wowubuntu.com/markdown" target="_blank" rel="external">Markdown简明介绍</a><br><a href="https://github.com/coapp/coapp.org/blob/master/src/dynamic/reference/garrett-flavored-markdown.html.md#precode" target="_blank" rel="external">Markdown代码块支持的语言</a></p>
+<p>相关引用：<br><a href="https://www.zybuluo.com/mdeditor" target="_blank" rel="noopener">Cmd Markdown</a><br><a href="http://wowubuntu.com/markdown" target="_blank" rel="noopener">Markdown简明介绍</a><br><a href="https://github.com/coapp/coapp.org/blob/master/src/dynamic/reference/garrett-flavored-markdown.html.md#precode" target="_blank" rel="noopener">Markdown代码块支持的语言</a></p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://pansila.github.io/2015/08/22/2015-2015-08-22-hello-new-home/" data-id="cj5pek5ut0001z0p3j9xv4y7c" class="article-share-link">Share</a>
+      <a data-url="http://pansila.github.io/2015/08/22/2015-2015-08-22-hello-new-home/" data-id="cjd5qhzr4000408466669xaev" class="article-share-link">Share</a>
       
       
     </footer>
@@ -291,7 +335,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">August 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">August 2015</a><span class="archive-list-count">3</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">August 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">August 2015</a><span class="archive-list-count">3</span></li></ul>
     </div>
   </div>
 
@@ -301,6 +345,10 @@
     <h3 class="widget-title">Recents</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2018/02/02/file/">一个flv.js简单demo</a>
+          </li>
         
           <li>
             <a href="/2017/07/29/2017-2017-07-29-a-weird-serial-port-issue/">一个诡异的232串口故障</a>
@@ -318,10 +366,6 @@
             <a href="/2016/08/06/2016-2016-08-06-work-on-the-cloud-thoroughly/">完全云端工作</a>
           </li>
         
-          <li>
-            <a href="/2015/09/20/2015-2015-09-20-Design-Patterns-Decorator-AOP-in-Python-and-C-C/">设计模式之装饰器/面向切面编程在Python和C中的体现</a>
-          </li>
-        
       </ul>
     </div>
   </div>
@@ -334,7 +378,7 @@
   
   <div class="outer">
     <div id="footer-info" class="inner">
-      &copy; 2017 Pansila<br>
+      &copy; 2018 Pansila<br>
       Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
     </div>
   </div>
