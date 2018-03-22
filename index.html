@@ -58,6 +58,52 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-ubuntu" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/03/22/ubuntu/" class="article-date">
+  <time datetime="2018-03-22T13:28:40.000Z" itemprop="datePublished">2018-03-22</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/03/22/ubuntu/">Install multi-version cross-compile toolchain on ubuntu</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>As of ubuntu 17.10, apt source has provided us several cross-compile toolchains for the ARM platform:</p>
+<ul>
+<li>gcc-5-arm-linux-gnueabihf</li>
+<li>gcc-6-arm-linux-gnueabihf</li>
+<li>gcc-7-arm-linux-gnueabihf</li>
+<li>…</li>
+</ul>
+<p>After getting them installed, these tools got a suffix number to indicate the version, like  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">We&apos;d like to specify which one to use as per the project requirement.</span><br><span class="line"></span><br><span class="line">Fortunately we can make it easily by using the tool ```update-alternatives``` which comes with the ubuntu distribution.</span><br><span class="line"></span><br><span class="line">``` bash</span><br><span class="line">$ sudo update-alternatives --install /usr/bin/arm-linux-gnueabihf-gcc arm-linux-gnueabihf-gcc /usr/bin/arm-linux-gnueabihf-gcc-5 100 --slave /usr/bin/arm-linux-gnueabihf-g++ arm-linux-gnueabihf-g++ /usr/bin/arm-linux-gnueabihf-g++-5</span><br></pre></td></tr></table></figure></p>
+<p>Here, we have provided the <figure class="highlight plain"><figcaption><span>as the master and ```arm-linux-gnueabihf-g++``` as slave. Multiple slaves can be appended along with master. When master symbolic link is changed, the slaves will be changed too.</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">Pass the second version of these tools to be recorded:</span><br><span class="line">``` bash</span><br><span class="line">$ sudo update-alternatives --install /usr/bin/arm-linux-gnueabihf-gcc arm-linux-gnueabihf-gcc /usr/bin/arm-linux-gnueabihf-gcc-6 50 --slave /usr/bin/arm-linux-gnueabihf-g++ arm-linux-gnueabihf-g++ /usr/bin/arm-linux-gnueabihf-g++-6</span><br></pre></td></tr></table></figure></p>
+<p>Now you can switch between these versions by using:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo update-alternatives --config arm-linux-gnueabihf-gcc</span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://pansila.github.io/2018/03/22/ubuntu/" data-id="cjf2l5a9z0002rw46ymyer52p" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-file" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2018/02/02/file/" class="article-date">
@@ -116,7 +162,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://pansila.github.io/2018/02/02/file/" data-id="cjd5qhzpi00010846gxpqvhet" class="article-share-link">Share</a>
+      <a data-url="http://pansila.github.io/2018/02/02/file/" data-id="cjf2l5a9j0001rw462pczojo9" class="article-share-link">Share</a>
       
       
     </footer>
@@ -153,7 +199,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://pansila.github.io/2017/07/29/2017-2017-07-29-a-weird-serial-port-issue/" data-id="cjd5qhztm000g0846eh8r2tnq" class="article-share-link">Share</a>
+      <a data-url="http://pansila.github.io/2017/07/29/2017-2017-07-29-a-weird-serial-port-issue/" data-id="cjf2l5ac0000hrw46reafw3bh" class="article-share-link">Share</a>
       
       
     </footer>
@@ -201,7 +247,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://pansila.github.io/2016/12/25/2016-2016-12-25-database-synchronization-with-kettle/" data-id="cjd5qhzti000f0846r8ve4pcc" class="article-share-link">Share</a>
+      <a data-url="http://pansila.github.io/2016/12/25/2016-2016-12-25-database-synchronization-with-kettle/" data-id="cjf2l5aby000grw46c2lfwr3q" class="article-share-link">Share</a>
       
       
     </footer>
@@ -245,7 +291,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://pansila.github.io/2016/12/24/2016-2016-12-24-move-OS-to-the-new-disk-without-reinstalling/" data-id="cjd5qhztb000e0846ns1gj2ah" class="article-share-link">Share</a>
+      <a data-url="http://pansila.github.io/2016/12/24/2016-2016-12-24-move-OS-to-the-new-disk-without-reinstalling/" data-id="cjf2l5abw000frw46n4xzy1qs" class="article-share-link">Share</a>
       
       
     </footer>
@@ -285,7 +331,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://pansila.github.io/2016/08/06/2016-2016-08-06-work-on-the-cloud-thoroughly/" data-id="cjd5qhzt6000d0846jla2x5r8" class="article-share-link">Share</a>
+      <a data-url="http://pansila.github.io/2016/08/06/2016-2016-08-06-work-on-the-cloud-thoroughly/" data-id="cjf2l5abs000erw461gmfq7wz" class="article-share-link">Share</a>
       
       
     </footer>
@@ -339,7 +385,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://pansila.github.io/2015/09/20/2015-2015-09-20-Design-Patterns-Decorator-AOP-in-Python-and-C-C/" data-id="cjd5qhzsn000b084632psnh16" class="article-share-link">Share</a>
+      <a data-url="http://pansila.github.io/2015/09/20/2015-2015-09-20-Design-Patterns-Decorator-AOP-in-Python-and-C-C/" data-id="cjf2l5abo000drw46t6ijweb8" class="article-share-link">Share</a>
       
       
     </footer>
@@ -377,7 +423,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://pansila.github.io/2015/09/12/2015-2015-09-12-Set-up-Peanut-Hull-for-Raspberry-Pi/" data-id="cjd5qhzrt00080846ofcx0cg0" class="article-share-link">Share</a>
+      <a data-url="http://pansila.github.io/2015/09/12/2015-2015-09-12-Set-up-Peanut-Hull-for-Raspberry-Pi/" data-id="cjf2l5abi000brw46035g5p7h" class="article-share-link">Share</a>
       
       
     </footer>
@@ -417,7 +463,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://pansila.github.io/2015/09/12/2015-2015-09-12-Set-up-nginx-for-hexo/" data-id="cjd5qhzs700090846uz9i8pc6" class="article-share-link">Share</a>
+      <a data-url="http://pansila.github.io/2015/09/12/2015-2015-09-12-Set-up-nginx-for-hexo/" data-id="cjf2l5abd0009rw462d5syz4e" class="article-share-link">Share</a>
       
       
     </footer>
@@ -460,48 +506,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://pansila.github.io/2015/09/12/2015-2015-09-12-Set-up-the-Hexo-on-Raspberry-Pi/" data-id="cjd5qhzsk000a0846w1hlsn3l" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-2015-2015-09-12-new-toy-SanDisk-Ultra-16G-Class10-UHS-I" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2015/09/12/2015-2015-09-12-new-toy-SanDisk-Ultra-16G-Class10-UHS-I/" class="article-date">
-  <time datetime="2015-09-11T20:10:32.000Z" itemprop="datePublished">2015-09-12</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/09/12/2015-2015-09-12-new-toy-SanDisk-Ultra-16G-Class10-UHS-I/">New Toy - SanDisk Ultra 16G Class10 UHS-I</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>自从iPhone开启自带Flash Rom风潮以来，外置TF卡在手机上越来越不受待见，这次为了把吃灰多年的Raspberry Pi拿出来晒晒太阳，决心新入手一块TF卡。<br>吐槽下京东可能除了物流价格上真心没啥优势。。。<br>先来一张大头照<br><img src="/img/20150912041903.jpg" alt="美照"><br>然后照例验证正品，没问题。<br>测试读写速度<br><img src="/img/2015-09-12_035642.png" alt="ATTO Disk BenchMark"><br>最大速度，读45MB/s，写17MB/s左右。比官网号称48MB/s稍显乏力。。。<br>写入Raspberry Pi image<br><img src="/img/2015-09-12_040514.png" alt="Win32 Disk Imager"><br>写入速度差不多在15~16MB/s。</p>
-<p>附上对比测试，金士顿未知Class卡<br><img src="/img/20150912062844.jpg" alt="Kinston unknown TF"><br>速度测试<br><img src="/img/2015-09-12_050307.png" alt="ATTO Disk BenchMark"><br>看起来应该也是Class 10级别的卡。<br><del>Raspberry Pi板载速度测试敬请期待。。。</del><br>接上文接着测试Raspberry Pi上，方法简单粗暴，就是dd拷贝测试：<br>写<br><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">dd <span class="attribute">if</span>=/dev/zero <span class="attribute">of</span>=~/test.tmp <span class="attribute">bs</span>=500K <span class="attribute">count</span>=1024</span><br><span class="line">524288000 bytes (524 MB) copied, 36.7958 s, 14.2 MB/s</span><br></pre></td></tr></table></figure></p>
-<p>读<br><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">dd <span class="attribute">if</span>=~/test.tmp <span class="attribute">of</span>=/dev/null <span class="attribute">bs</span>=500K <span class="attribute">count</span>=1024</span><br><span class="line">524288000 bytes (524 MB) copied, 28.128 s, 18.6 MB/s</span><br></pre></td></tr></table></figure></p>
-<p>这个数据与官方同款测试基本一致（详见下方链接），猜测受限于raspberry pi的SDIO总线速度，读写速度均有一定程度下降。</p>
-<p><a href="http://elinux.org/RPi_SD_cards#SD_card_performance" target="_blank" rel="noopener">树莓派SD卡参考速度</a></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://pansila.github.io/2015/09/12/2015-2015-09-12-new-toy-SanDisk-Ultra-16G-Class10-UHS-I/" data-id="cjd5qhzsz000c0846xic405gm" class="article-share-link">Share</a>
+      <a data-url="http://pansila.github.io/2015/09/12/2015-2015-09-12-Set-up-the-Hexo-on-Raspberry-Pi/" data-id="cjf2l5abg000arw46hwgbycx9" class="article-share-link">Share</a>
       
       
     </footer>
@@ -530,7 +535,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">August 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">August 2015</a><span class="archive-list-count">3</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">March 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">August 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">August 2015</a><span class="archive-list-count">3</span></li></ul>
     </div>
   </div>
 
@@ -540,6 +545,10 @@
     <h3 class="widget-title">Recents</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2018/03/22/ubuntu/">Install multi-version cross-compile toolchain on ubuntu</a>
+          </li>
         
           <li>
             <a href="/2018/02/02/file/">一个flv.js简单demo</a>
@@ -555,10 +564,6 @@
         
           <li>
             <a href="/2016/12/24/2016-2016-12-24-move-OS-to-the-new-disk-without-reinstalling/">不重装迁移系统到新磁盘</a>
-          </li>
-        
-          <li>
-            <a href="/2016/08/06/2016-2016-08-06-work-on-the-cloud-thoroughly/">完全云端工作</a>
           </li>
         
       </ul>
