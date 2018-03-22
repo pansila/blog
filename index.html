@@ -87,14 +87,18 @@
 <li>gcc-7-arm-linux-gnueabihf</li>
 <li>…</li>
 </ul>
-<p>After getting them installed, these tools got a suffix number to indicate the version, like  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">We&apos;d like to specify which one to use as per the project requirement.</span><br><span class="line"></span><br><span class="line">Fortunately we can make it easily by using the tool ```update-alternatives``` which comes with the ubuntu distribution.</span><br><span class="line"></span><br><span class="line">``` bash</span><br><span class="line">$ sudo update-alternatives --install /usr/bin/arm-linux-gnueabihf-gcc arm-linux-gnueabihf-gcc /usr/bin/arm-linux-gnueabihf-gcc-5 100 --slave /usr/bin/arm-linux-gnueabihf-g++ arm-linux-gnueabihf-g++ /usr/bin/arm-linux-gnueabihf-g++-5</span><br></pre></td></tr></table></figure></p>
-<p>Here, we have provided the <figure class="highlight plain"><figcaption><span>as the master and ```arm-linux-gnueabihf-g++``` as slave. Multiple slaves can be appended along with master. When master symbolic link is changed, the slaves will be changed too.</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">Pass the second version of these tools to be recorded:</span><br><span class="line">``` bash</span><br><span class="line">$ sudo update-alternatives --install /usr/bin/arm-linux-gnueabihf-gcc arm-linux-gnueabihf-gcc /usr/bin/arm-linux-gnueabihf-gcc-6 50 --slave /usr/bin/arm-linux-gnueabihf-g++ arm-linux-gnueabihf-g++ /usr/bin/arm-linux-gnueabihf-g++-6</span><br></pre></td></tr></table></figure></p>
+<p>After getting them installed, these tools got a suffix number to indicate the version, like  <code>/usr/bin/arm-linux-gnueabihf-gcc-5</code>.</p>
+<p>We’d like to specify which one to use as per the project requirement.</p>
+<p>Fortunately we can make it easily by using the tool <code>update-alternatives</code> which comes with the ubuntu distribution.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo update-alternatives --install /usr/bin/arm-linux-gnueabihf-gcc arm-linux-gnueabihf-gcc /usr/bin/arm-linux-gnueabihf-gcc-5 100 --slave /usr/bin/arm-linux-gnueabihf-g++ arm-linux-gnueabihf-g++ /usr/bin/arm-linux-gnueabihf-g++-5</span><br></pre></td></tr></table></figure>
+<p>Here, we have provided the <code>arm-linux-gnueabihf-gcc</code> as the master and <code>arm-linux-gnueabihf-g++</code> as slave. Multiple slaves can be appended along with master. When master symbolic link is changed, the slaves will be changed too.</p>
+<p>Pass the second version of these tools to be recorded:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo update-alternatives --install /usr/bin/arm-linux-gnueabihf-gcc arm-linux-gnueabihf-gcc /usr/bin/arm-linux-gnueabihf-gcc-6 50 --slave /usr/bin/arm-linux-gnueabihf-g++ arm-linux-gnueabihf-g++ /usr/bin/arm-linux-gnueabihf-g++-6</span><br></pre></td></tr></table></figure></p>
 <p>Now you can switch between these versions by using:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo update-alternatives --config arm-linux-gnueabihf-gcc</span><br></pre></td></tr></table></figure></p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://pansila.github.io/2018/03/22/ubuntu/" data-id="cjf2l5a9z0002rw46ymyer52p" class="article-share-link">Share</a>
+      <a data-url="http://pansila.github.io/2018/03/22/ubuntu/" data-id="cjf2lez5l0002nk46d0rx1m3n" class="article-share-link">Share</a>
       
       
     </footer>
@@ -162,7 +166,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://pansila.github.io/2018/02/02/file/" data-id="cjf2l5a9j0001rw462pczojo9" class="article-share-link">Share</a>
+      <a data-url="http://pansila.github.io/2018/02/02/file/" data-id="cjf2lez570001nk468fbv8ixj" class="article-share-link">Share</a>
       
       
     </footer>
@@ -199,7 +203,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://pansila.github.io/2017/07/29/2017-2017-07-29-a-weird-serial-port-issue/" data-id="cjf2l5ac0000hrw46reafw3bh" class="article-share-link">Share</a>
+      <a data-url="http://pansila.github.io/2017/07/29/2017-2017-07-29-a-weird-serial-port-issue/" data-id="cjf2lez7q000fnk46eihwknzz" class="article-share-link">Share</a>
       
       
     </footer>
@@ -247,7 +251,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://pansila.github.io/2016/12/25/2016-2016-12-25-database-synchronization-with-kettle/" data-id="cjf2l5aby000grw46c2lfwr3q" class="article-share-link">Share</a>
+      <a data-url="http://pansila.github.io/2016/12/25/2016-2016-12-25-database-synchronization-with-kettle/" data-id="cjf2lez7y000hnk4636opkda9" class="article-share-link">Share</a>
       
       
     </footer>
@@ -291,7 +295,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://pansila.github.io/2016/12/24/2016-2016-12-24-move-OS-to-the-new-disk-without-reinstalling/" data-id="cjf2l5abw000frw46n4xzy1qs" class="article-share-link">Share</a>
+      <a data-url="http://pansila.github.io/2016/12/24/2016-2016-12-24-move-OS-to-the-new-disk-without-reinstalling/" data-id="cjf2lez7m000enk46l88ut7g5" class="article-share-link">Share</a>
       
       
     </footer>
@@ -331,7 +335,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://pansila.github.io/2016/08/06/2016-2016-08-06-work-on-the-cloud-thoroughly/" data-id="cjf2l5abs000erw461gmfq7wz" class="article-share-link">Share</a>
+      <a data-url="http://pansila.github.io/2016/08/06/2016-2016-08-06-work-on-the-cloud-thoroughly/" data-id="cjf2lez7v000gnk46szn6x7x1" class="article-share-link">Share</a>
       
       
     </footer>
@@ -385,7 +389,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://pansila.github.io/2015/09/20/2015-2015-09-20-Design-Patterns-Decorator-AOP-in-Python-and-C-C/" data-id="cjf2l5abo000drw46t6ijweb8" class="article-share-link">Share</a>
+      <a data-url="http://pansila.github.io/2015/09/20/2015-2015-09-20-Design-Patterns-Decorator-AOP-in-Python-and-C-C/" data-id="cjf2lez7j000dnk46s7rvfczx" class="article-share-link">Share</a>
       
       
     </footer>
@@ -423,7 +427,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://pansila.github.io/2015/09/12/2015-2015-09-12-Set-up-Peanut-Hull-for-Raspberry-Pi/" data-id="cjf2l5abi000brw46035g5p7h" class="article-share-link">Share</a>
+      <a data-url="http://pansila.github.io/2015/09/12/2015-2015-09-12-Set-up-Peanut-Hull-for-Raspberry-Pi/" data-id="cjf2lez79000ank462k96c9p5" class="article-share-link">Share</a>
       
       
     </footer>
@@ -463,7 +467,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://pansila.github.io/2015/09/12/2015-2015-09-12-Set-up-nginx-for-hexo/" data-id="cjf2l5abd0009rw462d5syz4e" class="article-share-link">Share</a>
+      <a data-url="http://pansila.github.io/2015/09/12/2015-2015-09-12-Set-up-nginx-for-hexo/" data-id="cjf2lez750009nk46f93s1at0" class="article-share-link">Share</a>
       
       
     </footer>
@@ -506,7 +510,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://pansila.github.io/2015/09/12/2015-2015-09-12-Set-up-the-Hexo-on-Raspberry-Pi/" data-id="cjf2l5abg000arw46hwgbycx9" class="article-share-link">Share</a>
+      <a data-url="http://pansila.github.io/2015/09/12/2015-2015-09-12-Set-up-the-Hexo-on-Raspberry-Pi/" data-id="cjf2lez7c000bnk46wm9tespn" class="article-share-link">Share</a>
       
       
     </footer>
