@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.0.6" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.0.6">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.0.6">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.0.6">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.0.6" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '6.0.6',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="自从iPhone开启自带Flash Rom风潮以来，外置TF卡在手机上越来越不受待见，这次为了把吃灰多年的Raspberry Pi拿出来晒晒太阳，决心新入手一块TF卡。吐槽下京东可能除了物流价格上真心没啥优势。。。先来一张大头照然后照例验证正品，没问题。测试读写速度最大速度，读45MB/s，写17MB/s左右。比官网号称48MB/s稍显乏力。。。写入Raspberry Pi image写入速度差不">
+<meta property="og:type" content="article">
+<meta property="og:title" content="New Toy - SanDisk Ultra 16G Class10 UHS-I">
+<meta property="og:url" content="http://pansila.github.io/2015/09/12/2015/2015-09-12-new-toy-SanDisk-Ultra-16G-Class10-UHS-I/index.html">
+<meta property="og:site_name" content="Fantasy and Fiction">
+<meta property="og:description" content="自从iPhone开启自带Flash Rom风潮以来，外置TF卡在手机上越来越不受待见，这次为了把吃灰多年的Raspberry Pi拿出来晒晒太阳，决心新入手一块TF卡。吐槽下京东可能除了物流价格上真心没啥优势。。。先来一张大头照然后照例验证正品，没问题。测试读写速度最大速度，读45MB/s，写17MB/s左右。比官网号称48MB/s稍显乏力。。。写入Raspberry Pi image写入速度差不">
+<meta property="og:image" content="http://pansila.github.io/img/20150912041903.jpg">
+<meta property="og:image" content="http://pansila.github.io/img/2015-09-12_035642.png">
+<meta property="og:image" content="http://pansila.github.io/img/2015-09-12_040514.png">
+<meta property="og:image" content="http://pansila.github.io/img/20150912062844.jpg">
+<meta property="og:image" content="http://pansila.github.io/img/2015-09-12_050307.png">
+<meta property="og:updated_time" content="2018-02-02T08:40:17.433Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="New Toy - SanDisk Ultra 16G Class10 UHS-I">
+<meta name="twitter:description" content="自从iPhone开启自带Flash Rom风潮以来，外置TF卡在手机上越来越不受待见，这次为了把吃灰多年的Raspberry Pi拿出来晒晒太阳，决心新入手一块TF卡。吐槽下京东可能除了物流价格上真心没啥优势。。。先来一张大头照然后照例验证正品，没问题。测试读写速度最大速度，读45MB/s，写17MB/s左右。比官网号称48MB/s稍显乏力。。。写入Raspberry Pi image写入速度差不">
+<meta name="twitter:image" content="http://pansila.github.io/img/20150912041903.jpg">
+
+
+
+
+
+
+  <link rel="canonical" href="http://pansila.github.io/2015/09/12/2015/2015-09-12-new-toy-SanDisk-Ultra-16G-Class10-UHS-I/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>New Toy - SanDisk Ultra 16G Class10 UHS-I | Fantasy and Fiction</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"> 
+
+<div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Fantasy and Fiction</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+          
+  <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />Home</a>
+</li>
+
+      
+        
+        
+          
+  <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />Archives</a>
+</li>
+
+      
+
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+  
+
+
+
+ </div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://pansila.github.io/2015/09/12/2015/2015-09-12-new-toy-SanDisk-Ultra-16G-Class10-UHS-I/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Pansila">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Fantasy and Fiction">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">New Toy - SanDisk Ultra 16G Class10 UHS-I</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2015-09-12T04:10:32+08:00">2015-09-12</time>
+            
+
+            
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>自从iPhone开启自带Flash Rom风潮以来，外置TF卡在手机上越来越不受待见，这次为了把吃灰多年的Raspberry Pi拿出来晒晒太阳，决心新入手一块TF卡。<br>吐槽下京东可能除了物流价格上真心没啥优势。。。<br>先来一张大头照<br><img src="/img/20150912041903.jpg" alt="美照"><br>然后照例验证正品，没问题。<br>测试读写速度<br><img src="/img/2015-09-12_035642.png" alt="ATTO Disk BenchMark"><br>最大速度，读45MB/s，写17MB/s左右。比官网号称48MB/s稍显乏力。。。<br>写入Raspberry Pi image<br><img src="/img/2015-09-12_040514.png" alt="Win32 Disk Imager"><br>写入速度差不多在15~16MB/s。</p>
+<p>附上对比测试，金士顿未知Class卡<br><img src="/img/20150912062844.jpg" alt="Kinston unknown TF"><br>速度测试<br><img src="/img/2015-09-12_050307.png" alt="ATTO Disk BenchMark"><br>看起来应该也是Class 10级别的卡。<br><del>Raspberry Pi板载速度测试敬请期待。。。</del><br>接上文接着测试Raspberry Pi上，方法简单粗暴，就是dd拷贝测试：<br>写<br><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">dd <span class="attribute">if</span>=/dev/zero <span class="attribute">of</span>=~/test.tmp <span class="attribute">bs</span>=500K <span class="attribute">count</span>=1024</span><br><span class="line">524288000 bytes (524 MB) copied, 36.7958 s, 14.2 MB/s</span><br></pre></td></tr></table></figure></p>
+<p>读<br><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">dd <span class="attribute">if</span>=~/test.tmp <span class="attribute">of</span>=/dev/null <span class="attribute">bs</span>=500K <span class="attribute">count</span>=1024</span><br><span class="line">524288000 bytes (524 MB) copied, 28.128 s, 18.6 MB/s</span><br></pre></td></tr></table></figure></p>
+<p>这个数据与官方同款测试基本一致（详见下方链接），猜测受限于raspberry pi的SDIO总线速度，读写速度均有一定程度下降。</p>
+<p><a href="http://elinux.org/RPi_SD_cards#SD_card_performance" target="_blank" rel="noopener">树莓派SD卡参考速度</a></p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/09/10/2015/2015-09-10-cache-exercises-memory-read-optimization/" rel="next" title="cache exercises - Ex. 1 memory read optimization">
+                <i class="fa fa-chevron-left"></i> cache exercises - Ex. 1 memory read optimization
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/09/12/2015/2015-09-12-Set-up-the-Hexo-on-Raspberry-Pi/" rel="prev" title="在树莓派上安装hexo">
+                在树莓派上安装hexo <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Pansila</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">17</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love" id="animate"> 
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Pansila</span>
+
+  
+
+  
+</div>
+
+
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/theme-next/hexo-theme-next">NexT.Muse</a> v6.0.6</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.0.6"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.0.6"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.0.6"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.0.6"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.0.6"></script>
+
+
+
+  
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
