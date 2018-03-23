@@ -1,5 +1,6 @@
 ---
 title: 一个诡异的232串口故障
+abbrlink: 1e47c7bd
 date: 2017-07-29 21:59:04
 tags:
 category:

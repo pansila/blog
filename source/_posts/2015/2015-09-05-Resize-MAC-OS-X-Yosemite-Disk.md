@@ -1,4 +1,6 @@
+---
 title: 调整MAC OS X系统所在分区大小
+abbrlink: 90e900ea
 date: 2015-09-05 02:58:20
 tags:
 category:

@@ -1,4 +1,6 @@
+---
 title: cache exercises - Ex. 1 memory read optimization
+abbrlink: f2e9d307
 date: 2015-09-10 13:02:37
 tags:
 category:

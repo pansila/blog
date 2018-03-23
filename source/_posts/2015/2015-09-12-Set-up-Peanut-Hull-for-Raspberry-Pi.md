@@ -1,4 +1,6 @@
+---
 title: 树莓派上配置动态域名解析Oray DDNS
+abbrlink: 58597cbe
 date: 2015-09-12 21:45:53
 tags:
 category:

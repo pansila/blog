@@ -1,9 +1,10 @@
 ---
 title: ETL利器Kettle数据库同步实战
+layout: post
+abbrlink: ba926855
 date: 2016-12-25 18:19:36
 tags:
 category:
-layout: post
 ---
 最近有需求在SQL server和MySQL之间数据库同步，在比较多种方案后选择了Kettle，因其开源免费，用户多文档完善，图形化编辑上手容易。这里使用了其最新版本，Pentaho Data Integration 7.0。
 

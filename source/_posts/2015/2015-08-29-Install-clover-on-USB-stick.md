@@ -1,4 +1,6 @@
+---
 title: Install clover on USB stick
+abbrlink: 824aa96e
 date: 2015-08-29 17:46:56
 tags:
 category:

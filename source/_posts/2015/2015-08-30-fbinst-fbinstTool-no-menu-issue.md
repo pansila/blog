@@ -1,4 +1,6 @@
+---
 title: fbinst/fbinstTool no menu问题
+abbrlink: b03ccf68
 date: 2015-08-30 11:30:40
 tags:
 category:

@@ -1,4 +1,6 @@
+---
 title: 设置nginx运行Hexo生产的静态网站
+abbrlink: 25927a81
 date: 2015-09-12 11:00:36
 tags:
 category:

@@ -1,4 +1,6 @@
+---
 title: 被GRUB2破坏MBR后Yosemite的恢复
+abbrlink: 90b97191
 date: 2015-09-05 01:45:14
 tags:
 category:

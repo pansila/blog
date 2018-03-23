@@ -1,4 +1,6 @@
-title: '设计模式之装饰器/面向切面编程在Python和C中的体现'
+---
+title: 设计模式之装饰器/面向切面编程在Python和C中的体现
+abbrlink: 1d1223af
 date: 2015-09-20 21:14:45
 tags:
 category:
