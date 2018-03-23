@@ -99,13 +99,16 @@
 
 
 
-  <meta property="og:type" content="article">
-<meta property="og:title" content="cross-compile-mongodb-for-arm">
+  <meta name="description" content="I’d like to run a relatively modern mongodb server on my cubieboard which is powered by an ARMv7l chip. There was a good work but it was built against 2.6.3 thus a bit out-dated. The latest version of">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Cross compile mongodb for 32 bit arm">
 <meta property="og:url" content="http://pansila.github.io/posts/ae66dec5/index.html">
 <meta property="og:site_name" content="Fantasy and Fiction">
-<meta property="og:updated_time" content="2018-03-23T15:35:33.042Z">
+<meta property="og:description" content="I’d like to run a relatively modern mongodb server on my cubieboard which is powered by an ARMv7l chip. There was a good work but it was built against 2.6.3 thus a bit out-dated. The latest version of">
+<meta property="og:updated_time" content="2018-03-23T18:01:07.260Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="cross-compile-mongodb-for-arm">
+<meta name="twitter:title" content="Cross compile mongodb for 32 bit arm">
+<meta name="twitter:description" content="I’d like to run a relatively modern mongodb server on my cubieboard which is powered by an ARMv7l chip. There was a good work but it was built against 2.6.3 thus a bit out-dated. The latest version of">
 
 
 
@@ -122,7 +125,7 @@
   };
 </script>
 
-  <title>cross-compile-mongodb-for-arm | Fantasy and Fiction</title>
+  <title>Cross compile mongodb for 32 bit arm | Fantasy and Fiction</title>
   
 
 
@@ -288,7 +291,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">cross-compile-mongodb-for-arm</h1>
+          <h1 class="post-title" itemprop="name headline">Cross compile mongodb for 32 bit arm</h1>
         
 
         <div class="post-meta">
@@ -347,7 +350,61 @@
       
 
       
-        
+        <p>I’d like to run a relatively modern mongodb server on my cubieboard which is powered by an ARMv7l chip. There was a good <a href="http://facat.github.io/cross-compile-mongodb-for-arm.html" target="_blank" rel="noopener">work</a> but it was built against 2.6.3 thus a bit out-dated. The latest version of mongodb that supports 32 bit platform is 3.3.15. That’s what I’d like to try here.</p>
+<ol>
+<li><p>Prepare the build environment</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ sudo apt-get install build-essential wget scons</span><br><span class="line">$ sudo apt-get install libboost-filesystem-dev libboost-program-options-dev libboost-system-dev libboost-thread-dev</span><br><span class="line">$ sudo apt-get install g++-5-arm-linux-gnueabihf g++-5-arm-linux-gnueabihf</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>You might need to update the cross-compile toolchain accordingly to make <code>arm-linux-gnueabihf-gcc</code> point to the correct version, details see this <a href="posts/14894ce3/">post</a>.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo update-alternatives --install /usr/bin/arm-linux-gnueabihf-gcc arm-linux-gnueabihf-gcc /usr/bin/arm-linux-gnueabihf-gcc-5 100 --slave /usr/bin/arm-linux-gnueabihf-g++ arm-linux-gnueabihf-g++ /usr/bin/arm-linux-gnueabihf-g++-5</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Download and unpack mongodb source code</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ mkdir install</span><br><span class="line">$ <span class="built_in">cd</span> install</span><br><span class="line">$ wget https://fastdl.mongodb.org/src/mongodb-src-r3.3.15.tar.gz</span><br><span class="line">$ tar xvf mongodb-src-r3.3.15.tar.gz</span><br><span class="line">$ <span class="built_in">cd</span> mongodb-src-r3.3.15</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Generate additional sources. It’s suggested by <a href="https://groups.google.com/forum/#!msg/mongodb-dev/G-kGjZEEam0/VSVB9fYCBAAJ" target="_blank" rel="noopener">this post</a>.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">cd</span> src/third_party/mozjs-45/</span><br><span class="line">$ ./get_sources.sh</span><br><span class="line">$ ./gen-config.sh arm linux</span><br><span class="line">$ <span class="built_in">cd</span> -</span><br></pre></td></tr></table></figure>
+<p>As I was doing it, an error raised saying a file missed.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fatal error: js-config.h: No such file or directory</span><br></pre></td></tr></table></figure>
+<p>Therefore some extra parameters were added in the file <code>gen-config.sh</code> to fix it.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">PYTHON=python ./configure --without-intl-api --<span class="built_in">enable</span>-posix-nspr-emulation --<span class="built_in">disable</span>-trace-logging --host=arm-linux --target=arm-linux-gnueabihf --build=x86_64-linux</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Some modifications to move on.</p>
+<ul>
+<li><p>No pause implementation.</p>
+<p>Error message:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">In file included from src/mongo/util/concurrency/spin_lock.cpp:34:0:</span><br><span class="line">src/mongo/platform/pause.h:71:2: error: <span class="comment">#error "No processor pause implementation for this architecture."</span></span><br><span class="line"> <span class="comment">#error "No processor pause implementation for this architecture."</span></span><br><span class="line">src/mongo/util/concurrency/spin_lock.cpp: In member <span class="keyword">function</span> <span class="string">'void mongo::SpinLock::_lockSlowPath()'</span>:</span><br><span class="line">src/mongo/util/concurrency/spin_lock.cpp:57:34: error: <span class="string">'MONGO_YIELD_CORE_FOR_SMT'</span> was not declared <span class="keyword">in</span> this scope</span><br><span class="line">    MONGO_YIELD_CORE_FOR_SMT();</span><br></pre></td></tr></table></figure>
+<p>Modification:</p>
+<p>mongo uses some processor pause signal to make CPU work more effectively, arm (armv7l) is out of support in this case, add it along with aarch64 in the file <code>src/mongo/platform/pause.h</code>.</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">elif</span> defined(__aarch64) || defined(__arm__)</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> MONGO_YIELD_CORE_FOR_SMT() __asm__ volatile(<span class="meta-string">"yield"</span> ::: <span class="meta-string">"memory"</span>)</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>config.h</code> missing for gperftools 2.5</p>
+<p>Error message:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">src/third_party/gperftools-2.5/src/base/dynamic_annotations.c:38:20: fatal error: config.h: No such file or directory</span><br></pre></td></tr></table></figure>
+<p>Modification:</p>
+<p>The missed file is generated by <code>./configure</code>, download a gperftools source code.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ wget https://github.com/gperftools/gperftools/releases/download/gperftools-2.5.93/gperftools-2.5.93.tar.gz</span><br><span class="line">$ tar xf gperftools-2.5.93.tar.gz</span><br><span class="line">$ <span class="built_in">cd</span> gperftools-2.5.93</span><br><span class="line">$ ./configure --target=arm-linux-gnueabihf --host=arm-linux --build=x86_64-linux</span><br></pre></td></tr></table></figure>
+<p>Find the file in the path <code>src/config.h</code>, copy it to the mongo third party directory <code>src/third_party/gperftools-2.5/build_linux_arm</code>.</p>
+</li>
+</ul>
+</li>
+<li><p>Compile and build.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ scons mongo mongod --wiredtiger=off --mmapv1=on CC=arm-linux-gnueabihf-gcc CXX=arm-linux-gnueabihf-g++</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Reduce binaries file size.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ strip -s build/opt/mongo</span><br><span class="line">$ strip -s build/opt/mongod</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Install binaries</p>
+<p>Copy all the binaries to the cubieboard.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo cp mongo mongod /usr/<span class="built_in">local</span>/bin/</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<hr>
+<p>Credits:</p>
+<ul>
+<li><a href="http://koenaerts.ca/compile-and-install-mongodb-on-raspberry-pi/" target="_blank" rel="noopener">Compile and install MongoDB on Raspberry PI</a></li>
+<li><a href="http://facat.github.io/cross-compile-mongodb-for-arm.html" target="_blank" rel="noopener">Cross Compile MongoDB for ARM</a></li>
+</ul>
+
       
     </div>
 
