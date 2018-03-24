@@ -151,6 +151,10 @@ I'd like to run a relatively modern mongodb server on my cubieboard which is pow
    $ sudo cp mongo mongod /usr/local/bin/
    ```
 
+## Binary Provided
+
+I have compiled MongoDB 3.3.15 for ARM. You can [DOWNLOAD](download/mongodb-r3.3.15.tar.gz) it.
+
 ---
 Credits:
 
