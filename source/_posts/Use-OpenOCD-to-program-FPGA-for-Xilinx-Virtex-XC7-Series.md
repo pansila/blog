@@ -1,5 +1,6 @@
 ---
 title: Use OpenOCD to program FPGA for Xilinx Virtex XC7 Series
+abbrlink: 7db4884d
 date: 2018-04-02 14:19:26
 tags:
 ---
