@@ -271,6 +271,184 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://pansila.github.io/posts/67d7a1ab/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Pansila">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Fantasy and Fiction">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/posts/67d7a1ab/" itemprop="url">Use OpenOCD to program FPGA for Xilinx Virtex-6 XC6 Series</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-05-04T14:18:53+08:00">2018-05-04</time>
+            
+
+            
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/posts/67d7a1ab/#comments" itemprop="discussionUrl">
+                  <span class="post-meta-item-text">Comments:</span> <span class="post-comments-count valine-comment-count" data-xid="/posts/67d7a1ab/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><em>Note: Currently it’s only tested for Virtex-6 XC6VLX240T, suppose to be able to extend for more virtext-6 FPGAs</em></p>
+<h2 id="Work-Environment"><a href="#Work-Environment" class="headerlink" title="Work Environment"></a>Work Environment</h2><ol>
+<li>Windows 7 64bit</li>
+<li><a href="https://www.xilinx.com/products/boards-and-kits/ek-v6-ml605-g.html" target="_blank" rel="noopener">Xilinx Virtex-6 FPGA ML605 Evaluation Kit</a><br><img src="https://i.loli.net/2018/05/04/5aebfeb3647e0.jpg" alt=""></li>
+</ol>
+<h2 id="Installation-Guide"><a href="#Installation-Guide" class="headerlink" title="Installation Guide"></a>Installation Guide</h2><ol>
+<li>Unzip the <a href="https://github.com/gnu-mcu-eclipse/openocd/releases" target="_blank" rel="noopener">OpenOCD binary zip file</a> to anywhere you’re used to put a tool, like <code>d:\tools\</code></li>
+<li><p>Add the OpenOCD executable path to the <code>PATH</code> environment, reboot or logout to put it into effect</p>
+<p> <em>Note: if you’re using <code>cmder</code>, we can make it without a rebooting</em></p>
+<ul>
+<li>Go to Setting-&gt;Startup-&gt;Environment</li>
+<li>Set the <code>PATH</code> environment: <code>set PATH=D:\tools\openocd\bin;%PATH%</code></li>
+<li>Open a new console to load the new environments</li>
+</ul>
+</li>
+<li><p>Install USB JTAG cable driver<br>The adapter DLC9G that comes with Xilinx Virtex-6 Evaluation Kit is not supported by OpenOCD due to its proprietary protocol, here we’ll use jlink instead.</p>
+<ul>
+<li>Download <a href="http://zadig.akeo.ie/" target="_blank" rel="noopener">zadig</a></li>
+<li>Go to Options-&gt;List All devices</li>
+<li>Select the jlink device, vid: 1366, pid: 0101</li>
+<li><p>Click “Replace Driver”.</p>
+<p><img src="https://i.loli.net/2018/05/04/5aebff31927f0.jpg" alt=""></p>
+</li>
+<li><p>Jumper wiring jlink pins to jtags pins on board</p>
+<p><img src="https://i.loli.net/2018/05/04/5aec028dd3c0e.jpg" alt=""><br><img src="https://i.loli.net/2018/05/04/5aec02c03db0d.jpg" alt=""></p>
+</li>
+</ul>
+</li>
+</ol>
+<h2 id="Programming"><a href="#Programming" class="headerlink" title="Programming"></a>Programming</h2><ol>
+<li><p>Put the OpenOCD <a href="#openocd-configuration">configuration</a> file in the work dir together with the bit file (file content attached at the end).</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> <span class="built_in">cd</span> d:\workdir</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> dir</span></span><br><span class="line">openocd-xc6v.cfg</span><br><span class="line">xilinx-xc6v.cfg</span><br><span class="line">bitstream.bit</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Modify the path to the bit file in the configuration</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line">init</span><br><span class="line">xc6v_program xc6v.tap</span><br><span class="line">pld load <span class="number">0</span> bitstream.bit   <span class="comment">#### this one ####</span></span><br><span class="line"><span class="keyword">exit</span></span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Run openocd in the cmd.exe or a cmder console</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ openocd -f interface/jlink<span class="selector-class">.cfg</span> -f xilinx-xc6v<span class="selector-class">.cfg</span> -f openocd-xc6v.cfg</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Waiting for the programming done if no error raised</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">$ openocd -f interface/jlink.cfg -f xilinx-xc6v.cfg -f openocd-xc6v.cfg</span><br><span class="line">GNU MCU Eclipse 64-bits Open On-Chip Debugger 0.10.0+dev-00404-g20463c28 (2018-01-23-12:30)</span><br><span class="line">Licensed under GNU GPL v2</span><br><span class="line">For bug reports, <span class="built_in">read</span></span><br><span class="line">        http://openocd.org/doc/doxygen/bugs.html</span><br><span class="line">Info : auto-selecting first available session transport <span class="string">"jtag"</span>. To override use <span class="string">'transport select &lt;transport&gt;'</span>.</span><br><span class="line">xc6_program_iprog</span><br><span class="line">adapter speed: 5000 kHz</span><br><span class="line">Info : J-Link ARM V8 compiled May 27 2009 17:31:22</span><br><span class="line">Info : Hardware version: 8.00</span><br><span class="line">Info : VTarget = 2.478 V</span><br><span class="line">Info : clock speed 5000 kHz</span><br><span class="line">Info : JTAG tap: xc6.tap tap/device found: 0x84250093 (mfg: 0x049 (Xilinx), part: 0x4250, ver: 0x8)</span><br><span class="line">Warn : gdb services need one or more targets defined</span><br><span class="line">loaded file bitstream.bit to pld device 0 <span class="keyword">in</span> 46s 322000us</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<hr>
+<h2 id="OpenOCD-Configuration-openocd-xc6v-cfg"><a href="#OpenOCD-Configuration-openocd-xc6v-cfg" class="headerlink" title="OpenOCD Configuration (openocd-xc6v.cfg)"></a>OpenOCD Configuration (openocd-xc6v.cfg)</h2><figure class="highlight tcl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">adapter_khz <span class="number">5000</span></span><br><span class="line"></span><br><span class="line">init</span><br><span class="line">xc6v_program xc6v.tap</span><br><span class="line">pld <span class="keyword">load</span> <span class="number">0</span> bitstream.bit</span><br><span class="line"><span class="keyword">exit</span></span><br></pre></td></tr></table></figure>
+<h2 id="OpenOCD-Target-Configuration-xilinx-xc6v-cfg"><a href="#OpenOCD-Target-Configuration-xilinx-xc6v-cfg" class="headerlink" title="OpenOCD Target Configuration (xilinx-xc6v.cfg)"></a>OpenOCD Target Configuration (xilinx-xc6v.cfg)</h2><figure class="highlight tcl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> &#123; [<span class="keyword">info</span> exists CHIPNAME] &#125; &#123;</span><br><span class="line">	<span class="keyword">set</span> _CHIPNAME $CHIPNAME</span><br><span class="line">&#125; else &#123;</span><br><span class="line">	<span class="keyword">set</span> _CHIPNAME xc6v</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">set</span> XC6V_CFG_IN <span class="number">0x05</span></span><br><span class="line"><span class="keyword">set</span> XC6V_JSHUTDOWN <span class="number">0x0d</span></span><br><span class="line"><span class="keyword">set</span> XC6V_JPROGRAM <span class="number">0x0b</span></span><br><span class="line"><span class="keyword">set</span> XC6V_JSTART <span class="number">0x0c</span></span><br><span class="line"><span class="keyword">set</span> XC6V_BYPASS <span class="number">0x3f</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Device ID Code IR Length Part Name</span></span><br><span class="line"><span class="comment"># 84250093 10 XC6VLX240T</span></span><br><span class="line"><span class="comment"># 44244093 10 XC6VLX75T</span></span><br><span class="line"><span class="comment"># c2a96093 10 XC6VLX50T</span></span><br><span class="line"><span class="comment"># 442a8093 10 XC6VHX380T</span></span><br><span class="line"></span><br><span class="line">jtag newtap $_CHIPNAME tap -irlen <span class="number">10</span> -ignore-version \</span><br><span class="line">	-expected-id <span class="number">0x84250093</span></span><br><span class="line">pld device virtex2 $_CHIPNAME.tap</span><br><span class="line"></span><br><span class="line"><span class="keyword">proc</span><span class="title"> xc6v_program</span> &#123;tap&#125; &#123;</span><br><span class="line">	<span class="keyword">global</span> XC6V_JSHUTDOWN XC6V_JPROGRAM XC6V_JSTART XC6V_BYPASS</span><br><span class="line">	irscan $tap $XC6V_JSHUTDOWN</span><br><span class="line">	irscan $tap $XC6V_JPROGRAM</span><br><span class="line">	irscan $tap $XC6V_JSTART</span><br><span class="line">	irscan $tap $XC6V_BYPASS</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://pansila.github.io/posts/7db4884d/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1657,141 +1835,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://pansila.github.io/posts/58597cbe/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Pansila">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Fantasy and Fiction">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/posts/58597cbe/" itemprop="url">树莓派上配置动态域名解析Oray DDNS</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2015-09-12T21:45:53+08:00">2015-09-12</time>
-            
-
-            
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/posts/58597cbe/#comments" itemprop="discussionUrl">
-                  <span class="post-meta-item-text">Comments:</span> <span class="post-comments-count valine-comment-count" data-xid="/posts/58597cbe/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>raspberry pi玩到后来不可避免会玩上DDNS，即<a href="https://en.wikipedia.org/wiki/Dynamic_DNS" target="_blank" rel="noopener">动态域名解析</a>，众所周知拨号上网拿到的公网IP每次可能不一样，为了从公网访问拨号猫后面的内网PC，需要外部提供一个查询机制，即DDNS，在这个外部查询系统注册一个域名之后，内部再装一个客户端，里应外合，把拨号拿到的公网IP通知给公网上的查询系统。这样公网用户每次要访问内网的PC，首先到这个确定地址的公网查询注册的域名，然后转换成对应的IP，从而达到访问内网PC的目的。<br>关于如何在Raspberry Pi设置花生壳，官网已经有<a href="http://service.oray.com/question/2680.html" target="_blank" rel="noopener">介绍</a>。<br>需要注意的是运行oraynewph需要root权限。</p>
-<p><strong>Update@2015-09-13</strong><br>花生壳的免费域名实在太不好用，第一次成功更新A记录后，不管后面拨号再怎么重换地址，花生壳系统的A记录和路由的WAN地址始终不一致，还不能手动改。考虑到使用的电信网络，应该不存在ISP NAT的情况，折腾数天不妥，怒弃之。。。<br><img src="/img/2015-09-13_174117.png" alt="死活不更新"><br>另外考虑到花生壳的免费域名，可能会被无聊人士盯上乱扫描，万一自家的路由器，树莓派等等有什么漏洞，城池难保。<del>折衷的办法就是自己麻烦一点，让rapsberry pi主动email报告IP。后面完善了回来补充</del>。鉴于ISP NAT的问题，WAN的IP也不是公网IP，这个方案也被否决了。<br><strong>Update@2015-09-14</strong><br>换了路由自带的花生壳客户端，同样的不一致问题，<del>只能归咎于免费域名的故意限制。。。尝试其他DDNS服务。。。</del><br><strong>Update@2015-09-14</strong><br>3322也一样，ip138也显示这个地址，看来真的是有ISP NAT。。。<br><strong>Update@2015-09-15</strong><br>对于ISP NAT，花生壳官网介绍有<a href="http://service.oray.com/question/136.html" target="_blank" rel="noopener">解决方案</a>，只要你升到专业服务:(<br>说实话这个解决方案只是重新选择了下接入线路，背后原理莫名其妙，貌似再没有其它家有类似的解决方案。<br>初步搜索了下，在有ISP NAT的情况下，如果自己用，VPN不失为一个靠谱的解决方案。</p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1839,7 +1882,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">19</span>
+                    <span class="site-state-item-count">20</span>
                     <span class="site-state-item-name">posts</span>
                   </a>
                 </div>
