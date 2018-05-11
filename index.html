@@ -271,6 +271,164 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://pansila.github.io/posts/233799e4/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Pansila">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Fantasy and Fiction">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/posts/233799e4/" itemprop="url">Compile openocd for ARM platform</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-05-11T16:11:20+08:00">2018-05-11</time>
+            
+
+            
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/posts/233799e4/#comments" itemprop="discussionUrl">
+                  <span class="post-meta-item-text">Comments:</span> <span class="post-comments-count valine-comment-count" data-xid="/posts/233799e4/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="Background"><a href="#Background" class="headerlink" title="Background"></a>Background</h2><p>The latest openocd we can get from the apt repository of Raspberry Pi is only up to 0.9.0 as of writing. I’d like to use my Raspberry Pi to download FPGA bit file, but openocd 0.9.0 has some problem to support jlink debugger. See errors below if it’s like your case.<br><figure class="highlight ada"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">Pi@Raspberrypi:~/openocd-workdir $ /usr/bin/openocd -f <span class="keyword">interface</span>/jlink.cfg -f xilinx-xc6v.cfg -f openocd-xc6v.cfg</span><br><span class="line">Open On-Chip Debugger <span class="number">0.9</span>.<span class="number">0</span> (<span class="number">2018</span>-<span class="number">01</span>-<span class="number">22</span>-<span class="number">06</span>:<span class="number">14</span>)</span><br><span class="line">Licensed under GNU GPL v2</span><br><span class="line"><span class="keyword">For</span> bug reports, read</span><br><span class="line">        http://openocd.org/doc/doxygen/bugs.html</span><br><span class="line">Info : <span class="type">auto</span>-selecting first available session transport <span class="string">"jtag"</span>. To override <span class="keyword">use</span> <span class="symbol">'transport</span> <span class="keyword">select</span> &lt;transport&gt;'.</span><br><span class="line">xc6v_program_iprog</span><br><span class="line">adapter speed: <span class="number">5000</span> kHz</span><br><span class="line">Info : <span class="type">J</span>-Link ARM V8 compiled May <span class="number">27</span> <span class="number">2009</span> <span class="number">17</span>:<span class="number">31</span>:<span class="number">22</span></span><br><span class="line">Info : <span class="type">J</span>-Link caps <span class="number">0</span>xb9ff7bbf</span><br><span class="line">Info : <span class="type">J</span>-Link hw version <span class="number">80000</span></span><br><span class="line">Info : <span class="type">J</span>-Link hw <span class="keyword">type</span> <span class="type">J-Link</span></span><br><span class="line"><span class="type">Info </span>: J-Link max mem block <span class="number">9752</span></span><br><span class="line">Info : <span class="type">J</span>-Link configuration</span><br><span class="line">Info : <span class="type">USB</span>-Address: <span class="number">0</span>x0</span><br><span class="line">Info : <span class="type">Kickstart</span> power on JTAG-pin <span class="number">19</span>: <span class="number">0</span>xffffffff</span><br><span class="line">Info : <span class="type">Vref</span> = <span class="number">2.523</span> TCK = <span class="number">1</span> TDI = <span class="number">0</span> TDO = <span class="number">1</span> TMS = <span class="number">0</span> SRST = <span class="number">1</span> TRST = <span class="number">1</span></span><br><span class="line">Info : <span class="type">J</span>-Link JTAG <span class="keyword">Interface</span> ready</span><br><span class="line">Info : <span class="type">clock</span> speed <span class="number">5000</span> kHz</span><br><span class="line">Info : <span class="type">JTAG</span> tap: xc6v.tap tap/device found: <span class="number">0</span>x84250093 (mfg: <span class="number">0</span>x049, part: <span class="number">0</span>x4250, ver: <span class="number">0</span>x8)</span><br><span class="line">Warn : <span class="type">gdb</span> services need one <span class="keyword">or</span> more targets defined</span><br><span class="line">openocd: jlink.c:<span class="number">1474</span>: jlink_tap_append_step: Assertion `index_var &lt; JLINK_TAP_BUFFER_SIZE' failed.</span><br><span class="line">Aborted</span><br></pre></td></tr></table></figure></p>
+<p>Howerver, it works well on the PC with the openocd 0.10.0 from <a href="https://gnu-mcu-eclipse.github.io/openocd/" target="_blank" rel="noopener">GNU MCU Eclipse OpenOCD</a>, so I decided to compile it for my Raspberry Pi.</p>
+<p>Unfortunately, GNU MCU Eclipse OpenOCD doesn’t support compiling for arm, after some searching on the web, I found an openocd build <a href="https://github.com/arduino/OpenOCD-build-script" target="_blank" rel="noopener">repository</a> for Arduino which bundled all necessary libraries for building. The openocd included is a bit of old, we can replace it with the latest one.</p>
+<h2 id="Cross-Compiling"><a href="#Cross-Compiling" class="headerlink" title="Cross Compiling"></a>Cross Compiling</h2><ol>
+<li><p>Check out the latest openocd code</p>
+<figure class="highlight crmsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git <span class="keyword">clone</span> <span class="title">git</span>://git.code.sf.net/p/openocd/code openocd</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Check out the openocd build script</p>
+<figure class="highlight crmsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git <span class="keyword">clone</span> <span class="title">https</span>://github.com/arduino/OpenOCD-build-script.git openocd-build</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Copy it to the build folder, replace the original <code>OpenOCD</code> folder</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> mv openocd-build/OpenOCD&#123;,-old&#125;</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> cp openocd openocd-build/OpenOCD -r</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Add the cross compile arguments in the <code>compile_unix_openocd.sh</code></p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.</span></span><br><span class="line"><span class="attr">ARCH</span>=`gcc -v <span class="number">2</span>&gt;&amp;<span class="number">1</span> | awk <span class="string">'/Target/ &#123; print $2 &#125;'</span>`</span><br><span class="line"></span><br><span class="line"><span class="comment"># Add two new arguments, check uname -m for your build PC's architecture</span></span><br><span class="line"><span class="attr">BUILD</span>=<span class="string">"x86_64-pc-linux-gnu"</span></span><br><span class="line"><span class="attr">HOST</span>=<span class="string">"arm-linux-gnueabihf"</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Append the cross compile flags to all configuration steps, like this</p>
+<figure class="highlight jboss-cli"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">...</span></span><br><span class="line"><span class="string">./configure</span> <span class="params">--enable-static</span> <span class="params">--disable-shared</span> <span class="params">--disable-blkid</span> <span class="params">--disable-kmod</span>  <span class="params">--disable-manpages</span> <span class="params">--host=</span>$HOST <span class="params">--build=</span>$BUILD</span><br><span class="line"><span class="string">...</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Build it, install any missed packages if the build process reports, like gperf</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> ./compile_unix_openocd.sh</span></span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>However the binary generated this way is failed to run on the raspberry pi with a segment fault, not sure why. Instead, I went for a native building.</p>
+<h2 id="Native-Compiling-On-Raspberry-Pi"><a href="#Native-Compiling-On-Raspberry-Pi" class="headerlink" title="Native Compiling On Raspberry Pi"></a>Native Compiling On Raspberry Pi</h2><p>Nothing need to change except updating the OpenOCD code. The new generated openocd solved the problem in the first place.</p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://pansila.github.io/posts/67d7a1ab/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1684,162 +1842,11 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://pansila.github.io/posts/1d1223af/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Pansila">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Fantasy and Fiction">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/posts/1d1223af/" itemprop="url">设计模式之装饰器/面向切面编程在Python和C中的体现</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2015-09-20T21:14:45+08:00">2015-09-20</time>
-            
-
-            
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/posts/1d1223af/#comments" itemprop="discussionUrl">
-                  <span class="post-meta-item-text">Comments:</span> <span class="post-comments-count valine-comment-count" data-xid="/posts/1d1223af/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>最近学习到python中的装饰器有点意思，函数定义前面声明一句话，即可改变函数的部分行为。不同的声明，可以从不同方面改变函数的行为，就像一栋房子重新装修了下，就有了不同的风格。<br>小小的提炼却是大大的进步。<br>比如<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">hello</span><span class="params">(fn)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">wrapper</span><span class="params">()</span>:</span></span><br><span class="line">        <span class="keyword">print</span> <span class="string">"hello, %s"</span> % fn.__name__</span><br><span class="line">        fn()</span><br><span class="line">        <span class="keyword">print</span> <span class="string">"goodby, %s"</span> % fn.__name__</span><br><span class="line">    <span class="keyword">return</span> wrapper</span><br><span class="line"></span><br><span class="line"><span class="meta">@hello</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">foo</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">print</span> <span class="string">"i am foo"</span></span><br><span class="line"></span><br><span class="line">foo()</span><br></pre></td></tr></table></figure></p>
-<p>运行后<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ python hello.py</span><br><span class="line">hello, foo</span><br><span class="line"><span class="selector-tag">i</span> am foo</span><br><span class="line">goodby, foo</span><br></pre></td></tr></table></figure></p>
-<p>追究其本质，首先是因为在python中一切皆对象，函数也不例外，所以有了动态修改函数指向对象的机会，那么经过修饰器修饰后，foo其实已不是原来的foo，而是被包装过的：<code>foo = hello(foo)</code>，再次调用时，新的foo指向了包装后的新函数，从而包括了原来的foo功能和包装器的新功能。</p>
-<blockquote>
-<p>装饰器作为一种设计模式，在插入日志，性能测试，事务处理方面有着广泛应用。</p>
-</blockquote>
-<p>作为一个C起家的程序员，看完这些突然意识到，这样的模式其实在C实践中也有很多应用，比如上面插入日志的例子，在C中就是：<br><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">foo</span><span class="params">(<span class="keyword">int</span> x)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	print(<span class="string">"in foo: %d\n"</span>, x);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>修饰下，插入日志。<br><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">void</span> _foo(<span class="keyword">int</span> x)</span><br><span class="line">&#123;</span><br><span class="line">	print(<span class="string">"in foo: %d\n"</span>, x);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> foo(x)		\</span></span><br><span class="line">	<span class="keyword">do</span> &#123;			\</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">"hello\n"</span>);	\</span><br><span class="line">		_foo(x);	\</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">"goodbye\n"</span>);	\</span><br><span class="line">	&#125; <span class="keyword">while</span> (<span class="number">0</span>)</span><br></pre></td></tr></table></figure></p>
-<p>更进一步，C语言中有种特殊的调试技巧：某个函数被广泛调用，我们想追踪这个函数在动态执行时，被哪些函数调用，以及传入的参数是什么名称。<br>最简单粗暴的方法就是找出所有调用的地方，前面插入跟踪代码，打印调用函数和参数。<br><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> ARG_1	50</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> ARG_2	100</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">foo1</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"caller %s, argument ARG_1\n"</span>, __func__);</span><br><span class="line">	foo(ARG_1);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">foo2</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"caller %s, argument ARG_2\n"</span>, __func__);</span><br><span class="line">	foo(ARG_2);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>显然这样做既费时痛苦又无扩展性，如果想跟踪其它函数，还得再这样改一遍。<br>改进的做法就是用宏定义同名覆盖函数，然后加上调试信息。<br><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">void</span> _foo(<span class="keyword">int</span> x)</span><br><span class="line">&#123;</span><br><span class="line">	print(<span class="string">"in foo: %d\n"</span>, x);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> foo(x)		\</span></span><br><span class="line">	<span class="keyword">do</span> &#123;			\</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">"caller %s, argument %s\n"</span>, __func__, ##x);	\</span><br><span class="line">		_foo(x);	\</span><br><span class="line">	&#125; <span class="keyword">while</span> (<span class="number">0</span>)</span><br></pre></td></tr></table></figure></p>
-<p>只需如此修改，其它所有调用foo的地方无需修改即可达到前述跟踪目的。这里面蕴含的思想其实跟修饰器是类似的：<code>通过修改原函数的指向，在原函数的基础上添加新功能</code>。</p>
-<p>当然这里有三点区别：</p>
-<ol>
-<li>C实现的修饰是编译时修改，而python是运行时动态修改；</li>
-<li>C函数的修饰器就是宏定义，而且需要修改原函数原型的名称，以防命名冲突；Python的修饰器是另一个函数，修饰后原函数被覆盖。</li>
-<li>C函数被修饰后，并没有生成新的函数，而是在原来的函数调用处添加了一些语句，而python简单彻底，重新生成新的函数对象。</li>
-</ol>
-<p>参考文章：<br><a href="http://coolshell.cn/articles/11265.html" target="_blank" rel="noopener">coolshell的Python修饰器的函数式编程</a><br><a href="http://www.cnblogs.com/huxi/archive/2011/03/01/1967600.html" target="_blank" rel="noopener">Python装饰器与面向切面编程</a></p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
   </nav>
 
 
@@ -1882,7 +1889,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">20</span>
+                    <span class="site-state-item-count">21</span>
                     <span class="site-state-item-name">posts</span>
                   </a>
                 </div>
