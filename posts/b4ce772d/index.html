@@ -99,23 +99,26 @@
 
 
 
-  <meta name="description" content="BackgroundThe latest openocd we can get from the apt repository of Raspberry Pi is only up to 0.9.0 as of writing. I’d like to use my Raspberry Pi to download FPGA bit file, but openocd 0.9.0 has some">
+  <meta name="description" content="Recently, I came upon this issue which bothered me badly as many tools fail to work with that. The symptom is that I can’t rename any file in the file Explorer or command line, both give me an error m">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Compile openocd for ARM platform">
-<meta property="og:url" content="http://pansila.github.io/posts/233799e4/index.html">
+<meta property="og:title" content="A Weird File Rename Issue On Windows7">
+<meta property="og:url" content="http://pansila.github.io/posts/b4ce772d/index.html">
 <meta property="og:site_name" content="Fantasy and Fiction">
-<meta property="og:description" content="BackgroundThe latest openocd we can get from the apt repository of Raspberry Pi is only up to 0.9.0 as of writing. I’d like to use my Raspberry Pi to download FPGA bit file, but openocd 0.9.0 has some">
-<meta property="og:updated_time" content="2018-06-01T16:55:30.935Z">
+<meta property="og:description" content="Recently, I came upon this issue which bothered me badly as many tools fail to work with that. The symptom is that I can’t rename any file in the file Explorer or command line, both give me an error m">
+<meta property="og:image" content="http://pansila.github.io/img/procmon-rename-issue.png">
+<meta property="og:image" content="http://pansila.github.io/img/fltmc.jpg">
+<meta property="og:updated_time" content="2018-06-01T17:04:22.050Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Compile openocd for ARM platform">
-<meta name="twitter:description" content="BackgroundThe latest openocd we can get from the apt repository of Raspberry Pi is only up to 0.9.0 as of writing. I’d like to use my Raspberry Pi to download FPGA bit file, but openocd 0.9.0 has some">
+<meta name="twitter:title" content="A Weird File Rename Issue On Windows7">
+<meta name="twitter:description" content="Recently, I came upon this issue which bothered me badly as many tools fail to work with that. The symptom is that I can’t rename any file in the file Explorer or command line, both give me an error m">
+<meta name="twitter:image" content="http://pansila.github.io/img/procmon-rename-issue.png">
 
 
 
 
 
 
-  <link rel="canonical" href="http://pansila.github.io/posts/233799e4/"/>
+  <link rel="canonical" href="http://pansila.github.io/posts/b4ce772d/"/>
 
 
 
@@ -125,7 +128,7 @@
   };
 </script>
 
-  <title>Compile openocd for ARM platform | Fantasy and Fiction</title>
+  <title>A Weird File Rename Issue On Windows7 | Fantasy and Fiction</title>
   
 
 
@@ -274,7 +277,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://pansila.github.io/posts/233799e4/">
+    <link itemprop="mainEntityOfPage" href="http://pansila.github.io/posts/b4ce772d/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Pansila">
@@ -291,7 +294,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Compile openocd for ARM platform</h1>
+          <h1 class="post-title" itemprop="name headline">A Weird File Rename Issue On Windows7</h1>
         
 
         <div class="post-meta">
@@ -303,7 +306,7 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-05-11T16:11:20+08:00">2018-05-11</time>
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-06-01T23:36:19+08:00">2018-06-01</time>
             
 
             
@@ -321,8 +324,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/posts/233799e4/#comments" itemprop="discussionUrl">
-                  <span class="post-meta-item-text">Comments:</span> <span class="post-comments-count valine-comment-count" data-xid="/posts/233799e4/" itemprop="commentCount"></span>
+                <a href="/posts/b4ce772d/#comments" itemprop="discussionUrl">
+                  <span class="post-meta-item-text">Comments:</span> <span class="post-comments-count valine-comment-count" data-xid="/posts/b4ce772d/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -330,7 +333,7 @@
 
           
           
-             <span id="/posts/233799e4/" class="leancloud_visitors" data-flag-title="Compile openocd for ARM platform">
+             <span id="/posts/b4ce772d/" class="leancloud_visitors" data-flag-title="A Weird File Rename Issue On Windows7">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -361,31 +364,72 @@
       
 
       
-        <h2 id="Background"><a href="#Background" class="headerlink" title="Background"></a>Background</h2><p>The latest openocd we can get from the apt repository of Raspberry Pi is only up to 0.9.0 as of writing. I’d like to use my Raspberry Pi to download FPGA bit file, but openocd 0.9.0 has some problem to support jlink debugger. See errors below if it’s like your case.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">Pi@Raspberrypi:~/openocd-workdir $ /usr/bin/openocd -f interface/jlink.cfg -f xilinx-xc6v.cfg -f openocd-xc6v.cfg</span><br><span class="line">Open On-Chip Debugger 0.9.0 (2018-01-22-06:14)</span><br><span class="line">Licensed under GNU GPL v2</span><br><span class="line">For bug reports, read</span><br><span class="line">        http://openocd.org/doc/doxygen/bugs.html</span><br><span class="line">Info : auto-selecting first available session transport &quot;jtag&quot;. To override use &apos;transport select &lt;transport&gt;&apos;.</span><br><span class="line">xc6v_program_iprog</span><br><span class="line">adapter speed: 5000 kHz</span><br><span class="line">Info : J-Link ARM V8 compiled May 27 2009 17:31:22</span><br><span class="line">Info : J-Link caps 0xb9ff7bbf</span><br><span class="line">Info : J-Link hw version 80000</span><br><span class="line">Info : J-Link hw type J-Link</span><br><span class="line">Info : J-Link max mem block 9752</span><br><span class="line">Info : J-Link configuration</span><br><span class="line">Info : USB-Address: 0x0</span><br><span class="line">Info : Kickstart power on JTAG-pin 19: 0xffffffff</span><br><span class="line">Info : Vref = 2.523 TCK = 1 TDI = 0 TDO = 1 TMS = 0 SRST = 1 TRST = 1</span><br><span class="line">Info : J-Link JTAG Interface ready</span><br><span class="line">Info : clock speed 5000 kHz</span><br><span class="line">Info : JTAG tap: xc6v.tap tap/device found: 0x84250093 (mfg: 0x049, part: 0x4250, ver: 0x8)</span><br><span class="line">Warn : gdb services need one or more targets defined</span><br><span class="line">openocd: jlink.c:1474: jlink_tap_append_step: Assertion `index_var &lt; JLINK_TAP_BUFFER_SIZE&apos; failed.</span><br><span class="line">Aborted</span><br></pre></td></tr></table></figure></p>
-<p>Howerver, it works well on the PC with the openocd 0.10.0 from <a href="https://gnu-mcu-eclipse.github.io/openocd/" target="_blank" rel="noopener">GNU MCU Eclipse OpenOCD</a>, so I decided to compile it for my Raspberry Pi.</p>
-<p>Unfortunately, GNU MCU Eclipse OpenOCD doesn’t support compiling for arm, after some searching on the web, I found an openocd build <a href="https://github.com/arduino/OpenOCD-build-script" target="_blank" rel="noopener">repository</a> for Arduino which bundled all necessary libraries for building. The openocd included is a bit of old, we can replace it with the latest one.</p>
-<h2 id="Cross-Compiling"><a href="#Cross-Compiling" class="headerlink" title="Cross Compiling"></a>Cross Compiling</h2><ol>
-<li><p>Check out the latest openocd code</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git clone git://git.code.sf.net/p/openocd/code openocd</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>Check out the openocd build script</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git clone https://github.com/arduino/OpenOCD-build-script.git openocd-build</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>Copy it to the build folder, replace the original <code>OpenOCD</code> folder</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ mv openocd-build/OpenOCD&#123;,-old&#125;</span><br><span class="line">$ cp openocd openocd-build/OpenOCD -r</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>Add the cross compile arguments in the <code>compile_unix_openocd.sh</code></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.</span><br><span class="line">ARCH=`gcc -v 2&gt;&amp;1 | awk &apos;/Target/ &#123; print $2 &#125;&apos;`</span><br><span class="line"></span><br><span class="line"># Add two new arguments, check uname -m for your build PC&apos;s architecture</span><br><span class="line">BUILD=&quot;x86_64-pc-linux-gnu&quot;</span><br><span class="line">HOST=&quot;arm-linux-gnueabihf&quot;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>Append the cross compile flags to all configuration steps, like this</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line">./configure --enable-static --disable-shared --disable-blkid --disable-kmod  --disable-manpages --host=$HOST --build=$BUILD</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>Build it, install any missed packages if the build process reports, like gperf</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ./compile_unix_openocd.sh</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<p>However the binary generated this way is failed to run on the raspberry pi with a segment fault, not sure why. Instead, I went for a native building.</p>
-<h2 id="Native-Compiling-On-Raspberry-Pi"><a href="#Native-Compiling-On-Raspberry-Pi" class="headerlink" title="Native Compiling On Raspberry Pi"></a>Native Compiling On Raspberry Pi</h2><p>Nothing need to change except updating the OpenOCD code. The new generated openocd solved the problem in the first place.</p>
+        <p>Recently, I came upon this issue which bothered me badly as many tools fail to work with that. The symptom is that I can’t rename any file in the file Explorer or command line, both give me an error message saying that no permission or something like, I can create a new file though.</p>
+<p>To debug what happened under the hood, I wrote a python script to call rename api periodically, and hopes some tool could reveal something.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:</span><br><span class="line">    <span class="keyword">while</span> <span class="keyword">True</span>:</span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            os.rename(<span class="string">'test.txt'</span>, <span class="string">'test1.txt'</span>)</span><br><span class="line">        <span class="keyword">except</span>:</span><br><span class="line">            <span class="keyword">pass</span></span><br><span class="line">        time.sleep(<span class="number">1</span>)</span><br></pre></td></tr></table></figure>
+<p>First I use Windbg to attach to the python process, run the program and pause it later, it stops at somewhere that there are lot of int 3 instructions that I don’t familiar with so I gave up. I need a breakpoint! So I look up the CPython source code to see what Win API is used for os.rename, here we got <a href="https://github.com/python/cpython/blob/master/Modules/posixmodule.c#L4105:14" target="_blank" rel="noopener">it</a>, it’s <code>MoveFileExW</code>.</p>
+<p>Type in the breakpoint in the windbg</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bp MoveFileExW</span><br></pre></td></tr></table></figure>
+<p>Then more assembly came out, in fact I’m not sure what they are doing, just following the execution flow to see where it exits, and hope will get some useful information about the early abort error.</p>
+<pre><code class="arm"><span class="symbol">...</span>
+<span class="number">00000000</span>`<span class="number">770</span>d2dd5 ff158d9e0900    call    qword ptr [kernel32!UnhandledExceptionFilter+<span class="number">0x11a8</span> (<span class="number">00000000</span>`<span class="number">7716</span>cc68)] ds:<span class="number">00000000</span>`<span class="number">7716</span>cc68={ntdll!ZwSetInformationFile (<span class="number">00000000</span>`<span class="number">77359</span>b10)}
+<span class="number">0</span>:<span class="number">000</span>&gt; p
+<span class="symbol">kernel32</span>!<span class="keyword">MoveFileExW+0x27b:</span>
+<span class="keyword">00000000`770d2ddb </span><span class="number">89842480000000</span>  <span class="keyword">mov </span>    dword ptr [rsp+<span class="number">80</span>h],eax ss:<span class="number">00000000</span>`<span class="number">0026</span>f190<span class="number">=0281</span>af48
+<span class="number">0</span>:<span class="number">000</span>&gt; p
+<span class="symbol">kernel32</span>!<span class="keyword">MoveFileExW+0x282:</span>
+<span class="keyword">00000000`770d2de2 </span><span class="number">65488</span>b042530000000 <span class="keyword">mov </span>  rax,qword ptr gs:[<span class="number">30</span>h] gs:<span class="number">00000000</span>`<span class="number">00000030</span>=????????????????
+<span class="number">0</span>:<span class="number">000</span>&gt; p
+<span class="symbol">kernel32</span>!<span class="keyword">MoveFileExW+0x28b:</span>
+<span class="keyword">00000000`770d2deb </span><span class="number">488</span>b4860        <span class="keyword">mov </span>    rcx,qword ptr [rax+<span class="number">60</span>h] ds:<span class="number">000007</span>ff`fffde060<span class="number">=000007</span>fffffd6000
+<span class="number">0</span>:<span class="number">000</span>&gt; p
+<span class="symbol">kernel32</span>!<span class="keyword">MoveFileExW+0x28f:</span>
+<span class="keyword">00000000`770d2def </span><span class="number">4</span>c8b8424b8000000 <span class="keyword">mov </span>    <span class="built_in">r8</span>,qword ptr [rsp+<span class="number">0</span>B8h] ss:<span class="number">00000000</span>`<span class="number">0026</span>f1c8<span class="number">=00000000004508</span>a0
+<span class="number">0</span>:<span class="number">000</span>&gt; p
+<span class="symbol">kernel32</span>!<span class="keyword">MoveFileExW+0x297:</span>
+<span class="keyword">00000000`770d2df7 </span><span class="number">33</span><span class="built_in">d2</span>            xor     edx,edx
+<span class="number">0</span>:<span class="number">000</span>&gt; p
+<span class="symbol">kernel32</span>!<span class="keyword">MoveFileExW+0x299:</span>
+<span class="keyword">00000000`770d2df9 </span><span class="number">488</span>b4930        <span class="keyword">mov </span>    rcx,qword ptr [rcx+<span class="number">30</span>h] ds:<span class="number">000007</span>ff`fffd6030<span class="number">=00000000003</span>f0000
+<span class="number">0</span>:<span class="number">000</span>&gt; p
+<span class="symbol">kernel32</span>!<span class="keyword">MoveFileExW+0x29d:</span>
+<span class="keyword">00000000`770d2dfd </span>ff15c59e0900    call    qword ptr [kernel32!UnhandledExceptionFilter+<span class="number">0x1208</span> (<span class="number">00000000</span>`<span class="number">7716</span>ccc8)] ds:<span class="number">00000000</span>`<span class="number">7716</span>ccc8={ntdll!RtlFreeHeap (<span class="number">00000000</span>`<span class="number">7731</span>a020)}
+<span class="number">0</span>:<span class="number">000</span>&gt; p
+<span class="symbol">kernel32</span>!<span class="keyword">MoveFileExW+0x2a3:</span>
+<span class="keyword">00000000`770d2e03 </span><span class="number">8</span>b8c2480000000  <span class="keyword">mov </span>    ecx,dword ptr [rsp+<span class="number">80</span>h] ss:<span class="number">00000000</span>`<span class="number">0026</span>f190<span class="symbol">=c00000ba</span>
+<span class="number">0</span>:<span class="number">000</span>&gt; p
+<span class="symbol">kernel32</span>!<span class="keyword">MoveFileExW+0x2aa:</span>
+<span class="keyword">00000000`770d2e0a </span><span class="number">85</span><span class="built_in">c9</span>            test    ecx,ecx
+<span class="number">0</span>:<span class="number">000</span>&gt; p
+<span class="symbol">kernel32</span>!<span class="keyword">MoveFileExW+0x2ac:</span>
+<span class="keyword">00000000`770d2e0c </span><span class="number">0</span>f88a2060200    js      kernel32!GetModuleHandleW+<span class="number">0x13f4</span> (<span class="number">00000000</span>`<span class="number">770</span>f34b4) [<span class="keyword">br=1]</span>
+<span class="keyword">0:000&gt; </span>p
+<span class="symbol">kernel32</span>!GetModuleHandleW+<span class="number">0x13f4</span>:
+<span class="number">00000000</span>`<span class="number">770</span>f34b4 <span class="number">81</span>f9d40000c0    <span class="keyword">cmp </span>    ecx,<span class="number">0</span>C00000D4h
+<span class="number">0</span>:<span class="number">000</span>&gt; p
+<span class="symbol">kernel32</span>!GetModuleHandleW+<span class="number">0x13fa</span>:
+<span class="number">00000000</span>`<span class="number">770</span>f34ba <span class="number">7408</span>            je      kernel32!GetModuleHandleW+<span class="number">0x1404</span> (<span class="number">00000000</span>`<span class="number">770</span>f34c4) [<span class="keyword">br=0]</span>
+<span class="keyword">0:000&gt; </span>p
+<span class="symbol">kernel32</span>!GetModuleHandleW+<span class="number">0x13fc</span>:
+<span class="number">00000000</span>`<span class="number">770</span>f34bc <span class="number">81</span>f9380019c0    <span class="keyword">cmp </span>    ecx,<span class="number">0</span>C0190038h
+<span class="number">0</span>:<span class="number">000</span>&gt; p
+<span class="symbol">kernel32</span>!GetModuleHandleW+<span class="number">0x1402</span>:
+<span class="number">00000000</span>`<span class="number">770</span>f34c2 <span class="number">754</span>c            jne     kernel32!GetModuleHandleW+<span class="number">0x1450</span> (<span class="number">00000000</span>`<span class="number">770</span>f3510) [<span class="keyword">br=1]</span>
+<span class="keyword">0:000&gt; </span>p
+<span class="symbol">kernel32</span>!GetModuleHandleW+<span class="number">0x1450</span>:
+<span class="number">00000000</span>`<span class="number">770</span>f3510 e80be5ffff      call    kernel32!<span class="keyword">BaseSetLastNTError </span>(<span class="number">00000000</span>`<span class="number">770</span>f1a20)
+<span class="number">0</span>:<span class="number">000</span>&gt; p
+<span class="symbol">kernel32</span>!GetModuleHandleW+<span class="number">0x1455</span>:
+<span class="number">00000000</span>`<span class="number">770</span>f3515 e9fff8fdff      jmp     kernel32!<span class="keyword">MoveFileExW+0x2b9 </span>(<span class="number">00000000</span>`<span class="number">770</span>d2e19)
+<span class="symbol">...</span>
+</code></pre>
+<p>Here we got <code>ZwSetInformationFile</code>, I didn’t notice it in the first place since I don’t have any idea about windows driver development.</p>
+<p>I went for the <a href="https://docs.microsoft.com/zh-cn/sysinternals/downloads/procmon" target="_blank" rel="noopener">Process Monitor</a> (procmon), a tool provided by Microsoft to track all kinds of system events.</p>
+<p><img src="/img/procmon-rename-issue.png" alt=""></p>
+<p>It’s Chinese, the messages say that renaming failed because API thinks the target file name is actually a directory. Well it’s not of course!</p>
+<p>After googling a lot, I realized that it’s a minifilter issue that some malfunctioned minifilter dirver intercepts the rename request and drops it accidentally or intentionally. We have fltmc.exe to list them all.</p>
+<p><img src="/img/fltmc.jpg" alt=""></p>
+<p><code>FileInfo</code> and <code>luafv</code> are legal drivers form Microsoft, while <code>eamonm</code> is a driver file form ESET, an anti virus software, you’d think it should be innocent? No, it’s the culprit, after uninstalling it, the issue gone. What the heck! An anti-virus software doing a virus thing!</p>
 
       
     </div>
@@ -413,8 +457,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/posts/67d7a1ab/" rel="next" title="Use OpenOCD to program FPGA for Xilinx Virtex-6 XC6 Series">
-                <i class="fa fa-chevron-left"></i> Use OpenOCD to program FPGA for Xilinx Virtex-6 XC6 Series
+              <a href="/posts/233799e4/" rel="next" title="Compile openocd for ARM platform">
+                <i class="fa fa-chevron-left"></i> Compile openocd for ARM platform
               </a>
             
           </div>
@@ -422,10 +466,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/posts/b4ce772d/" rel="prev" title="A Weird File Rename Issue On Windows7">
-                A Weird File Rename Issue On Windows7 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -477,17 +517,8 @@
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            Table of Contents
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            Overview
-          </li>
-        </ul>
-      
 
-      <section class="site-overview-wrap sidebar-panel">
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -532,22 +563,6 @@
         </div>
       </section>
 
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Background"><span class="nav-number">1.</span> <span class="nav-text">Background</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Cross-Compiling"><span class="nav-number">2.</span> <span class="nav-text">Cross Compiling</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Native-Compiling-On-Raspberry-Pi"><span class="nav-number">3.</span> <span class="nav-text">Native Compiling On Raspberry Pi</span></a></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
       
 
       

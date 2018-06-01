@@ -271,6 +271,216 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://pansila.github.io/posts/b4ce772d/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Pansila">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Fantasy and Fiction">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/posts/b4ce772d/" itemprop="url">A Weird File Rename Issue On Windows7</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-06-01T23:36:19+08:00">2018-06-01</time>
+            
+
+            
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/posts/b4ce772d/#comments" itemprop="discussionUrl">
+                  <span class="post-meta-item-text">Comments:</span> <span class="post-comments-count valine-comment-count" data-xid="/posts/b4ce772d/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/posts/b4ce772d/" class="leancloud_visitors" data-flag-title="A Weird File Rename Issue On Windows7">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">Views:</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>Recently, I came upon this issue which bothered me badly as many tools fail to work with that. The symptom is that I can’t rename any file in the file Explorer or command line, both give me an error message saying that no permission or something like, I can create a new file though.</p>
+<p>To debug what happened under the hood, I wrote a python script to call rename api periodically, and hopes some tool could reveal something.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:</span><br><span class="line">    <span class="keyword">while</span> <span class="keyword">True</span>:</span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            os.rename(<span class="string">'test.txt'</span>, <span class="string">'test1.txt'</span>)</span><br><span class="line">        <span class="keyword">except</span>:</span><br><span class="line">            <span class="keyword">pass</span></span><br><span class="line">        time.sleep(<span class="number">1</span>)</span><br></pre></td></tr></table></figure>
+<p>First I use Windbg to attach to the python process, run the program and pause it later, it stops at somewhere that there are lot of int 3 instructions that I don’t familiar with so I gave up. I need a breakpoint! So I look up the CPython source code to see what Win API is used for os.rename, here we got <a href="https://github.com/python/cpython/blob/master/Modules/posixmodule.c#L4105:14" target="_blank" rel="noopener">it</a>, it’s <code>MoveFileExW</code>.</p>
+<p>Type in the breakpoint in the windbg</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bp MoveFileExW</span><br></pre></td></tr></table></figure>
+<p>Then more assembly came out, in fact I’m not sure what they are doing, just following the execution flow to see where it exits, and hope will get some useful information about the early abort error.</p>
+<pre><code class="arm"><span class="symbol">...</span>
+<span class="number">00000000</span>`<span class="number">770</span>d2dd5 ff158d9e0900    call    qword ptr [kernel32!UnhandledExceptionFilter+<span class="number">0x11a8</span> (<span class="number">00000000</span>`<span class="number">7716</span>cc68)] ds:<span class="number">00000000</span>`<span class="number">7716</span>cc68={ntdll!ZwSetInformationFile (<span class="number">00000000</span>`<span class="number">77359</span>b10)}
+<span class="number">0</span>:<span class="number">000</span>&gt; p
+<span class="symbol">kernel32</span>!<span class="keyword">MoveFileExW+0x27b:</span>
+<span class="keyword">00000000`770d2ddb </span><span class="number">89842480000000</span>  <span class="keyword">mov </span>    dword ptr [rsp+<span class="number">80</span>h],eax ss:<span class="number">00000000</span>`<span class="number">0026</span>f190<span class="number">=0281</span>af48
+<span class="number">0</span>:<span class="number">000</span>&gt; p
+<span class="symbol">kernel32</span>!<span class="keyword">MoveFileExW+0x282:</span>
+<span class="keyword">00000000`770d2de2 </span><span class="number">65488</span>b042530000000 <span class="keyword">mov </span>  rax,qword ptr gs:[<span class="number">30</span>h] gs:<span class="number">00000000</span>`<span class="number">00000030</span>=????????????????
+<span class="number">0</span>:<span class="number">000</span>&gt; p
+<span class="symbol">kernel32</span>!<span class="keyword">MoveFileExW+0x28b:</span>
+<span class="keyword">00000000`770d2deb </span><span class="number">488</span>b4860        <span class="keyword">mov </span>    rcx,qword ptr [rax+<span class="number">60</span>h] ds:<span class="number">000007</span>ff`fffde060<span class="number">=000007</span>fffffd6000
+<span class="number">0</span>:<span class="number">000</span>&gt; p
+<span class="symbol">kernel32</span>!<span class="keyword">MoveFileExW+0x28f:</span>
+<span class="keyword">00000000`770d2def </span><span class="number">4</span>c8b8424b8000000 <span class="keyword">mov </span>    <span class="built_in">r8</span>,qword ptr [rsp+<span class="number">0</span>B8h] ss:<span class="number">00000000</span>`<span class="number">0026</span>f1c8<span class="number">=00000000004508</span>a0
+<span class="number">0</span>:<span class="number">000</span>&gt; p
+<span class="symbol">kernel32</span>!<span class="keyword">MoveFileExW+0x297:</span>
+<span class="keyword">00000000`770d2df7 </span><span class="number">33</span><span class="built_in">d2</span>            xor     edx,edx
+<span class="number">0</span>:<span class="number">000</span>&gt; p
+<span class="symbol">kernel32</span>!<span class="keyword">MoveFileExW+0x299:</span>
+<span class="keyword">00000000`770d2df9 </span><span class="number">488</span>b4930        <span class="keyword">mov </span>    rcx,qword ptr [rcx+<span class="number">30</span>h] ds:<span class="number">000007</span>ff`fffd6030<span class="number">=00000000003</span>f0000
+<span class="number">0</span>:<span class="number">000</span>&gt; p
+<span class="symbol">kernel32</span>!<span class="keyword">MoveFileExW+0x29d:</span>
+<span class="keyword">00000000`770d2dfd </span>ff15c59e0900    call    qword ptr [kernel32!UnhandledExceptionFilter+<span class="number">0x1208</span> (<span class="number">00000000</span>`<span class="number">7716</span>ccc8)] ds:<span class="number">00000000</span>`<span class="number">7716</span>ccc8={ntdll!RtlFreeHeap (<span class="number">00000000</span>`<span class="number">7731</span>a020)}
+<span class="number">0</span>:<span class="number">000</span>&gt; p
+<span class="symbol">kernel32</span>!<span class="keyword">MoveFileExW+0x2a3:</span>
+<span class="keyword">00000000`770d2e03 </span><span class="number">8</span>b8c2480000000  <span class="keyword">mov </span>    ecx,dword ptr [rsp+<span class="number">80</span>h] ss:<span class="number">00000000</span>`<span class="number">0026</span>f190<span class="symbol">=c00000ba</span>
+<span class="number">0</span>:<span class="number">000</span>&gt; p
+<span class="symbol">kernel32</span>!<span class="keyword">MoveFileExW+0x2aa:</span>
+<span class="keyword">00000000`770d2e0a </span><span class="number">85</span><span class="built_in">c9</span>            test    ecx,ecx
+<span class="number">0</span>:<span class="number">000</span>&gt; p
+<span class="symbol">kernel32</span>!<span class="keyword">MoveFileExW+0x2ac:</span>
+<span class="keyword">00000000`770d2e0c </span><span class="number">0</span>f88a2060200    js      kernel32!GetModuleHandleW+<span class="number">0x13f4</span> (<span class="number">00000000</span>`<span class="number">770</span>f34b4) [<span class="keyword">br=1]</span>
+<span class="keyword">0:000&gt; </span>p
+<span class="symbol">kernel32</span>!GetModuleHandleW+<span class="number">0x13f4</span>:
+<span class="number">00000000</span>`<span class="number">770</span>f34b4 <span class="number">81</span>f9d40000c0    <span class="keyword">cmp </span>    ecx,<span class="number">0</span>C00000D4h
+<span class="number">0</span>:<span class="number">000</span>&gt; p
+<span class="symbol">kernel32</span>!GetModuleHandleW+<span class="number">0x13fa</span>:
+<span class="number">00000000</span>`<span class="number">770</span>f34ba <span class="number">7408</span>            je      kernel32!GetModuleHandleW+<span class="number">0x1404</span> (<span class="number">00000000</span>`<span class="number">770</span>f34c4) [<span class="keyword">br=0]</span>
+<span class="keyword">0:000&gt; </span>p
+<span class="symbol">kernel32</span>!GetModuleHandleW+<span class="number">0x13fc</span>:
+<span class="number">00000000</span>`<span class="number">770</span>f34bc <span class="number">81</span>f9380019c0    <span class="keyword">cmp </span>    ecx,<span class="number">0</span>C0190038h
+<span class="number">0</span>:<span class="number">000</span>&gt; p
+<span class="symbol">kernel32</span>!GetModuleHandleW+<span class="number">0x1402</span>:
+<span class="number">00000000</span>`<span class="number">770</span>f34c2 <span class="number">754</span>c            jne     kernel32!GetModuleHandleW+<span class="number">0x1450</span> (<span class="number">00000000</span>`<span class="number">770</span>f3510) [<span class="keyword">br=1]</span>
+<span class="keyword">0:000&gt; </span>p
+<span class="symbol">kernel32</span>!GetModuleHandleW+<span class="number">0x1450</span>:
+<span class="number">00000000</span>`<span class="number">770</span>f3510 e80be5ffff      call    kernel32!<span class="keyword">BaseSetLastNTError </span>(<span class="number">00000000</span>`<span class="number">770</span>f1a20)
+<span class="number">0</span>:<span class="number">000</span>&gt; p
+<span class="symbol">kernel32</span>!GetModuleHandleW+<span class="number">0x1455</span>:
+<span class="number">00000000</span>`<span class="number">770</span>f3515 e9fff8fdff      jmp     kernel32!<span class="keyword">MoveFileExW+0x2b9 </span>(<span class="number">00000000</span>`<span class="number">770</span>d2e19)
+<span class="symbol">...</span>
+</code></pre>
+<p>Here we got <code>ZwSetInformationFile</code>, I didn’t notice it in the first place since I don’t have any idea about windows driver development.</p>
+<p>I went for the <a href="https://docs.microsoft.com/zh-cn/sysinternals/downloads/procmon" target="_blank" rel="noopener">Process Monitor</a> (procmon), a tool provided by Microsoft to track all kinds of system events.</p>
+<p><img src="/img/procmon-rename-issue.png" alt=""></p>
+<p>It’s Chinese, the messages say that renaming failed because API thinks the target file name is actually a directory. Well it’s not of course!</p>
+<p>After googling a lot, I realized that it’s a minifilter issue that some malfunctioned minifilter dirver intercepts the rename request and drops it accidentally or intentionally. We have fltmc.exe to list them all.</p>
+<p><img src="/img/fltmc.jpg" alt=""></p>
+<p><code>FileInfo</code> and <code>luafv</code> are legal drivers form Microsoft, while <code>eamonm</code> is a driver file form ESET, an anti virus software, you’d think it should be innocent? No, it’s the culprit, after uninstalling it, the issue gone. What the heck! An anti-virus software doing a virus thing!</p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://pansila.github.io/posts/233799e4/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -329,6 +539,17 @@
 
           
           
+             <span id="/posts/233799e4/" class="leancloud_visitors" data-flag-title="Compile openocd for ARM platform">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">Views:</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
 
           
 
@@ -351,27 +572,27 @@
       
         
           
-            <h2 id="Background"><a href="#Background" class="headerlink" title="Background"></a>Background</h2><p>The latest openocd we can get from the apt repository of Raspberry Pi is only up to 0.9.0 as of writing. I’d like to use my Raspberry Pi to download FPGA bit file, but openocd 0.9.0 has some problem to support jlink debugger. See errors below if it’s like your case.<br><figure class="highlight ada"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">Pi@Raspberrypi:~/openocd-workdir $ /usr/bin/openocd -f <span class="keyword">interface</span>/jlink.cfg -f xilinx-xc6v.cfg -f openocd-xc6v.cfg</span><br><span class="line">Open On-Chip Debugger <span class="number">0.9</span>.<span class="number">0</span> (<span class="number">2018</span>-<span class="number">01</span>-<span class="number">22</span>-<span class="number">06</span>:<span class="number">14</span>)</span><br><span class="line">Licensed under GNU GPL v2</span><br><span class="line"><span class="keyword">For</span> bug reports, read</span><br><span class="line">        http://openocd.org/doc/doxygen/bugs.html</span><br><span class="line">Info : <span class="type">auto</span>-selecting first available session transport <span class="string">"jtag"</span>. To override <span class="keyword">use</span> <span class="symbol">'transport</span> <span class="keyword">select</span> &lt;transport&gt;'.</span><br><span class="line">xc6v_program_iprog</span><br><span class="line">adapter speed: <span class="number">5000</span> kHz</span><br><span class="line">Info : <span class="type">J</span>-Link ARM V8 compiled May <span class="number">27</span> <span class="number">2009</span> <span class="number">17</span>:<span class="number">31</span>:<span class="number">22</span></span><br><span class="line">Info : <span class="type">J</span>-Link caps <span class="number">0</span>xb9ff7bbf</span><br><span class="line">Info : <span class="type">J</span>-Link hw version <span class="number">80000</span></span><br><span class="line">Info : <span class="type">J</span>-Link hw <span class="keyword">type</span> <span class="type">J-Link</span></span><br><span class="line"><span class="type">Info </span>: J-Link max mem block <span class="number">9752</span></span><br><span class="line">Info : <span class="type">J</span>-Link configuration</span><br><span class="line">Info : <span class="type">USB</span>-Address: <span class="number">0</span>x0</span><br><span class="line">Info : <span class="type">Kickstart</span> power on JTAG-pin <span class="number">19</span>: <span class="number">0</span>xffffffff</span><br><span class="line">Info : <span class="type">Vref</span> = <span class="number">2.523</span> TCK = <span class="number">1</span> TDI = <span class="number">0</span> TDO = <span class="number">1</span> TMS = <span class="number">0</span> SRST = <span class="number">1</span> TRST = <span class="number">1</span></span><br><span class="line">Info : <span class="type">J</span>-Link JTAG <span class="keyword">Interface</span> ready</span><br><span class="line">Info : <span class="type">clock</span> speed <span class="number">5000</span> kHz</span><br><span class="line">Info : <span class="type">JTAG</span> tap: xc6v.tap tap/device found: <span class="number">0</span>x84250093 (mfg: <span class="number">0</span>x049, part: <span class="number">0</span>x4250, ver: <span class="number">0</span>x8)</span><br><span class="line">Warn : <span class="type">gdb</span> services need one <span class="keyword">or</span> more targets defined</span><br><span class="line">openocd: jlink.c:<span class="number">1474</span>: jlink_tap_append_step: Assertion `index_var &lt; JLINK_TAP_BUFFER_SIZE' failed.</span><br><span class="line">Aborted</span><br></pre></td></tr></table></figure></p>
+            <h2 id="Background"><a href="#Background" class="headerlink" title="Background"></a>Background</h2><p>The latest openocd we can get from the apt repository of Raspberry Pi is only up to 0.9.0 as of writing. I’d like to use my Raspberry Pi to download FPGA bit file, but openocd 0.9.0 has some problem to support jlink debugger. See errors below if it’s like your case.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">Pi@Raspberrypi:~/openocd-workdir $ /usr/bin/openocd -f interface/jlink.cfg -f xilinx-xc6v.cfg -f openocd-xc6v.cfg</span><br><span class="line">Open On-Chip Debugger 0.9.0 (2018-01-22-06:14)</span><br><span class="line">Licensed under GNU GPL v2</span><br><span class="line">For bug reports, read</span><br><span class="line">        http://openocd.org/doc/doxygen/bugs.html</span><br><span class="line">Info : auto-selecting first available session transport &quot;jtag&quot;. To override use &apos;transport select &lt;transport&gt;&apos;.</span><br><span class="line">xc6v_program_iprog</span><br><span class="line">adapter speed: 5000 kHz</span><br><span class="line">Info : J-Link ARM V8 compiled May 27 2009 17:31:22</span><br><span class="line">Info : J-Link caps 0xb9ff7bbf</span><br><span class="line">Info : J-Link hw version 80000</span><br><span class="line">Info : J-Link hw type J-Link</span><br><span class="line">Info : J-Link max mem block 9752</span><br><span class="line">Info : J-Link configuration</span><br><span class="line">Info : USB-Address: 0x0</span><br><span class="line">Info : Kickstart power on JTAG-pin 19: 0xffffffff</span><br><span class="line">Info : Vref = 2.523 TCK = 1 TDI = 0 TDO = 1 TMS = 0 SRST = 1 TRST = 1</span><br><span class="line">Info : J-Link JTAG Interface ready</span><br><span class="line">Info : clock speed 5000 kHz</span><br><span class="line">Info : JTAG tap: xc6v.tap tap/device found: 0x84250093 (mfg: 0x049, part: 0x4250, ver: 0x8)</span><br><span class="line">Warn : gdb services need one or more targets defined</span><br><span class="line">openocd: jlink.c:1474: jlink_tap_append_step: Assertion `index_var &lt; JLINK_TAP_BUFFER_SIZE&apos; failed.</span><br><span class="line">Aborted</span><br></pre></td></tr></table></figure></p>
 <p>Howerver, it works well on the PC with the openocd 0.10.0 from <a href="https://gnu-mcu-eclipse.github.io/openocd/" target="_blank" rel="noopener">GNU MCU Eclipse OpenOCD</a>, so I decided to compile it for my Raspberry Pi.</p>
 <p>Unfortunately, GNU MCU Eclipse OpenOCD doesn’t support compiling for arm, after some searching on the web, I found an openocd build <a href="https://github.com/arduino/OpenOCD-build-script" target="_blank" rel="noopener">repository</a> for Arduino which bundled all necessary libraries for building. The openocd included is a bit of old, we can replace it with the latest one.</p>
 <h2 id="Cross-Compiling"><a href="#Cross-Compiling" class="headerlink" title="Cross Compiling"></a>Cross Compiling</h2><ol>
 <li><p>Check out the latest openocd code</p>
-<figure class="highlight crmsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git <span class="keyword">clone</span> <span class="title">git</span>://git.code.sf.net/p/openocd/code openocd</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git clone git://git.code.sf.net/p/openocd/code openocd</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>Check out the openocd build script</p>
-<figure class="highlight crmsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git <span class="keyword">clone</span> <span class="title">https</span>://github.com/arduino/OpenOCD-build-script.git openocd-build</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git clone https://github.com/arduino/OpenOCD-build-script.git openocd-build</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>Copy it to the build folder, replace the original <code>OpenOCD</code> folder</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> mv openocd-build/OpenOCD&#123;,-old&#125;</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> cp openocd openocd-build/OpenOCD -r</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ mv openocd-build/OpenOCD&#123;,-old&#125;</span><br><span class="line">$ cp openocd openocd-build/OpenOCD -r</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>Add the cross compile arguments in the <code>compile_unix_openocd.sh</code></p>
-<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.</span></span><br><span class="line"><span class="attr">ARCH</span>=`gcc -v <span class="number">2</span>&gt;&amp;<span class="number">1</span> | awk <span class="string">'/Target/ &#123; print $2 &#125;'</span>`</span><br><span class="line"></span><br><span class="line"><span class="comment"># Add two new arguments, check uname -m for your build PC's architecture</span></span><br><span class="line"><span class="attr">BUILD</span>=<span class="string">"x86_64-pc-linux-gnu"</span></span><br><span class="line"><span class="attr">HOST</span>=<span class="string">"arm-linux-gnueabihf"</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.</span><br><span class="line">ARCH=`gcc -v 2&gt;&amp;1 | awk &apos;/Target/ &#123; print $2 &#125;&apos;`</span><br><span class="line"></span><br><span class="line"># Add two new arguments, check uname -m for your build PC&apos;s architecture</span><br><span class="line">BUILD=&quot;x86_64-pc-linux-gnu&quot;</span><br><span class="line">HOST=&quot;arm-linux-gnueabihf&quot;</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>Append the cross compile flags to all configuration steps, like this</p>
-<figure class="highlight jboss-cli"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">...</span></span><br><span class="line"><span class="string">./configure</span> <span class="params">--enable-static</span> <span class="params">--disable-shared</span> <span class="params">--disable-blkid</span> <span class="params">--disable-kmod</span>  <span class="params">--disable-manpages</span> <span class="params">--host=</span>$HOST <span class="params">--build=</span>$BUILD</span><br><span class="line"><span class="string">...</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line">./configure --enable-static --disable-shared --disable-blkid --disable-kmod  --disable-manpages --host=$HOST --build=$BUILD</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>Build it, install any missed packages if the build process reports, like gperf</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> ./compile_unix_openocd.sh</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ./compile_unix_openocd.sh</span><br></pre></td></tr></table></figure>
 </li>
 </ol>
 <p>However the binary generated this way is failed to run on the raspberry pi with a segment fault, not sure why. Instead, I went for a native building.</p>
@@ -487,6 +708,17 @@
 
           
           
+             <span id="/posts/67d7a1ab/" class="leancloud_visitors" data-flag-title="Use OpenOCD to program FPGA for Xilinx Virtex-6 XC6 Series">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">Views:</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
 
           
 
@@ -540,13 +772,13 @@
 </ol>
 <h2 id="Programming"><a href="#Programming" class="headerlink" title="Programming"></a>Programming</h2><ol>
 <li><p>Put the OpenOCD <a href="#openocd-configuration">configuration</a> file in the work dir together with the bit file (file content attached at the end).</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> <span class="built_in">cd</span> d:\workdir</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> dir</span></span><br><span class="line">openocd-xc6v.cfg</span><br><span class="line">xilinx-xc6v.cfg</span><br><span class="line">bitstream.bit</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ cd d:\workdir</span><br><span class="line">$ dir</span><br><span class="line">openocd-xc6v.cfg</span><br><span class="line">xilinx-xc6v.cfg</span><br><span class="line">bitstream.bit</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>Modify the path to the bit file in the configuration</p>
-<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line">init</span><br><span class="line">xc6v_program xc6v.tap</span><br><span class="line">pld load <span class="number">0</span> bitstream.bit   <span class="comment">#### this one ####</span></span><br><span class="line"><span class="keyword">exit</span></span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line">init</span><br><span class="line">xc6v_program xc6v.tap</span><br><span class="line">pld load 0 bitstream.bit   #### this one ####</span><br><span class="line">exit</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>Run openocd in the cmd.exe or a cmder console</p>
-<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ openocd -f interface/jlink<span class="selector-class">.cfg</span> -f xilinx-xc6v<span class="selector-class">.cfg</span> -f openocd-xc6v.cfg</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ openocd -f interface/jlink.cfg -f xilinx-xc6v.cfg -f openocd-xc6v.cfg</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>Waiting for the programming done if no error raised</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">$ openocd -f interface/jlink.cfg -f xilinx-xc6v.cfg -f openocd-xc6v.cfg</span><br><span class="line">GNU MCU Eclipse 64-bits Open On-Chip Debugger 0.10.0+dev-00404-g20463c28 (2018-01-23-12:30)</span><br><span class="line">Licensed under GNU GPL v2</span><br><span class="line">For bug reports, <span class="built_in">read</span></span><br><span class="line">        http://openocd.org/doc/doxygen/bugs.html</span><br><span class="line">Info : auto-selecting first available session transport <span class="string">"jtag"</span>. To override use <span class="string">'transport select &lt;transport&gt;'</span>.</span><br><span class="line">xc6_program_iprog</span><br><span class="line">adapter speed: 5000 kHz</span><br><span class="line">Info : J-Link ARM V8 compiled May 27 2009 17:31:22</span><br><span class="line">Info : Hardware version: 8.00</span><br><span class="line">Info : VTarget = 2.478 V</span><br><span class="line">Info : clock speed 5000 kHz</span><br><span class="line">Info : JTAG tap: xc6.tap tap/device found: 0x84250093 (mfg: 0x049 (Xilinx), part: 0x4250, ver: 0x8)</span><br><span class="line">Warn : gdb services need one or more targets defined</span><br><span class="line">loaded file bitstream.bit to pld device 0 <span class="keyword">in</span> 46s 322000us</span><br></pre></td></tr></table></figure>
@@ -665,6 +897,17 @@
 
           
           
+             <span id="/posts/7db4884d/" class="leancloud_visitors" data-flag-title="Use OpenOCD to program FPGA for Xilinx Virtex XC7 Series">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">Views:</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
 
           
 
@@ -715,15 +958,15 @@
 <h2 id="Programming"><a href="#Programming" class="headerlink" title="Programming"></a>Programming</h2><p>   Target Xilinx Virtex XC7 series as of now</p>
 <ol>
 <li><p>Put the OpenOCD <a href="#openocd-configuration">configuration</a> file in the work dir together with the bit file (file content attached at the end).</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> <span class="built_in">cd</span> d:\workdir</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> dir</span></span><br><span class="line">openocd.cfg</span><br><span class="line">a-bit-file.bit</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ cd d:\workdir</span><br><span class="line">$ dir</span><br><span class="line">openocd.cfg</span><br><span class="line">a-bit-file.bit</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>Modify the path to the bit file in the configuration</p>
-<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line">init</span><br><span class="line">xc7_program xc7.tap</span><br><span class="line">pld load <span class="number">0</span> a-bit-file.bit   <span class="comment">#### this one ####</span></span><br><span class="line"><span class="keyword">exit</span></span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line">init</span><br><span class="line">xc7_program xc7.tap</span><br><span class="line">pld load 0 a-bit-file.bit   #### this one ####</span><br><span class="line">exit</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>Run openocd in the cmd.exe or a cmder console</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> openocd --<span class="built_in">command</span> <span class="string">"tcl_port disabled"</span> --<span class="built_in">command</span> <span class="string">"telnet_port disabled"</span></span></span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ openocd --command &quot;tcl_port disabled&quot; --command &quot;telnet_port disabled&quot;</span><br></pre></td></tr></table></figure>
 <p>If the configuration file is not in the current work directory, we can specifiy it in the command line</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> openocd -f &lt;path_to_config&gt; --<span class="built_in">command</span> <span class="string">"tcl_port disabled"</span> --<span class="built_in">command</span> <span class="string">"telnet_port disabled"</span></span></span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ openocd -f &lt;path_to_config&gt; --command &quot;tcl_port disabled&quot; --command &quot;telnet_port disabled&quot;</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>Waiting for the programming done if no error raised</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">$ openocd</span><br><span class="line">GNU MCU Eclipse 64-bits Open On-Chip Debugger 0.10.0+dev-00404-g20463c28 (2018-01-23-12:30)</span><br><span class="line">Licensed under GNU GPL v2</span><br><span class="line">For bug reports, <span class="built_in">read</span></span><br><span class="line">        http://openocd.org/doc/doxygen/bugs.html</span><br><span class="line">none separate</span><br><span class="line">Info : auto-selecting first available session transport <span class="string">"jtag"</span>. To override use <span class="string">'transport select &lt;transport&gt;'</span>.</span><br><span class="line">adapter speed: 25000 kHz</span><br><span class="line">Info : ftdi: <span class="keyword">if</span> you experience problems at higher adapter clocks, try the <span class="built_in">command</span> <span class="string">"ftdi_tdo_sample_edge falling"</span></span><br><span class="line">Info : clock speed 25000 kHz</span><br><span class="line">Info : JTAG tap: xc7.tap tap/device found: 0x33691093 (mfg: 0x049 (Xilinx), part: 0x3691, ver: 0x3)</span><br><span class="line">Warn : gdb services need one or more targets defined</span><br><span class="line">loaded file a-bit-file.bit to pld device 0 <span class="keyword">in</span> 16s 603000us</span><br></pre></td></tr></table></figure>
@@ -841,6 +1084,17 @@
 
           
           
+             <span id="/posts/ae66dec5/" class="leancloud_visitors" data-flag-title="Cross compile mongodb for 32 bit arm">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">Views:</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
 
           
 
@@ -918,7 +1172,7 @@
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ scons mongo mongod --wiredtiger=off --mmapv1=on CC=arm-linux-gnueabihf-gcc CXX=arm-linux-gnueabihf-g++</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>Reduce binaries file size.</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ strip -s build/opt/mongo</span><br><span class="line">$ strip -s build/opt/mongod</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ arm-linux-gnueabihf-strip -s mongo</span><br><span class="line">$ arm-linux-gnueabihf-strip -s mongod</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>Install binaries</p>
 <p>Copy all the binaries to the cubieboard.</p>
@@ -1042,6 +1296,17 @@
           
 
           
+          
+             <span id="/posts/14894ce3/" class="leancloud_visitors" data-flag-title="Install multi-version cross-compile toolchain on ubuntu">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">Views:</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
           
 
           
@@ -1189,6 +1454,17 @@
           
 
           
+          
+             <span id="/posts/9bf1f09/" class="leancloud_visitors" data-flag-title="一个flv.js简单demo">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">Views:</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
           
 
           
@@ -1358,6 +1634,17 @@
 
           
           
+             <span id="/posts/1e47c7bd/" class="leancloud_visitors" data-flag-title="一个诡异的232串口故障">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">Views:</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
 
           
 
@@ -1491,6 +1778,17 @@
           
 
           
+          
+             <span id="/posts/ba926855/" class="leancloud_visitors" data-flag-title="ETL利器Kettle数据库同步实战">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">Views:</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
           
 
           
@@ -1637,6 +1935,17 @@
 
           
           
+             <span id="/posts/b5946502/" class="leancloud_visitors" data-flag-title="不重装迁移系统到新磁盘">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">Views:</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
 
           
 
@@ -1667,143 +1976,6 @@
 <p>将盘符改回c盘，设置新建条目为默认启动项。<br><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">bcdedit /store &lt;path_to_bcd&gt; /<span class="builtin-name">set</span> &#123;bootmgr&#125;<span class="built_in"> default </span>&lt;new guid&gt;</span><br><span class="line">bcdedit /store &lt;path_to_bcd&gt; /<span class="builtin-name">set</span> &#123;default&#125; osdevice c:</span><br><span class="line">bcdedit /store &lt;path_to_bcd&gt; /<span class="builtin-name">set</span> &#123;default&#125; device c:</span><br></pre></td></tr></table></figure></p>
 <p>因为换到新磁盘启动时，系统分区一般就是c盘。可能有人会疑问为什么新建条目时，不直接选c盘，我的理解是GUID是从分区算出来的，选c盘可能会算出旧分区的GUID，这与我们的要求不符。改完之后重启，还是失败，但是错误原因已经变了，是找不到启动程序winload，而不再是压根都找不到设备，看来猜测靠谱。<br><img src="/img/2016-12-24_161600.jpg" alt="0xc000000e again"></p>
 <p>但是明明winload是不会丢的，系统找不到，可能跟多系统有关，引导程序错误地在一个分区搜索winload。继续搜索找到了解决之道，将启动分区从c:改成boot，意思是让引导程序在当前分区寻找winload。重启搞定。<br><figure class="highlight puppet"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">bcdedit /store &lt;path_to_bcd&gt; /<span class="keyword">set</span> &#123;<span class="keyword">default</span>&#125; <span class="keyword">osdevice</span> <span class="keyword">boot</span></span><br><span class="line"><span class="keyword">bcdedit</span> /store &lt;path_to_bcd&gt; /<span class="keyword">set</span> &#123;<span class="keyword">default</span>&#125; <span class="keyword">device</span> <span class="keyword">boot</span></span><br></pre></td></tr></table></figure></p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://pansila.github.io/posts/cdc301cc/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Pansila">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Fantasy and Fiction">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/posts/cdc301cc/" itemprop="url">完全云端工作</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-08-06T15:04:00+08:00">2016-08-06</time>
-            
-
-            
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/posts/cdc301cc/#comments" itemprop="discussionUrl">
-                  <span class="post-meta-item-text">Comments:</span> <span class="post-comments-count valine-comment-count" data-xid="/posts/cdc301cc/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>随着工作环境的增多，工作内容的同步变得越来越麻烦。以前我们拿U盘拷或者网盘共享，现在进入的云时代，如果不考虑隐私问题，托管在云端不失为一个好办法。<br>目前初步计划完成代码部分的云托管，随后拓展到笔记，个人知识库，二进制资料等等。</p>
-<ol>
-<li><h3 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h3>github是首选，如果要托管私人项目，可以选择gitlab。</li>
-</ol>
 
           
         
@@ -1889,7 +2061,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">21</span>
+                    <span class="site-state-item-count">22</span>
                     <span class="site-state-item-name">posts</span>
                   </a>
                 </div>
@@ -2119,6 +2291,118 @@
 
 
   
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("qBTseCeEXIm7y4BLwe05EVy9-gzGzoHsz", "Vo7kIJagaWoBbHKtppisGPj0");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            
+            counter.save(null, {
+              success: function(counter) {
+                
+                  var $element = $(document.getElementById(url));
+                  $element.find('.leancloud-visitors-count').text(counter.get('time'));
+                
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            
+              var newcounter = new Counter();
+              /* Set ACL */
+              var acl = new AV.ACL();
+              acl.setPublicReadAccess(true);
+              acl.setPublicWriteAccess(true);
+              newcounter.setACL(acl);
+              /* End Set ACL */
+              newcounter.set("title", title);
+              newcounter.set("url", url);
+              newcounter.set("time", 1);
+              newcounter.save(null, {
+                success: function(newcounter) {
+                  var $element = $(document.getElementById(url));
+                  $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+                },
+                error: function(newcounter, error) {
+                  console.log('Failed to create');
+                }
+              });
+            
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
 
   
 
