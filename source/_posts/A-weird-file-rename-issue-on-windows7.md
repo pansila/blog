@@ -1,11 +1,9 @@
 ---
-title: A-weird-file-rename-issue-on-windows7
+title: A Weird File Rename Issue On Windows7
 abbrlink: b4ce772d
 date: 2018-06-01 23:36:19
 tags:
 ---
-
-## A weird file rename issue on Windows 7
 
 Recently, I came upon this issue which bothered me badly as many tools fail to work with that. The symptom is that I can't rename any file in the file Explorer or command line, both give me an error message saying that no permission or something like, I can create a new file though.
 
@@ -24,13 +22,16 @@ if __name__ == "__main__":
         time.sleep(1)
 ```
 
-First I use Windbg to attach to the python process, run the program and pause it later, it stops at somewhere that there are lot of int 3 instructions that I don't familiar with so I gave up. I need a breakpoint! So I look up the CPython source code to see what Win API is used for os.rename, here we got [it](https://github.com/python/cpython/blob/master/Modules/posixmodule.c#L4105:14), it's ```MoveFileExW```.
+First I use Windbg to attach to the python process, run the program and pause it later, it stops at somewhere that there are lot of int 3 instructions that I don't familiar with so I gave up. I need a breakpoint! So I look up the CPython source code to see what Win API is used for os.rename, here we got [it](https://github.com/python/cpython/blob/master/Modules/posixmodule.c#L4105:14), it's `MoveFileExW`.
 
 Type in the breakpoint in the windbg
+
 ```
 bp MoveFileExW
 ```
+
 Then more assembly came out, in fact I'm not sure what they are doing, just following the execution flow to see where it exits, and hope will get some useful information about the early abort error.
+
 ```arm
 ...
 00000000`770d2dd5 ff158d9e0900    call    qword ptr [kernel32!UnhandledExceptionFilter+0x11a8 (00000000`7716cc68)] ds:00000000`7716cc68={ntdll!ZwSetInformationFile (00000000`77359b10)}
@@ -85,7 +86,7 @@ kernel32!GetModuleHandleW+0x1455:
 ...
 ``` 
 
-Here we got ```ZwSetInformationFile```, I didn't notice it in the first place since I don't have any idea about windows driver development.
+Here we got `ZwSetInformationFile`, I didn't notice it in the first place since I don't have any idea about windows driver development.
 
 I went for the [Process Monitor](https://docs.microsoft.com/zh-cn/sysinternals/downloads/procmon) (procmon), a tool provided by Microsoft to track all kinds of system events.
 
@@ -97,4 +98,4 @@ After googling a lot, I realized that it's a minifilter issue that some malfunct
 
 ![](/img/fltmc.jpg)
 
-```Fileinfo``` and ```luafv``` are legal drivers form Microsoft, while ```eamonm``` is a driver file form ESET, an anti virus software, you'd think it should be innocent? No, it's the culprit, after uninstalling it, the issue gone. What the heck! An anti-virus software doing a virus thing!
+`FileInfo` and `luafv` are legal drivers form Microsoft, while `eamonm` is a driver file form ESET, an anti virus software, you'd think it should be innocent? No, it's the culprit, after uninstalling it, the issue gone. What the heck! An anti-virus software doing a virus thing!

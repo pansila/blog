@@ -139,8 +139,8 @@ I'd like to run a relatively modern mongodb server on my cubieboard which is pow
 7. Reduce binaries file size.
 
    ```bash
-   $ strip -s build/opt/mongo
-   $ strip -s build/opt/mongod
+   $ arm-linux-gnueabihf-strip -s mongo
+   $ arm-linux-gnueabihf-strip -s mongod
    ```
 
 8. Install binaries
