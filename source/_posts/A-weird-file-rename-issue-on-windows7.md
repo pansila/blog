@@ -5,7 +5,7 @@ date: 2018-06-01 23:36:19
 tags:
 ---
 
-Recently, I came upon this issue which bothered me badly as many tools fail to work with that. The symptom is that I can't rename any file in the file Explorer or command line, both give me an error message saying that no permission or something like, I can create a new file though.
+Recently, I came upon this issue which bothered me badly as many tools fail to work with that. The symptom is that I can't rename any file in the file Explorer or command line, both give me an error message saying that `access denied` or `invalid device`, I can create a new file though.
 
 To debug what happened under the hood, I wrote a python script to call rename api periodically, and hopes some tool could reveal something.
 
